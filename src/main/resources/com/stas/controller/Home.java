@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
   
 @Controller  
 public class Home {  
-    String message = "Welcome to your 1st Maven Spring project !";  
+    String message = "Stacy from controller!";  
   
     @RequestMapping("/hello")  
     public ModelAndView showMessage() {  
