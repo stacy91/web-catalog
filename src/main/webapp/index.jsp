@@ -7,7 +7,6 @@
   
 
         <h2>Stacy | Hello World</h2>  
-        <h4>${message}</h4>  
- 
+ 	<h3><a href="hello.htm">bla bla</a> </h3> 
 </body>  
 </html>  
