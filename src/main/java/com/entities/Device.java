@@ -1,38 +1,41 @@
 package com.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.GenericGenerator;
 
 
 @Entity
-@Table(name = "Goods")
+@Table(name = "Goods", catalog = "myOnlineShop")
 public class Device {
 
 	private int id;
-	
-	@ManyToOne
-	@JoinColumn(name="ModelId")
 	private int modelId;
-	
-	@ManyToOne
-	@JoinColumn(name="MemoryId")
+	private int screenSizeId;
 	private int memoryId;
-	
-	@ManyToOne
-	@JoinColumn(name="ColorId")
 	private int colorId;
-	
 	private String imageURL;
 	private float price;
 	private int amountInStock;
 	
 	public Device(){
 		
+	}
+	
+	public Device(int modelId,int screenSizeId,int memoryId,
+			int colorId,String imageURL,float price,
+			int amountInStock){
+		this.modelId = modelId;
+		this.screenSizeId = screenSizeId;
+		this.memoryId = memoryId;
+		this.colorId = colorId;
+		this.imageURL = imageURL;
+		this.price = price;
+		this.amountInStock = amountInStock;
 	}
 	
 	@Id
@@ -45,6 +48,7 @@ public class Device {
 		this.id = id;
 	}
 	
+	@Column(name="ModelId",nullable=false)
 	public int getModelId(){
 		return modelId;
 	}
@@ -52,6 +56,15 @@ public class Device {
 		this.modelId = modelId;
 	}
 	
+	@Column(name="ScreenSizeId",nullable=false)
+	public int getScreenSizeId() {
+		return screenSizeId;
+	}
+	public void setScreenSizeId(int screenSizeId) {
+		this.screenSizeId = screenSizeId;
+	}
+	
+	@Column(name="MemoryId",nullable=false)
 	public int getMemoryId(){
 		return memoryId;
 	}
@@ -59,6 +72,7 @@ public class Device {
 		this.memoryId = memoryId;
 	}
 	
+	@Column(name="ColorId",nullable=false)
 	public int getColorId(){
 		return colorId;
 	}
@@ -66,6 +80,7 @@ public class Device {
 		this.colorId = colorId;
 	}
 	
+	@Column(name="ImageURL",nullable=false)
 	public String getImageURL(){
 		return imageURL;
 	}
@@ -73,6 +88,7 @@ public class Device {
 		this.imageURL = imageURL;
 	}
 	
+	@Column(name="Price",nullable=false)
 	public float getPrice(){
 		return price;
 	}
@@ -80,10 +96,12 @@ public class Device {
 		this.price = price;
 	}
 	
+	@Column(name="AmountInStock",nullable=false)
 	public int getAmountInStock(){
 		return amountInStock;
 	}
 	public void setAmountInStock(int amountInStock){
 		this.amountInStock = amountInStock;
 	}
+
 }

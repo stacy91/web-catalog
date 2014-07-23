@@ -2,11 +2,14 @@ package com.entities;
 
 import java.util.Date;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+@Entity
+@Table(name = "Orders_Sales", catalog = "myOnlineShop")
 public class Order_Sale {
 	private int goodsId;
 	private int userId;
@@ -18,8 +21,16 @@ public class Order_Sale {
 		
 	}
 	
-	@OneToMany
-	@JoinColumn(name="GoodsId")
+	public Order_Sale(int goodsId, int userId, boolean isSold,
+			int amount, Date time){
+		this.goodsId = goodsId;
+		this.userId = userId;
+		this.isSold = isSold;
+		this.amount = amount;
+		this.time = time;
+	}
+	
+	@Column(name="GoodsId",nullable=false)
 	public int getGoodsId(){
 		return goodsId;
 	}	
@@ -27,8 +38,7 @@ public class Order_Sale {
 		this.goodsId = goodsId;
 	}
 	
-	@OneToMany
-	@JoinColumn(name="UserId")
+	@Column(name="UserId",nullable=false)
 	public int getUserId(){
 		return userId;
 	}
@@ -36,6 +46,7 @@ public class Order_Sale {
 		this.userId = userId;
 	}
 	
+	@Column(name="IsSold",nullable=false)
 	public boolean getIsSold(){
 		return isSold;
 	}
@@ -43,6 +54,7 @@ public class Order_Sale {
 		this.isSold = isSold;
 	}
 	
+	@Column(name="Amount",nullable=false)
 	public int getAmount(){
 		return amount;
 	}
@@ -50,6 +62,7 @@ public class Order_Sale {
 		this.amount = amount;
 	}
 	
+	@Column(name="Time",nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getTime(){
 		return time;

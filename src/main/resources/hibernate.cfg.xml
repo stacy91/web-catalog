@@ -1,11 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+
 <hibernate-configuration
         xmlns="http://www.hibernate.org/xsd/hibernate-configuration"
         xsi:schemaLocation="http://www.hibernate.org/xsd/hibernate-configuration hibernate-configuration-4.0.xsd"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <session-factory>
     <!-- Database connection settings -->
-    <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-   <!-- ?????  <property name="connection.url">jdbc:hsqldb:hsql://localhost</property> -->
+    <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+    <property name="connection.url">jdbc:sqlserver://localhost;databaseName=MyOnlineShop;instanceName=SQLEXPRESS;</property>
     <property name="connection.username">sa</property>
     <property name="connection.password"></property>
 
@@ -27,8 +29,15 @@
     <!-- Drop and re-create the database schema on startup -->
     <property name="hbm2ddl.auto">update</property>
     
+    <mapping class="com.entities.Arrival"/>
+    <mapping class="com.entities.Brand"/>
     <mapping class="com.entities.Device"/>
+    <mapping class="com.entities.Device_Color"/>
+    <mapping class="com.entities.Device_Memory"/>
+    <mapping class="com.entities.Device_ScreenSize"/>
+    <mapping class="com.entities.Device_Model"/>
     <mapping class="com.entities.Order_Sale"/>
     <mapping class="com.entities.User"/>
+    
   </session-factory>
 </hibernate-configuration>
