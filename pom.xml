@@ -60,6 +60,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   			<artifactId>hibernate-core</artifactId>
   			<version>4.3.5.Final</version>
 		</dependency>
+		
+		<dependency>
+    		<groupId>com.microsoft.sqlserver</groupId>
+    		<artifactId>sqljdbc4</artifactId>
+    		<version>4.0</version>
+  		</dependency>
+  
   </dependencies>
   <build>
   

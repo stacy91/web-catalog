@@ -1,5 +1,3 @@
-package com.controller.management;
-
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -10,6 +8,7 @@ import com.entities.Device_Color;
 import junit.framework.TestCase;
 
 
+@SuppressWarnings("deprecation")
 public class HomeTest extends TestCase{
 
 	private SessionFactory sessionFactory;
