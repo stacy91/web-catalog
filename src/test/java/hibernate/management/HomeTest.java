@@ -1,14 +1,18 @@
+package hibernate.management;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.Session;
 
-import com.entities.Device_Color;
+import org.junit.Ignore;
+
+
+import com.entities.Device_Memory;
 
 import junit.framework.TestCase;
 
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({ "deprecation", "unused" })
 public class HomeTest extends TestCase{
 
 	private SessionFactory sessionFactory;
@@ -29,7 +33,9 @@ public class HomeTest extends TestCase{
 	
 	public void testBasicUsage() {
 		Session session = sessionFactory.openSession();
-		session.save(new Device_Color("red"));
+		session.beginTransaction();
+		session.save(new Device_Memory("Red"));
+		session.getTransaction().commit();
 		session.close();
 	}
 

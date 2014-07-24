@@ -3,13 +3,13 @@ package com.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "Goods_Memory", catalog = "myOnlineShop")
+@Table(name = "Goods_ScreenSize")
 public class Device_ScreenSize {
 	
 	private int id;
@@ -20,8 +20,7 @@ public class Device_ScreenSize {
 	}
 
 	@Id
-	@GeneratedValue(generator="increment")
-	@GenericGenerator(name="increment", strategy = "increment")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId() {
 		return id;
 	}

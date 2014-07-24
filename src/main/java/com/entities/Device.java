@@ -3,14 +3,14 @@ package com.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 
 
 @Entity
-@Table(name = "Goods", catalog = "myOnlineShop")
+@Table(name = "Goods")
 public class Device {
 
 	private int id;
@@ -39,8 +39,7 @@ public class Device {
 	}
 	
 	@Id
-	@GeneratedValue(generator="increment")
-	@GenericGenerator(name="increment", strategy = "increment")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId(){
 		return id;
 	}	
@@ -80,7 +79,7 @@ public class Device {
 		this.colorId = colorId;
 	}
 	
-	@Column(name="ImageURL",nullable=false)
+	@Column(name="ImageURL")
 	public String getImageURL(){
 		return imageURL;
 	}

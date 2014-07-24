@@ -4,13 +4,17 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "Orders_Sales", catalog = "myOnlineShop")
+@Table(name = "Orders_Sales")
 public class Order_Sale {
+	private int id;
 	private int goodsId;
 	private int userId;
 	private boolean isSold;
@@ -28,6 +32,15 @@ public class Order_Sale {
 		this.isSold = isSold;
 		this.amount = amount;
 		this.time = time;
+	}
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	@Column(name="GoodsId",nullable=false)

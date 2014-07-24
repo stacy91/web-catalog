@@ -1,13 +1,18 @@
 package com.entities;
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Arrival", catalog = "myOnlineShop")
+@Table(name = "Arrival")
 public class Arrival {
+	private int id;
 	private int goodsId;
 	private int userId;
 	private int amount;
@@ -25,6 +30,15 @@ public class Arrival {
 		this.amount = amount;
 		this.setPrice(price);
 		this.time = time;
+	}
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	@Column(name="GoodsId",nullable=false)
@@ -66,4 +80,5 @@ public class Arrival {
 	public void setTime(Date time) {
 		this.time = time;
 	}
+
 }

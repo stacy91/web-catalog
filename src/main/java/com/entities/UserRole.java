@@ -7,22 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name = "Brands")
-public class Brand {
+@Table(name = "UserRoles")
+public class UserRole {
 	
 	private int id;
-	private String brandName;
+	private String role;
 	
-	public Brand(){
+	public UserRole(){
 		
 	}
-	
-	public Brand(String brandName){
-		this.brandName = brandName;
-	}
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId() {
@@ -32,11 +27,11 @@ public class Brand {
 		this.id = id;
 	}
 	
-	@Column(name="BrandName",nullable=false)
-	public String getBrandName() {
-		return brandName;
+	@Column(name="Role")
+	public String getRole() {
+		return role;
 	}
-	public void setBrandName(String brandName) {
-		this.brandName = brandName;
+	public void setRole(String role) {
+		this.role = role;
 	}	
 }
