@@ -9,11 +9,11 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
 	
 	private int id;
-	private String role;
+	private int roleId;
 	private String login;
 	private String password;
 	
@@ -21,8 +21,8 @@ public class User {
 		
 	}
 	
-	public User(String role, String login, String password){
-		this.role = role;
+	public User(int roleId, String login, String password){
+		this.roleId = roleId;
 		this.login = login;
 		this.password = password;
 	}
@@ -36,12 +36,12 @@ public class User {
 		this.id = id;
 	}
 	
-	@Column(name="Role",nullable=false)
-	public String getRole() {
-		return role;
+	@Column(name="RoleId",nullable=false)
+	public int getRole() {
+		return roleId;
 	}
-	public void setRole(String role) {
-		this.role = role;
+	public void setRole(int roleId) {
+		this.roleId = roleId;
 	}
 	
 	@Column(name="Login",nullable=false)

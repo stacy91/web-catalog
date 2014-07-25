@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "Orders_Sales")
+@Table(name = "orders_sales")
 public class Order_Sale {
 	private int id;
 	private int goodsId;

@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Goods_Memory")
+@Table(name = "goods_memory")
 public class Device_Memory {
 	
 	private int id;

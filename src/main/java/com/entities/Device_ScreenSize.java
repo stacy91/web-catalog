@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Goods_ScreenSize")
+@Table(name = "goods_screenSize")
 public class Device_ScreenSize {
 	
 	private int id;
