@@ -15,6 +15,10 @@ public class Device_ScreenSize {
 	private int id;
 	private String screenSize;
 	
+	public Device_ScreenSize(){
+		
+	}
+	
 	public Device_ScreenSize(String screenSize){
 		this.setScreenSize(screenSize);
 	}

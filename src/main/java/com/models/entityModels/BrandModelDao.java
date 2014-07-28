@@ -11,15 +11,21 @@ import com.entities.Brand;
 @Repository
 public class BrandModelDao implements BrandsDao {
 	
+	
 	private SessionFactory sessionFactory;
+	
 	
 	private Session currentSession() {
 		return sessionFactory.getCurrentSession();
 	}
 	
 	@Autowired
-	public void BrandsModelDao(SessionFactory sessionFactory){
+	public BrandModelDao(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
+	}
+	
+	public BrandModelDao(){
+		
 	}
 	
 	@Override

@@ -10,6 +10,9 @@ import org.junit.Ignore;
 
 
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.entities.Brand;
 import com.entities.Device_Color;
 import com.entities.Device_Memory;
@@ -22,25 +25,25 @@ import junit.framework.TestCase;
 @SuppressWarnings({ "deprecation", "unused" })
 public class HomeTest extends TestCase{
 
-	private SessionFactory sessionFactory;
+	private ApplicationContext ctx;
 
 	@Override
 	protected void setUp() throws Exception {
-        sessionFactory = new Configuration()
-                .configure() 
-                .buildSessionFactory();
+		ApplicationContext ctx = new ClassPathXmlApplicationContext(
+				"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml");
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		if ( sessionFactory != null ) {
+		/*if ( sessionFactory != null ) {
 			sessionFactory.close();
-		}
+		}*/
 	}
 	
 	public void testBasicUsage() {
-		BrandModelDao brandDao = new BrandModelDao();
-		brandDao.create(new Brand("Apple"));
+			
+		BrandModelDao brandDao = ctx.getBean(BrandModelDao.class);
+		brandDao.create(new Brand("Apple"));	
 	}
 
 }
