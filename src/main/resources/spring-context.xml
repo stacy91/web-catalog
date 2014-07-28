@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd" 
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:mvc="http://www.springframework.org/schema/mvc"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:context="http://www.springframework.org/schema/context"
+>
+
+<context:component-scan base-package="com.models.entityModels" />
+
+<bean id="dataSource"
+   class="org.apache.commons.dbcp.BasicDataSource">
+<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+<property name="url"
+       value="jdbc:mysql://localhost:3306/myonlineshopdb" />
+<property name="username" value="stacy" />
+<property name="password" value="stacy" />
+<property name="initialSize" value="5" />
+<property name="maxActive" value="10" />
+</bean>
+
+<bean id="sessionFactory"
+     class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+<property name="dataSource" ref="dataSource" />
+<property name="packagesToScan"
+value="com.entities" />
+<property name="hibernateProperties">
+<props>
+<prop key="dialect">org.hibernate.dialect.MySQLDialect</prop>
+</props>
+</property>
+</bean>
+
+<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+</beans>

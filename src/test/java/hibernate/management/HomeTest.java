@@ -8,9 +8,13 @@ import org.junit.Ignore;
 
 
 
+
+
+import com.entities.Brand;
 import com.entities.Device_Color;
 import com.entities.Device_Memory;
 import com.entities.Device_ScreenSize;
+import com.models.entityModels.BrandModelDao;
 
 import junit.framework.TestCase;
 
@@ -35,11 +39,8 @@ public class HomeTest extends TestCase{
 	}
 	
 	public void testBasicUsage() {
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		session.save(new Device_ScreenSize("4"));
-		session.getTransaction().commit();
-		session.close();
+		BrandModelDao brandDao = new BrandModelDao();
+		brandDao.create(new Brand("Apple"));
 	}
 
 }
