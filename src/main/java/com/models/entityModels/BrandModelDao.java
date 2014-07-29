@@ -1,31 +1,23 @@
 package com.models.entityModels;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.dao.BrandsDao;
+import com.dao.BrandDao;
 import com.entities.Brand;
 
 @Repository
-public class BrandModelDao implements BrandsDao {
-	
-	
-	private SessionFactory sessionFactory;
-	
-	
-	private Session currentSession() {
-		return sessionFactory.getCurrentSession();
-	}
-	
+@Transactional
+@SuppressWarnings("unused")
+public class BrandModelDao extends RootModel
+							implements BrandDao {
+
 	@Autowired
-	public BrandModelDao(SessionFactory sessionFactory){
-		this.sessionFactory = sessionFactory;
-	}
-	
-	public BrandModelDao(){
-		
+	public BrandModelDao(SessionFactory sessionFactory) {
+		super(sessionFactory);
 	}
 	
 	@Override
@@ -36,7 +28,6 @@ public class BrandModelDao implements BrandsDao {
 	@Override
 	public void update(Brand brand, int id) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

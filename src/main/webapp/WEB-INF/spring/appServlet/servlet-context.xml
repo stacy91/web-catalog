@@ -13,17 +13,16 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />
+	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<context:component-scan base-package="com.models.entityModels" />
+	<context:component-scan base-package="com.models.*" />
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
-	</bean>
-	
-	
+	</bean>	
 
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
@@ -31,7 +30,6 @@
     <property name="username" value="stacy"/>
     <property name="password" value="stacy"/>
 	</bean>	
-	
     
     <bean id="sessionFactory"
      	class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -46,11 +44,12 @@
 	</bean>
      
     <tx:annotation-driven />
-<bean id="transactionManager"
-    class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-    <property name="sessionFactory" ref="sessionFactory" />
-</bean>
+	<bean id="transactionManager"
+    	class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
     
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
     
+	
 </beans>
