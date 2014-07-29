@@ -1,10 +1,17 @@
 package com.entities;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -14,6 +21,7 @@ public class Brand {
 	
 	private int id;
 	private String brandName;
+	private List<Device_Model> deviceModels;
 	
 	public Brand(){
 		
@@ -39,4 +47,13 @@ public class Brand {
 	public void setBrandName(String brandName) {
 		this.brandName = brandName;
 	}	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
+	public List<Device_Model> getDeviceModels(){
+		return this.deviceModels;
+	}
+	
+	public void setDeviceModels(List<Device_Model> dms){
+		this.deviceModels = dms;
+	}
 }

@@ -1,10 +1,14 @@
 package com.entities;
 
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -15,6 +19,7 @@ public class Device_Model {
 	private int id;
 	private int brandId;
 	private String modelName;
+	private Brand brand;
 	
 	public Device_Model(){
 		
@@ -48,5 +53,15 @@ public class Device_Model {
 	}
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="Id")
+	public Brand getBrand(){
+		return this.brand;
+	}
+	
+	public void setBrand(Brand brand){
+		this.brand = brand;
 	}
 }
