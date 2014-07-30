@@ -56,17 +56,12 @@ public class BrandsImplDao extends RootModel
 	
 	@Override
 	public List<Device_Model> getDeviceModels(Brand brand){
-		
-		List<Device_Model> dms = brand.getDeviceModels();
+		Brand brandAttached = (Brand) currentSession().get(Brand.class, brand.getId());
+		//List<Device_Model> dms = brand.getDeviceModels();
 
-		Hibernate.initialize(dms);
-		for(Device_Model item : dms)
-		{
-			Hibernate.initialize(item);
-			System.out.println(item.getModelName());
-		}
+		brandAttached.getDeviceModels().size();
 		
-		return dms;
+		return brandAttached.getDeviceModels();
 	}
 	
 	@Override
