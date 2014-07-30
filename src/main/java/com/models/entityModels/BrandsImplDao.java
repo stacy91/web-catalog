@@ -3,13 +3,16 @@ package com.models.entityModels;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dao.BrandsDao;
 import com.entities.Brand;
+import com.entities.Device;
 import com.entities.Device_Model;
 
 @Repository
@@ -51,15 +54,31 @@ public class BrandsImplDao extends RootModel
 		return (Brand)currentSession().get(Brand.class,id);
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Override 
-	public List<Brand> getBrands(){
+	@Override
+	public List<Device_Model> getDeviceModels(Brand brand){
 		
-		return currentSession().createCriteria(Brand.class).list();
+		List<Device_Model> dms = brand.getDeviceModels();
+
+		Hibernate.initialize(dms);
+		for(Device_Model item : dms)
+		{
+			Hibernate.initialize(item);
+			System.out.println(item.getModelName());
+		}
+		
+		return dms;
 	}
 	
 	@Override
-	public List<Device_Model> getDeviceModels(Brand brand){
-		return brand.getDeviceModels();
+	public List<Device> getDevices(Device device) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override 
+	public List<Brand> getAllBrandValues(){
+		
+		return currentSession().createCriteria(Brand.class).list();
 	}
 }

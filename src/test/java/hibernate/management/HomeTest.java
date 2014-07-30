@@ -57,11 +57,10 @@ public class HomeTest extends TestCase{
 		Brand brand = bd.findById(1);
 		
 		List<Device_Model> dms = bd.getDeviceModels(brand);
-		Hibernate.initialize(dms);
-		for(Device_Model item : dms)
+		/*for(Device_Model item : dms)
 		{
 			System.out.println(item.getModelName());
-		}
+		}*/
 	}
 
 }

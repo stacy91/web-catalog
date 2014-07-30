@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dao.Device_ModelDao;
+import com.entities.Brand;
+import com.entities.Device;
 import com.entities.Device_Model;
 
 @Repository
@@ -47,8 +49,20 @@ public class Device_ModelImplDao extends RootModel
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Device_Model> getModels() {
+	public List<Device_Model> getAllModelValues() {
 		return currentSession().createCriteria(Device_Model.class).list();
+	}
+
+	@Override
+	public Brand getBrand(Device_Model dm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Device> getDevices(Device_Model dm) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
