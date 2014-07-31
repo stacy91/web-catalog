@@ -18,7 +18,7 @@ import com.entities.Device_Model;
 @Repository
 @Transactional
 @SuppressWarnings("unused")
-public class BrandsImplDao extends RootModel
+public class BrandsImplDao 	extends RootModel
 							implements BrandsDao {
 
 	@Autowired
@@ -37,8 +37,7 @@ public class BrandsImplDao extends RootModel
 	}
 
 	@Override
-	public void delete(int id) {
-		
+	public void delete(int id) {		
 		currentSession().delete(this.findById(id));;
 	}
 	
@@ -61,16 +60,6 @@ public class BrandsImplDao extends RootModel
 		return br;
 	};
 	
-	@Override
-	public List<Device_Model> getDeviceModels(Brand brand){		
-		return null;
-	}
-	
-	@Override
-	public List<Device> getDevices(Device device) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@SuppressWarnings("unchecked")
 	@Override 

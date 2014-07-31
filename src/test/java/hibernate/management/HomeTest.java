@@ -1,9 +1,7 @@
 package hibernate.management;
 
 import java.util.List;
-
 import javax.transaction.Transactional;
-
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -13,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
-
 import com.dao.BrandsDao;
 import com.dao.Device_ModelDao;
+import com.dao.Device_ScreenSizeDao;
+import com.dao.DevicesDao;
 import com.entities.Brand;
 import com.entities.Device_Model;
 import com.entities.Device_ScreenSize;
 import com.models.entityModels.BrandsImplDao;
-
 import junit.framework.TestCase;
 
 
@@ -45,7 +43,7 @@ public class HomeTest extends TestCase{
 	public void testBasicUsage() {
 		Device_ModelDao dmd = (Device_ModelDao)ctx.getBean(Device_ModelDao.class);
 		BrandsDao bd = (BrandsDao)ctx.getBean(BrandsDao.class);
-
+		Device_ScreenSizeDao dssDao = (Device_ScreenSizeDao)ctx.getBean(Device_ScreenSizeDao.class);
 		Brand brand = bd.initProxy(bd.findById(3));
 		
 		List<Device_Model> dms = brand.getDeviceModels();
@@ -56,6 +54,8 @@ public class HomeTest extends TestCase{
 		
 		Device_Model dm = dmd.initProxy(dmd.findById(18));
 		System.out.println(dm.getBrand().getBrandName());
+		
+		dssDao.create(new Device_ScreenSize("3.5\""));
 	}
 
 }

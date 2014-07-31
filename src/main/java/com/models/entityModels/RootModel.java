@@ -1,7 +1,9 @@
 package com.models.entityModels;
 
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 
 
 public class RootModel {
@@ -19,4 +21,5 @@ public class RootModel {
 	public RootModel(){
 		
 	}
+
 }

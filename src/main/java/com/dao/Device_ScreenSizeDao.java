@@ -12,7 +12,7 @@ public interface Device_ScreenSizeDao {
 	public void delete(Device_ScreenSize dss);
 	
 	public Device_ScreenSize findById(int id);
-	public List<Device> getDevices(Device_ScreenSize dss);
+	public Device_ScreenSize initProxy(Device_ScreenSize dss);
 	
 	public List<Device_ScreenSize> getAllScreenSizeValues();
 }

@@ -1,10 +1,5 @@
 package com.entities;
-
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,7 +24,6 @@ public class Brand {
 	@JoinColumn(name="BrandId")
 	private List<Device_Model> deviceModels;
 	
-	private List<Device> devices;
 	
 	public Brand(){
 		
