@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,9 +20,16 @@ import javax.persistence.Table;
 @Table(name = "brands")
 public class Brand {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	@Column(name="BrandName",nullable=false)
 	private String brandName;
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="BrandId")
 	private List<Device_Model> deviceModels;
+	
+	private List<Device> devices;
 	
 	public Brand(){
 		
@@ -31,8 +39,6 @@ public class Brand {
 		this.brandName = brandName;
 	}
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId() {
 		return id;
 	}
@@ -40,7 +46,7 @@ public class Brand {
 		this.id = id;
 	}
 	
-	@Column(name="BrandName",nullable=false)
+	
 	public String getBrandName() {
 		return brandName;
 	}
@@ -48,7 +54,7 @@ public class Brand {
 		this.brandName = brandName;
 	}	
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
+	
 	public List<Device_Model> getDeviceModels(){
 		return this.deviceModels;
 	}

@@ -3,6 +3,7 @@ package com.models.entityModels;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -44,7 +45,15 @@ public class Device_ModelImplDao extends RootModel
 
 	@Override
 	public Device_Model findById(int id) {
-		return (Device_Model)currentSession().get(Device_Model.class,id);
+		Device_Model dm = (Device_Model)currentSession().get(Device_Model.class,id);
+		return dm;			
+	}
+	
+	@Override
+	public Device_Model initProxy(Device_Model dm) {
+		Device_Model dm1 = findById(dm.getId());
+		Hibernate.initialize(dm1.getBrand());
+		return dm1;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -53,16 +62,5 @@ public class Device_ModelImplDao extends RootModel
 		return currentSession().createCriteria(Device_Model.class).list();
 	}
 
-	@Override
-	public Brand getBrand(Device_Model dm) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Device> getDevices(Device_Model dm) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

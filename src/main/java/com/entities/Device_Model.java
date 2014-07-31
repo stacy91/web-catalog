@@ -16,22 +16,24 @@ import javax.persistence.Table;
 @Table(name = "goods_model")
 public class Device_Model {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	private int brandId;
+	@Column(name="ModelName",nullable=false)
 	private String modelName;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="BrandId")
 	private Brand brand;
 	
 	public Device_Model(){
 		
 	}
 	
-	public Device_Model(int brandId,String modelName){
-		this.brandId = brandId;
+	public Device_Model(Brand brand,String modelName){
+		this.brand = brand;
 		this.modelName = modelName;
 	}
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId() {
 		return id;
 	}
@@ -39,15 +41,6 @@ public class Device_Model {
 		this.id = id;
 	}
 	
-	@Column(name="BrandId",nullable = false)
-	public int getBrandId() {
-		return brandId;
-	}
-	public void setBrandId(int brandId) {
-		this.brandId = brandId;
-	}
-	
-	@Column(name="ModelName",nullable=false)
 	public String getModelName() {
 		return modelName;
 	}
@@ -55,8 +48,7 @@ public class Device_Model {
 		this.modelName = modelName;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="Id")
+	
 	public Brand getBrand(){
 		return this.brand;
 	}

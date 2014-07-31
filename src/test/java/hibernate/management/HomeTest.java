@@ -17,8 +17,6 @@ import org.springframework.stereotype.Component;
 import com.dao.BrandsDao;
 import com.dao.Device_ModelDao;
 import com.entities.Brand;
-import com.entities.Device_Color;
-import com.entities.Device_Memory;
 import com.entities.Device_Model;
 import com.entities.Device_ScreenSize;
 import com.models.entityModels.BrandsImplDao;
@@ -40,27 +38,24 @@ public class HomeTest extends TestCase{
 
 	@Override
 	protected void tearDown() throws Exception {
-		/*if ( sessionFactory != null ) {
-			sessionFactory.close();
-		}*/
+
 	}
 	
 
 	public void testBasicUsage() {
-		Device_ModelDao dm = (Device_ModelDao)ctx.getBean(Device_ModelDao.class);
+		Device_ModelDao dmd = (Device_ModelDao)ctx.getBean(Device_ModelDao.class);
 		BrandsDao bd = (BrandsDao)ctx.getBean(BrandsDao.class);
 
-		/*dm.create(new Device_Model(1,"iPhone 6"));
-		dm.create(new Device_Model(1,"iPhone 6s"));
-		dm.create(new Device_Model(1,"iPhone 6q"));
-		dm.create(new Device_Model(1,"iPhone 6a"));*/
-		Brand brand = bd.findById(1);
+		Brand brand = bd.initProxy(bd.findById(3));
 		
-		List<Device_Model> dms = bd.getDeviceModels(brand);
-		/*for(Device_Model item : dms)
+		List<Device_Model> dms = brand.getDeviceModels();
+		for(Device_Model item : dms)
 		{
 			System.out.println(item.getModelName());
-		}*/
+		}
+		
+		Device_Model dm = dmd.initProxy(dmd.findById(18));
+		System.out.println(dm.getBrand().getBrandName());
 	}
 
 }

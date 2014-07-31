@@ -44,24 +44,26 @@ public class BrandsImplDao extends RootModel
 	
 	@Override
 	public void delete(Brand brand) {
-		
 		currentSession().delete(brand);
 	}
 
 	@Override
 	public Brand findById(int id) {
-		
-		return (Brand)currentSession().get(Brand.class,id);
+		Brand br = (Brand)currentSession().get(Brand.class,id);
+		return br;
 	}
 	
 	@Override
-	public List<Device_Model> getDeviceModels(Brand brand){
-		Brand brandAttached = (Brand) currentSession().get(Brand.class, brand.getId());
-		//List<Device_Model> dms = brand.getDeviceModels();
-
-		brandAttached.getDeviceModels().size();
-		
-		return brandAttached.getDeviceModels();
+	public Brand initProxy(Brand brand) {
+		Brand br = findById(brand.getId());
+		Hibernate.initialize(br);
+		br.getDeviceModels().size();
+		return br;
+	};
+	
+	@Override
+	public List<Device_Model> getDeviceModels(Brand brand){		
+		return null;
 	}
 	
 	@Override
@@ -76,4 +78,6 @@ public class BrandsImplDao extends RootModel
 		
 		return currentSession().createCriteria(Brand.class).list();
 	}
+	
+	
 }

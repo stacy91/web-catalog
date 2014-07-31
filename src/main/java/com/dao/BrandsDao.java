@@ -14,6 +14,7 @@ public interface BrandsDao {
 	public void delete(Brand brand);
 	
 	public Brand findById(int id);
+	public Brand initProxy(Brand brand);
 	
 	public List<Device_Model> getDeviceModels(Brand brand);
 	public List<Device> getDevices(Device device);
