@@ -50,8 +50,10 @@ public class Device_ScreenSizeImplDao 	extends RootModel
 
 	@Override
 	public Device_ScreenSize initProxy(Device_ScreenSize dss) {
+		/*currentSession().contains(obj) - is attached*/
+		
 		Device_ScreenSize attchdDss = this.findById(dss.getId());
-		Hibernate.initialize(attchdDss.getDevice());
+		Hibernate.initialize(attchdDss.getDevices());
 		return attchdDss;
 	}
 

@@ -47,7 +47,7 @@ public class Device_ScreenSize {
 		this.screenSize = screenSize;
 	}
 	
-	public List<Device> getDevice() {
+	public List<Device> getDevices() {
 		return devices;
 	}
 	public void setDevice(List<Device> devices) {
