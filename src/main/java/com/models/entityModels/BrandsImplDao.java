@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.dao.BrandsDao;
 import com.entities.Brand;
 import com.entities.Device;
-import com.entities.Device_Model;
+
 
 @Repository
 @Transactional
@@ -56,7 +56,6 @@ public class BrandsImplDao 	extends RootModel
 	public Brand initProxy(Brand brand) {
 		Brand br = findById(brand.getId());
 		Hibernate.initialize(br);
-		br.getDeviceModels().size();
 		return br;
 	};
 	

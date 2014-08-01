@@ -20,11 +20,10 @@ public class Device {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ModelId")
-	private Device_Model model;
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ScreenSizeId")
-	private Device_ScreenSize screenSize;
+    @JoinColumn(name="BrandId")
+	private Brand brand;
+	@Column(name="Model",nullable=false,unique=true)
+	private String model;
 	@Column(name="ImageURL")
 	private String imageURL;
 	@Column(name="Price",nullable=false)
@@ -36,10 +35,10 @@ public class Device {
 		
 	}
 	
-	public Device(Device_Model model,Device_ScreenSize screenSize,String imageURL,float price,
+	public Device(Brand brand,String model,String imageURL,float price,
 			int amountInStock){
-		this.model = model;
-		this.screenSize = screenSize;
+		this.brand = brand;
+		this.setModel(model);
 		this.imageURL = imageURL;
 		this.price = price;
 		this.amountInStock = amountInStock;
@@ -53,20 +52,19 @@ public class Device {
 		this.id = id;
 	}
 	
-	public Device_Model getModel(){
+	public Brand getBrand(){
+		return brand;
+	}
+	public void setBrand(Brand brand){
+		this.brand = brand;
+	}	
+	
+	public String getModel() {
 		return model;
 	}
-	public void setModel(Device_Model model){
+	public void setModel(String model) {
 		this.model = model;
 	}
-	
-	public Device_ScreenSize getScreenSize() {
-		return screenSize;
-	}
-	public void setScreenSize(Device_ScreenSize screenSize) {
-		this.screenSize = screenSize;
-	}
-	
 	
 	public String getImageURL(){
 		return imageURL;
@@ -89,5 +87,4 @@ public class Device {
 	public void setAmountInStock(int amountInStock){
 		this.amountInStock = amountInStock;
 	}
-
 }

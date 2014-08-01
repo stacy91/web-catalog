@@ -22,7 +22,7 @@ public class Brand {
 	private String brandName;
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name="BrandId")
-	private List<Device_Model> deviceModels;
+	private List<Device> devices;
 	
 	
 	public Brand(){
@@ -49,11 +49,11 @@ public class Brand {
 	}	
 	
 	
-	public List<Device_Model> getDeviceModels(){
-		return this.deviceModels;
+	public List<Device> getDevices(){
+		return this.devices;
 	}
 	
-	public void setDeviceModels(List<Device_Model> dms){
-		this.deviceModels = dms;
+	public void setDevices(List<Device> devices){
+		this.devices = devices;
 	}
 }
