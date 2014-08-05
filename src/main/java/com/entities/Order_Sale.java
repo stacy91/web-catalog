@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,28 +17,42 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "orders_sales")
 public class Order_Sale {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	private int goodsId;
-	private int userId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="GoodsId")
+	private Device device;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="UserId")
+	private User user;
+	
+	@Column(name="IsSold",nullable=false)
 	private boolean isSold;
+	
+	@Column(name="Amount",nullable=false)
 	private int amount;
+	
+	@Column(name="Time",nullable=false)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date time;
 	
 	public Order_Sale(){
 		
 	}
 	
-	public Order_Sale(int goodsId, int userId, boolean isSold,
+	public Order_Sale(Device device, User user, boolean isSold,
 			int amount, Date time){
-		this.goodsId = goodsId;
-		this.userId = userId;
+		this.device = device;
+		this.user = user;
 		this.isSold = isSold;
 		this.amount = amount;
 		this.time = time;
 	}
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	
 	public int getId() {
 		return id;
 	}
@@ -43,23 +60,20 @@ public class Order_Sale {
 		this.id = id;
 	}
 	
-	@Column(name="GoodsId",nullable=false)
-	public int getGoodsId(){
-		return goodsId;
+	public Device getDevice() {
+		return device;
+	}
+	public void setDevice(Device device) {
+		this.device = device;
 	}	
-	public void setGoodsId(int goodsId){
-		this.goodsId = goodsId;
+		
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
-	@Column(name="UserId",nullable=false)
-	public int getUserId(){
-		return userId;
-	}
-	public void setUserId(int userId){
-		this.userId = userId;
-	}
-	
-	@Column(name="IsSold",nullable=false)
 	public boolean getIsSold(){
 		return isSold;
 	}
@@ -67,7 +81,7 @@ public class Order_Sale {
 		this.isSold = isSold;
 	}
 	
-	@Column(name="Amount",nullable=false)
+	
 	public int getAmount(){
 		return amount;
 	}
@@ -75,12 +89,11 @@ public class Order_Sale {
 		this.amount = amount;
 	}
 	
-	@Column(name="Time",nullable=false)
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getTime(){
 		return time;
 	}
 	public void setTime(Date time){
 		this.time = time;
 	}
+
 }

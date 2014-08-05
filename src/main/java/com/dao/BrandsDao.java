@@ -13,7 +13,7 @@ public interface BrandsDao {
 	
 	public Brand findById(int id);
 	public Brand initProxy(Brand brand);
-	
+	public Brand initProxy(int id);
 	public List<Brand> getAllBrandValues();
 	
 }

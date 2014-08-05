@@ -38,8 +38,6 @@
     <mapping class="com.entities.Arrival"/>
     <mapping class="com.entities.Brand"/>
     <mapping class="com.entities.Device"/>
-    <mapping class="com.entities.Device_ScreenSize"/>
-    <mapping class="com.entities.Device_Model"/>
     <mapping class="com.entities.Order_Sale"/>
     <mapping class="com.entities.User"/>
     <mapping class="com.entities.UserRole"/>

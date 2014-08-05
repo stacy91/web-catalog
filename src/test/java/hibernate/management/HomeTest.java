@@ -16,7 +16,12 @@ import org.springframework.stereotype.Component;
 
 import com.dao.BrandsDao;
 import com.dao.DevicesDao;
+import com.dao.UserRolesDao;
+import com.dao.UsersDao;
+import com.entities.Brand;
 import com.entities.Device;
+import com.entities.User;
+import com.entities.UserRole;
 import com.models.entityModels.BrandsImplDao;
 
 import junit.framework.TestCase;
@@ -43,10 +48,34 @@ public class HomeTest extends TestCase{
 	public void testBasicUsage() {
 		BrandsDao bd = (BrandsDao)ctx.getBean(BrandsDao.class);
 		DevicesDao dDao = (DevicesDao)ctx.getBean(DevicesDao.class);
+		UserRolesDao uRDAo = (UserRolesDao)ctx.getBean(UserRolesDao.class);
+		UsersDao uDao = (UsersDao)ctx.getBean(UsersDao.class);
 		
 		Device d = dDao.initProxy(dDao.findById(1));
-		System.out.println(d.getBrand() + d.getModel());
-
+		System.out.println(d.getBrand().getBrandName()+" " + d.getModel());
+		
+		System.out.println("\n\n\n\n");
+		Brand b = bd.initProxy(bd.findById(1));
+		
+		for(Device dev : b.getDevices())
+		{
+			System.out.println(dev.getModel());
+		}
+		
+		for(UserRole ur : uRDAo.getAllUserRoleValues())
+		{
+			System.out.println(ur.getName());
+		}
+		
+		UserRole ur = uRDAo.initProxy(3);
+		User u = uDao.initProxy(1);
+		
+		for(User uu : ur.getUsers())
+		{
+			System.out.println(uu.getLogin());
+		}
+		
+		System.out.println(u.getRole().getName());
 	}
 
 }

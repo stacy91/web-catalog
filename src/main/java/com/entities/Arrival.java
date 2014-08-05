@@ -4,60 +4,67 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "arrival")
 public class Arrival {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	private int goodsId;
-	private int userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="GoodsId")
+	private Device device;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="UserId")
+	private User user;
+	@Column(name="Amount",nullable=false)
 	private int amount;
+	@Column(name="Price",nullable=false,precision=2)
 	private float price;
+	@Column(name="Time",nullable=false)
 	private Date time;
 	
 	public Arrival(){
 		
 	}
 	
-	public Arrival(int goodsId,int userId,int amount,float price,
+	public Arrival(Device device,User user,int amount,float price,
 			Date time){
-		this.goodsId = goodsId;
-		this.userId = userId;
+		this.setDevice(device);
+		this.setUser(user);
 		this.amount = amount;
-		this.setPrice(price);
+		this.price = price;
 		this.time = time;
 	}
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+		
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	@Column(name="GoodsId",nullable=false)
-	public int getGoodsId() {
-		return goodsId;
+		
+	public Device getDevice() {
+		return device;
 	}
-	public void setGoodsId(int goodsId) {
-		this.goodsId = goodsId;
+	public void setDevice(Device device) {
+		this.device = device;
 	}
-	
-	@Column(name="UserId",nullable=false)
-	public int getUserId() {
-		return userId;
+		
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	
-	@Column(name="Amount",nullable=false)
+		
 	public int getAmount() {
 		return amount;
 	}
@@ -65,20 +72,17 @@ public class Arrival {
 		this.amount = amount;
 	}
 	
-	@Column(name="Price",nullable=false,precision=2)
 	public float getPrice() {
 		return price;
 	}
 	public void setPrice(float price) {
 		this.price = price;
 	}
-	
-	@Column(name="Time",nullable=false)
+		
 	public Date getTime() {
 		return time;
 	}
 	public void setTime(Date time) {
 		this.time = time;
 	}
-
 }

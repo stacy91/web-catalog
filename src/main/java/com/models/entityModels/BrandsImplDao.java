@@ -56,8 +56,17 @@ public class BrandsImplDao 	extends RootModel
 	public Brand initProxy(Brand brand) {
 		Brand br = findById(brand.getId());
 		Hibernate.initialize(br);
+		br.getDevices().size();
 		return br;
 	};
+	
+	@Override
+	public Brand initProxy(int id) {
+		Brand br = findById(id);
+		Hibernate.initialize(br);
+		br.getDevices().size();
+		return br;
+	}
 	
 	
 	@SuppressWarnings("unchecked")

@@ -44,14 +44,21 @@ public class DeviceImpllDao 	extends RootModel
 
 	@Override
 	public Device findById(int id) {
-		Device device = (Device)currentSession().get(Device.class,id);
-		Hibernate.initialize(device.getBrand());
+		Device device = (Device)currentSession().get(Device.class,id);	
 		return device;
 	}
 
 	@Override
 	public Device initProxy(Device device) {
 		Device attchDevice = findById(device.getId());
+		Hibernate.initialize(attchDevice.getBrand());
+		return attchDevice;
+	}
+	
+	@Override
+	public Device initProxy(int id) {
+		Device attchDevice = findById(id);
+		Hibernate.initialize(attchDevice.getBrand());
 		return attchDevice;
 	}
 

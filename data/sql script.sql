@@ -30,7 +30,7 @@ CREATE TABLE `arrival` (
   `UserId` int(11) NOT NULL,
   `Amount` int(11) NOT NULL,
   `Price` int(11) NOT NULL,
-  `Time` datetime NOT NULL,
+  `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   KEY `GoodsId_FK_idx` (`GoodsId`),
@@ -92,7 +92,7 @@ CREATE TABLE `orders_sales` (
   `UserId` int(11) NOT NULL,
   `IsSold` tinyint(1) NOT NULL,
   `Amount` int(11) NOT NULL,
-  `Time` datetime NOT NULL,
+  `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   KEY `UserId_FK_idx` (`UserId`),
@@ -147,4 +147,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-01 11:31:43
+-- Dump completed on 2014-08-05 11:26:21
