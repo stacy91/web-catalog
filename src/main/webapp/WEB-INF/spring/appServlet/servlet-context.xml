@@ -18,11 +18,22 @@
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<context:component-scan base-package="com.controller.management, com.models.*" />
 	
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!--
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
-	</bean>	
+	</bean>	 -->
+	
+	<bean class=
+			"org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/views/**/views.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	
 
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>

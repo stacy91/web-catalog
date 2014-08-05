@@ -47,8 +47,8 @@ public class HomeTest extends TestCase{
 	}
 
 	public void testBasicUsage() {
-		/*BrandsDao bd = (BrandsDao)ctx.getBean(BrandsDao.class);
-		DevicesDao dDao = (DevicesDao)ctx.getBean(DevicesDao.class);
+		BrandsDao bd = (BrandsDao)ctx.getBean(BrandsDao.class);
+		/*DevicesDao dDao = (DevicesDao)ctx.getBean(DevicesDao.class);
 		UserRolesDao uRDAo = (UserRolesDao)ctx.getBean(UserRolesDao.class);
 		UsersDao uDao = (UsersDao)ctx.getBean(UsersDao.class);
 		
@@ -83,9 +83,12 @@ public class HomeTest extends TestCase{
 			System.out.println(bbr.getBrandName());
 		}*/
 		
-		/*BrandsController bc = new BrandsController();
+		/*BrandsController bc = new BrandsController(bd);
 		ModelAndView mv = bc.showBrands();
 		System.out.println();*/
+		
+		/*BrandsController bc = (BrandsController)ctx.getBean(BrandsController.class);
+		bc.showBrands();*/
 	}
 
 }
