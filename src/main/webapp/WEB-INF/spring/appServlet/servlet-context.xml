@@ -16,7 +16,7 @@
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<context:component-scan base-package="com.models.*" />
+	<context:component-scan base-package="com.controller.management, com.models.*" />
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -49,7 +49,8 @@
     	<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
     
-    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    <bean 
+    class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
     
 	
 </beans>

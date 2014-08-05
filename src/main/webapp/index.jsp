@@ -7,6 +7,6 @@
   
 
         <h2>Stacy | Hello World</h2>  
- 	<h3><a href="hello.htm">bla bla</a> </h3> 
+ 	<h3><a href="brands">bla bla</a> </h3> 
 </body>  
 </html>  

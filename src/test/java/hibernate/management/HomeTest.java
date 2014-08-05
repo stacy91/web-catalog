@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.controller.management.BrandsController;
 import com.dao.BrandsDao;
 import com.dao.DevicesDao;
 import com.dao.UserRolesDao;
@@ -26,7 +28,7 @@ import com.models.entityModels.BrandsImplDao;
 
 import junit.framework.TestCase;
 
-
+@Ignore
 @SuppressWarnings("unused")
 public class HomeTest extends TestCase{
 
@@ -43,10 +45,9 @@ public class HomeTest extends TestCase{
 	protected void tearDown() throws Exception {
 
 	}
-	
 
 	public void testBasicUsage() {
-		BrandsDao bd = (BrandsDao)ctx.getBean(BrandsDao.class);
+		/*BrandsDao bd = (BrandsDao)ctx.getBean(BrandsDao.class);
 		DevicesDao dDao = (DevicesDao)ctx.getBean(DevicesDao.class);
 		UserRolesDao uRDAo = (UserRolesDao)ctx.getBean(UserRolesDao.class);
 		UsersDao uDao = (UsersDao)ctx.getBean(UsersDao.class);
@@ -76,6 +77,15 @@ public class HomeTest extends TestCase{
 		}
 		
 		System.out.println(u.getRole().getName());
+		
+		for(Brand bbr : bd.getAllBrandValues())
+		{
+			System.out.println(bbr.getBrandName());
+		}*/
+		
+		/*BrandsController bc = new BrandsController();
+		ModelAndView mv = bc.showBrands();
+		System.out.println();*/
 	}
 
 }
