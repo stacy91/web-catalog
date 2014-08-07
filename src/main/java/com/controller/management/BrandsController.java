@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;  
 import com.dao.BrandsDao;
 
-
-
 @Controller  
 @RequestMapping("/management") 
 public class BrandsController{  
@@ -16,7 +14,7 @@ public class BrandsController{
 	@Autowired
 	private BrandsDao brandsDao;
 	
-	@RequestMapping("/brands")  
+	@RequestMapping(value="/brands")  
     public ModelAndView showBrands() {  
     	   	
     System.out.println("from controller");  

@@ -54,10 +54,7 @@ public class BrandsImplDao 	extends RootModel
 	
 	@Override
 	public Brand initProxy(Brand brand) {
-		Brand br = findById(brand.getId());
-		Hibernate.initialize(br);
-		br.getDevices().size();
-		return br;
+		return initProxy(brand.getId());
 	};
 	
 	@Override

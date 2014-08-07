@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.UsersDao;
+import com.entities.Arrival;
+import com.entities.Order_Sale;
 import com.entities.User;
 
 @Repository
@@ -46,18 +48,51 @@ public class UsersImplDao 	extends RootModel
 		return (User)currentSession().get(User.class, id);
 	}
 
-	@Override
-	public User initProxy(User user) {
-		User u = this.findById(user.getId());
-		Hibernate.initialize(u.getRole());
-		return u;
+	public User initRole(User user) {
+		return initRole(user.getId());
 	}
-
+	
 	@Override
-	public User initProxy(int id) {
-		User u = this.findById(id);
-		Hibernate.initialize(u.getRole());
-		return u;
+	public User initRole(int id) {
+		User attchUser = findById(id);
+		Hibernate.initialize(attchUser.getRole());
+		return attchUser;
+	}
+	
+	@Override
+	public User initArrivals(User user) {
+		return initArrivals(user.getId());
+	}
+	
+	@Override
+	public User initArrivals(int id) {
+		User attchUser = findById(id);	
+		attchUser.getArrivals().size();
+		for(Arrival item : attchUser.getArrivals())
+		{
+			Hibernate.initialize(item.getDevice());
+			Hibernate.initialize(item.getDevice().getBrand());
+		}
+		
+		return attchUser;
+	}
+	
+	@Override
+	public User initOrders_Sales(User user) {
+		return initOrders_Sales(user.getId());
+	}
+	
+	@Override
+	public User initOrders_Sales(int id) {
+		User attchUser = findById(id);
+		attchUser.getOrders_Sales().size();
+		for(Order_Sale item : attchUser.getOrders_Sales())
+		{
+			Hibernate.initialize(item.getDevice());
+			Hibernate.initialize(item.getDevice().getBrand());
+		}
+		
+		return attchUser;
 	}
 
 	@SuppressWarnings("unchecked")

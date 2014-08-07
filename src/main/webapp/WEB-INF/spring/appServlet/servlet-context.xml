@@ -2,6 +2,8 @@
 <beans xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
@@ -10,31 +12,35 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<mvc:annotation-driven />
-	
+	<mvc:annotation-driven/>
+	<context:annotation-config/>
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<context:component-scan base-package="com.controller.management, com.models.*" />
-	
-	<!--
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/views/" />
-		<property name="suffix" value=".jsp" />
-	</bean>	 -->
-	
-	<bean class=
-			"org.springframework.web.servlet.view.tiles3.TilesConfigurer">
-		<property name="definitions">
-			<list>
-				<value>/WEB-INF/views/**/views.xml</value>
-			</list>
-		</property>
-	</bean>
-	
-	
 
+	<context:component-scan base-package="com.controller.*, com.models.*" />
+
+
+
+	 <!-- <beans:bean id="tilesConfigurer" 
+                class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"> 
+                <beans:property name="definitions"> 
+                        <beans:list> 
+                                <beans:value>/WEB-INF/tiles.xml</beans:value> 
+                        </beans:list> 
+                </beans:property> 
+        </beans:bean>
+	
+		<beans:bean id="viewResolver" 
+                class="org.springframework.web.servlet.view.UrlBasedViewResolver"> 
+                <beans:property name="viewClass"> 
+                        <beans:value> 
+                                org.springframework.web.servlet.view.tiles3.TilesView 
+                        </beans:value> 
+                          </beans:property> 
+        </beans:bean>  -->
+                        
+		
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
     <property name="url" value="jdbc:mysql://localhost:3306/myonlineshopdb"/>
@@ -62,6 +68,5 @@
     
     <bean 
     class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-    
-	
+    	
 </beans>

@@ -1,5 +1,7 @@
 package com.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -30,6 +33,12 @@ public class Device {
 	private float price;
 	@Column(name="AmountInStock",nullable=false)
 	private int amountInStock;
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="GoodsId")
+	private List<Arrival> arrivals;
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="GoodsId")
+	private List<Order_Sale> orders_sales;
 	
 	public Device(){
 		
@@ -86,5 +95,19 @@ public class Device {
 	}
 	public void setAmountInStock(int amountInStock){
 		this.amountInStock = amountInStock;
+	}
+
+	public List<Arrival> getArrivals() {
+		return arrivals;
+	}
+	public void setArrivals(List<Arrival> arrivals) {
+		this.arrivals = arrivals;
+	}
+
+	public List<Order_Sale> getOrders_Sales() {
+		return orders_sales;
+	}
+	public void setOrders_Sales(List<Order_Sale> orders_sales) {
+		this.orders_sales = orders_sales;
 	}
 }

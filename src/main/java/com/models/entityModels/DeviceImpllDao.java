@@ -7,8 +7,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.dao.DevicesDao;
+import com.entities.Arrival;
 import com.entities.Device;
+import com.entities.Order_Sale;
 
 
 @Repository
@@ -49,16 +52,49 @@ public class DeviceImpllDao 	extends RootModel
 	}
 
 	@Override
-	public Device initProxy(Device device) {
-		Device attchDevice = findById(device.getId());
+	public Device initBrand(Device device) {
+		return initBrand(device.getId());
+	}
+	
+	@Override
+	public Device initBrand(int id) {
+		Device attchDevice = findById(id);
 		Hibernate.initialize(attchDevice.getBrand());
 		return attchDevice;
 	}
 	
 	@Override
-	public Device initProxy(int id) {
+	public Device initArrivals(Device device) {
+		return initArrivals(device.getId());
+	}
+	
+	@Override
+	public Device initArrivals(int id) {
 		Device attchDevice = findById(id);
-		Hibernate.initialize(attchDevice.getBrand());
+
+		attchDevice.getArrivals().size();
+		for(Arrival item : attchDevice.getArrivals())
+		{
+			Hibernate.initialize(item.getUser());
+			Hibernate.initialize(item.getUser().getRole());
+		}	
+		return attchDevice;
+	}
+	
+	@Override
+	public Device initOrders_Sales(Device device) {
+		return initOrders_Sales(device.getId());
+	}
+	
+	@Override
+	public Device initOrders_Sales(int id) {
+		Device attchDevice = findById(id);
+		attchDevice.getOrders_Sales().size();
+		for(Order_Sale item : attchDevice.getOrders_Sales())
+		{
+			Hibernate.initialize(item.getUser());
+			Hibernate.initialize(item.getUser().getRole());
+		}
 		return attchDevice;
 	}
 
