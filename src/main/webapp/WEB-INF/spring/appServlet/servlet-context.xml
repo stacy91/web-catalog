@@ -18,16 +18,16 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 
-	<context:component-scan base-package="com.controller.*, com.models.*" />
+	<context:component-scan base-package="com.controller, com.models.*" />
 
 
 
-	 <!-- <beans:bean id="tilesConfigurer" 
-                class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"> 
+	 <beans:bean id="tilesConfigurer" 
+                class="org.springframework.web.servlet.view.tiles2.TilesConfigurer"> 
                 <beans:property name="definitions"> 
                         <beans:list> 
-                                <beans:value>/WEB-INF/tiles.xml</beans:value> 
-                        </beans:list> 
+                                <beans:value>/WEB-INF/views/tiles.xml</beans:value> 
+                        </beans:list>
                 </beans:property> 
         </beans:bean>
 	
@@ -35,10 +35,10 @@
                 class="org.springframework.web.servlet.view.UrlBasedViewResolver"> 
                 <beans:property name="viewClass"> 
                         <beans:value> 
-                                org.springframework.web.servlet.view.tiles3.TilesView 
+                                org.springframework.web.servlet.view.tiles2.TilesView 
                         </beans:value> 
                           </beans:property> 
-        </beans:bean>  -->
+        </beans:bean> 
                         
 		
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">

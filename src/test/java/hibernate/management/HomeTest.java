@@ -35,7 +35,7 @@ import com.models.entityModels.BrandsImplDao;
 
 import junit.framework.TestCase;
 
-
+@Ignore
 @SuppressWarnings("unused")
 public class HomeTest extends TestCase{
 
@@ -125,10 +125,7 @@ oDao.create(new Order_Sale(dDao.findById(4),uDao.findById(3),
 		System.out.println(o.getUser().getLogin() + " " + o.getUser().getRole().getName());
 	}*/
 	
-	/*BrandsDao bDao = (BrandsDao)ctx.getBean(BrandsDao.class);
-	DevicesDao dDao = (DevicesDao)ctx.getBean(DevicesDao.class);
-	Orders_SalesDao oDao = (Orders_SalesDao)ctx.getBean(Orders_SalesDao.class);
-	UsersDao uDao = (UsersDao)ctx.getBean(UsersDao.class);
+	/*
 	
 	Order_Sale o = oDao.initProxy(1);
 	System.out.println(o.getDevice().getBrand().getBrandName() + " " +
@@ -138,7 +135,10 @@ oDao.create(new Order_Sale(dDao.findById(4),uDao.findById(3),
 	
 	public void testBasicUsage() {
 		
-		
+		BrandsDao bDao = (BrandsDao)ctx.getBean(BrandsDao.class);
+		DevicesDao dDao = (DevicesDao)ctx.getBean(DevicesDao.class);
+		Orders_SalesDao oDao = (Orders_SalesDao)ctx.getBean(Orders_SalesDao.class);
+		UsersDao uDao = (UsersDao)ctx.getBean(UsersDao.class);
 	}
 
 }
