@@ -18,7 +18,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.joda.time.DateTime;
-import com.controller.management.BrandsController;
+import com.controller.management.ManagementController;
 import com.dao.ArrivalsDao;
 import com.dao.BrandsDao;
 import com.dao.DevicesDao;

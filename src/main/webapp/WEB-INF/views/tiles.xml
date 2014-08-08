@@ -4,14 +4,30 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-	<definition name="management" template="/WEB-INF/views/shared/management.jsp">
-		<put-attribute name="left" value="/WEB-INF/views/shared/left.jsp"/>
-		<put-attribute name="body" value=""/>
-	</definition>
 
-	<definition name="brands" extends="management">
-		<put-attribute name="body" value="/WEB-INF/views/management/brands.jsp"/>
+	<definition name="management" template="/WEB-INF/views/shared/managementLayout.jsp">
+		<put-attribute name="left" value=""/>
+		<put-attribute name="body" value=""/>
+		<put-attribute name="contextPath" value="${pageContext.servletContext.contextPath}"></put-attribute>
 	</definition>
 	
+	
+	<!-- Admin Pages -->
+	
+	<definition name="adminIndex" extends="management">
+		<put-attribute name="left" value="/WEB-INF/views/shared/leftAdmin.jsp"/>
+		
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/index.jsp"/>
+	</definition>
+	
+	<definition name="adminBrands" extends="adminIndex">
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands.jsp"/>
+	</definition>
+		
+	<!-- End Admin Pages -->
+	
+	
+	
 	<definition name="home" template="/WEB-INF/views/home.jsp"/>
+	
 </tiles-definitions>

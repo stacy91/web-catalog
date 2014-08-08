@@ -9,15 +9,20 @@ import com.dao.BrandsDao;
 
 @Controller  
 @RequestMapping("/management") 
-public class BrandsController{  
+public class ManagementController{  
 	
 	@Autowired
 	private BrandsDao brandsDao;
+	
+	@RequestMapping(value="") 
+	public String index(){
+		return "adminIndex";
+	}
 	
 	@RequestMapping(value="/brands")  
     public ModelAndView showBrands() {  
     	   	
     System.out.println("from controller");  
-    return new ModelAndView("brands", "brands", brandsDao.getAllBrandValues());  
+    return new ModelAndView("adminBrands", "brands", brandsDao.getAllBrandValues());  
     }  
 }  
