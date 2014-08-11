@@ -18,7 +18,7 @@ public class Brand {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	@Column(name="BrandName",nullable=false)
+	@Column(name="BrandName")
 	private String brandName;
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name="BrandId")
@@ -42,7 +42,7 @@ public class Brand {
 	
 	
 	public String getBrandName() {
-		return brandName;
+		return this.brandName;
 	}
 	public void setBrandName(String brandName) {
 		this.brandName = brandName;
