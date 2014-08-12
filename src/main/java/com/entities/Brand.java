@@ -1,5 +1,6 @@
 package com.entities;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.Length;
 
 
 @Entity
@@ -18,7 +20,10 @@ public class Brand {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	@Column(name="BrandName")
+	
+	@Length(min=2,max=10,message="Length should be between 2 and 10 symbols")
+	
+	@Column(name="BrandName",nullable=false)
 	private String brandName;
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name="BrandId")

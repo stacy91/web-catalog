@@ -30,8 +30,15 @@ public class DeviceImpllDao 	extends RootModel
 	}
 
 	@Override
-	public void update(Device device) {
-		currentSession().update(device);
+	public void update(Device newDevice) {
+		Device deviceToUpdate = findById(newDevice.getId());
+		deviceToUpdate.setBrand(newDevice.getBrand());
+		deviceToUpdate.setModel(newDevice.getModel());
+		deviceToUpdate.setPrice(newDevice.getPrice());
+		deviceToUpdate.setImageURL(newDevice.getImageURL());
+		deviceToUpdate.setAmountInStock(newDevice.getAmountInStock());
+		
+		currentSession().update(newDevice);
 	}
 
 	@Override
@@ -101,7 +108,12 @@ public class DeviceImpllDao 	extends RootModel
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Device> getAllDeviceValues() {
-		return currentSession().createCriteria(Device.class).list();
+		List<Device> devices = currentSession().createCriteria(Device.class).list();
+		for(Device device : devices)
+		{
+			Hibernate.initialize(device.getBrand());
+		}
+		return devices;
 	}
 
 }

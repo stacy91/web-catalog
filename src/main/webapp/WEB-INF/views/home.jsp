@@ -8,6 +8,6 @@
 </head>  
 <body>  
         <h2>Stacy | Hello World</h2>  
- 	<h3><a href="management/brands">bla bla</a> </h3> 
+ 	<h3><a href="management">bla bla</a> </h3> 
 </body>  
 </html>  

@@ -32,8 +32,11 @@ public class BrandsImplDao 	extends RootModel
 	}
 
 	@Override
-	public void update(Brand brand) {
-		currentSession().update(brand);
+	public void update(Brand newBrand) 
+	{
+		Brand brandToUpdate = findById(newBrand.getId());
+		brandToUpdate.setBrandName(newBrand.getBrandName());
+		currentSession().update(brandToUpdate);
 	}
 
 	@Override

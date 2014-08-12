@@ -7,7 +7,7 @@ import com.entities.Device;
 public interface DevicesDao {
 	
 	public void create(Device device);
-	public void update(Device device);
+	public void update(Device newDevice);
 	public void delete(int id);
 	public void delete(Device device);
 	

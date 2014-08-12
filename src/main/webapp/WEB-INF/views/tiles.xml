@@ -21,20 +21,53 @@
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/index.jsp"/>
 	</definition>
 	
-	<definition name="adminBrands" extends="adminIndex">
-		<put-attribute name="pageTitle" value="Brands Management"></put-attribute>
-		<put-attribute name="wrapperTitle" value="All Brands"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands.jsp"/>
+	<definition name="adminErrors/un" extends="management" >
+		<put-attribute name="pageTitle" value="Unique name error"/>
+		<put-attribute name="wrapperTitle" value="Unique name error"/>
+		<put-attribute name="left" value="/WEB-INF/views/shared/leftAdmin.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/errors/UniqueName.jsp"/>
 	</definition>
 	
-	<definition name="adminBrands/add" extends="adminIndex">
-	<put-attribute name="wrapperTitle" value="Add Brand"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/management/admin/addBrand.jsp"/>
+		<!-- Brands -->
+	
+	<definition name="adminBrands" extends="adminIndex">
+		<put-attribute name="pageTitle" value="Brands Management"/>
+		<put-attribute name="wrapperTitle" value="All Brands"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands/index.jsp"/>
 	</definition>
+	<definition name="adminBrands/add" extends="adminBrands">
+		<put-attribute name="wrapperTitle" value="Add Brand"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands/addBrand.jsp"/>
+	</definition>
+	<definition name="adminBrands/update" extends="adminBrands">
+		<put-attribute name="wrapperTitle" value="Update Brand"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands/updateBrand.jsp"/>
+	</definition>
+	
+		<!-- End Brands -->
+	
+	
+		<!-- Devices -->
+	
+	<definition name="adminDevices" extends="adminIndex">
+		<put-attribute name="pageTitle" value="Devices Management"/>
+		<put-attribute name="wrapperTitle" value="All Devices"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/devices/index.jsp"/>
+	</definition>
+	<definition name="adminDevices/add" extends="adminDevices">
+		<put-attribute name="pageTitle" value="Devices Management"/>
+		<put-attribute name="wrapperTitle" value="All Devices"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/devices/addDevice.jsp"/>
+	</definition>
+	<definition name="adminDevices/update" extends="adminDevices">
+		<put-attribute name="pageTitle" value="Devices Management"/>
+		<put-attribute name="wrapperTitle" value="All Devices"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/devices/updateDevice.jsp"/>
+	</definition>
+	
+		<!-- End Devices -->
 		
 	<!-- End Admin Pages -->
-	
-	
 	
 	<definition name="home" template="/WEB-INF/views/home.jsp"/>
 	

@@ -7,7 +7,7 @@ import com.entities.Brand;
 public interface BrandsDao {
 	
 	public void create(Brand brand);
-	public void update(Brand brand);
+	public void update(Brand newBrand);
 	public void delete(int id);
 	public void delete(Brand brand);
 	
