@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 
@@ -39,6 +40,9 @@ public class Device {
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="GoodsId")
 	private List<Order_Sale> orders_sales;
+	
+	@Transient
+	private String brandId;
 	
 	public Device(){
 		
@@ -109,5 +113,12 @@ public class Device {
 	}
 	public void setOrders_Sales(List<Order_Sale> orders_sales) {
 		this.orders_sales = orders_sales;
+	}
+
+	public String getBrandId() {
+		return brandId;
+	}
+	public void setBrandId(String brandId) {
+		this.brandId = brandId;
 	}
 }

@@ -4,16 +4,18 @@ package com.controller.management;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dao.BrandsDao;
 import com.dao.DevicesDao;
@@ -28,8 +30,10 @@ public class ManagementController{
 	private BrandsDao brandsDao;
 	@Autowired
 	private DevicesDao devicesDao;
+	@Autowired
+	private ServletContext servletContext;
 	
-	@RequestMapping(value="/") 
+	@RequestMapping(value="")
 	public String index(){
 		return "adminIndex";
 	}
@@ -105,12 +109,43 @@ public class ManagementController{
 		model.addAttribute("brands", brandsDao.getAllBrandValues());
 		return "adminDevices/add";
 	}
-	
 	@RequestMapping(value="/addDevice", method=RequestMethod.POST)
-	public String addDevice(@RequestParam("device") Device device, String action){
-		
-		
-		return null;
+	public String addDevice(@Valid Device device,MultipartFile image,
+			String action, BindingResult result,HttpServletRequest request){
+		if(!action.equals("cancel"))
+		{
+			if(result.hasErrors())
+				return "adminBrands/add";
+			String path = servletContext.getRealPath("/");
+			device.setImageURL(path);
+			devicesDao.create(device,image);
+		}
+		return "redirect:/management/devices";
 	}
-		 
+	
+	@RequestMapping(value="/updateDevice")
+	public String updateDevice(int id,ModelMap model){
+		model.addAttribute("device", devicesDao.findById(id));
+		model.addAttribute("brands", brandsDao.getAllBrandValues());
+		return "adminDevices/update";
+	}
+	@RequestMapping(value="/updateDevice", method=RequestMethod.POST)
+	public String updateDevice(@Valid Device device,
+			String action, BindingResult result){
+		if(!action.equals("cancel"))
+		{
+			if(result.hasErrors())
+				return "adminBrands/add";
+			devicesDao.update(device);
+		}
+		return "redirect:/management/devices";
+	}
+	
+	@RequestMapping(value="/deleteDevice",method=RequestMethod.POST)
+	public String updateDevice(int id){
+		Device device = devicesDao.findById(id);
+		device.setImageURL(servletContext.getRealPath("/") + device.getImageURL());
+		devicesDao.delete(device);
+		return "redirect:/management/devices";
+	}
 }  

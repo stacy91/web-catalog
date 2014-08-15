@@ -2,11 +2,13 @@ package com.dao;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.entities.Device;
 
 public interface DevicesDao {
 	
-	public void create(Device device);
+	public void create(Device device,MultipartFile image);
 	public void update(Device newDevice);
 	public void delete(int id);
 	public void delete(Device device);

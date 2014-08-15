@@ -41,7 +41,7 @@ public class BrandsImplDao 	extends RootModel
 
 	@Override
 	public void delete(int id) {		
-		currentSession().delete(this.findById(id));;
+		this.delete(this.findById(id));;
 	}
 	
 	@Override

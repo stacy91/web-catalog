@@ -36,6 +36,16 @@
                         </beans:value> 
                           </beans:property> 
         </beans:bean> 
+        
+        <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        
+       	<!--  max upload size in bytes -->
+        <beans:property name="maxUploadSize" value="20971520" /> <!-- 20MB -->
+         
+        <!-- max size of file in memory (in bytes) -->
+        <beans:property name="maxInMemorySize" value="10048576" />
+ 
+    	</beans:bean>
                         
 		
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">

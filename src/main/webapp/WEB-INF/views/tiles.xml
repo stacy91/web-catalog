@@ -56,12 +56,12 @@
 	</definition>
 	<definition name="adminDevices/add" extends="adminDevices">
 		<put-attribute name="pageTitle" value="Devices Management"/>
-		<put-attribute name="wrapperTitle" value="All Devices"/>
+		<put-attribute name="wrapperTitle" value="Add Device"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/devices/addDevice.jsp"/>
 	</definition>
 	<definition name="adminDevices/update" extends="adminDevices">
 		<put-attribute name="pageTitle" value="Devices Management"/>
-		<put-attribute name="wrapperTitle" value="All Devices"/>
+		<put-attribute name="wrapperTitle" value="Update Device"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/devices/updateDevice.jsp"/>
 	</definition>
 	

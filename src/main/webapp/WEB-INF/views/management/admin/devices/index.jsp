@@ -27,16 +27,25 @@
 									<td>${device.model}</td>
 									<td>${device.amountInStock}</td>
 									<td>${device.price}</td>
-									<td>image href</td>
+									<td >
+									<c:choose>
+										<c:when test="${empty device.imageURL}">
+										<img class="imageClip" src="${pageContext.request.contextPath}/resources/img/default.jpg" alt="la la" >
+										</c:when>
+										<c:when test="${not empty device.imageURL}">
+										<img class="imageClip" src="${pageContext.request.contextPath}${device.imageURL}" alt="la la">
+										</c:when>
+									</c:choose>
+									</td>
 									<td><form:form
 											action="${pageContext.request.contextPath}/management/deleteDevice"
 											method="POST">
-											<button value="${brand.id}" name="id"
+											<button value="${device.id}" name="id"
 												class="btn btn-default myButtons col-lg-5">Delete</button>
 										</form:form> <form:form
 											action="${pageContext.request.contextPath}/management/updateDevice"
 											method="GET">
-											<button value="${brand.id}" name="id"
+											<button value="${device.id}" name="id"
 												class="btn btn-default myButtons col-lg-5"
 												style="margin-left: 20px">Update</button>
 										</form:form></td>
