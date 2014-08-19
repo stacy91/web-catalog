@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 
 
@@ -14,7 +15,8 @@
 			</div>
 			<!-- Top Menu Items -->
 			
-			<form class="form-inline" role="form" style="color:#999; float:right; margin:10px;">
+			<form class="form-inline" role="form" action="${pageContext.request.contextPath}/static/j_spring_security_check"
+			style="color:#999; float:right; margin:10px;">
   <div class="form-group">
     <label class="sr-only" for="exampleInputEmail2">Email address</label>
     <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter login">
@@ -37,7 +39,7 @@
 				
 				
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"><i class="fa fa-user"></i>  <b
+					data-toggle="dropdown"><i class="fa fa-user"></i> <security:authentication property="user.login"/>  <b
 						class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>

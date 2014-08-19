@@ -14,11 +14,14 @@
    		http://www.springframework.org/schema/security/spring-security-3.0.xsd">
    	
    	
-   	<sec:http auto-config="true" use-expressions="false">
+   	<!-- <sec:http auto-config="true"  use-expressions="false" >
 	<sec:form-login login-processing-url="/static/j_spring_security_check"
 		login-page="/home"	authentication-failure-url="/home?login_error=t"/>
 	<sec:logout logout-url="/static/j_spring_security_logout"/>
+	<sec:intercept-url pattern="/**" access="permitAll" />
+	<sec:intercept-url pattern="/management/**" access="admin" />
 	</sec:http>
+	
 	
 	
 	<sec:authentication-manager> 
@@ -27,7 +30,7 @@
                                 users-by-username-query="select Login, Password, Id from users where Login = ?" 
                                 authorities-by-username-query="select Login, Role from users inner join userroles on users.RoleId = roles.Id where username = ?" /> 
                 </sec:authentication-provider> 
-    </sec:authentication-manager>
+    </sec:authentication-manager> -->
 	
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
