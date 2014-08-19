@@ -1,18 +1,13 @@
 package com.models.entityModels;
 
-import helpers.DeviceHelper;
-
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.dao.DevicesDao;
 import com.entities.Arrival;
-import com.entities.Brand;
 import com.entities.Device;
 import com.entities.Order_Sale;
 
@@ -28,30 +23,19 @@ public class DeviceImpllDao 	extends RootModel
 	}
 	
 	@Override
-	public void create(Device device,MultipartFile image){
-		int brandId = Integer.parseInt(device.getBrandId());
-		Brand brand = (Brand) currentSession().get(Brand.class, brandId);
-		device.setBrand(brand);
+	public void create(Device device){
 		currentSession().save(device);
-		if(!image.isEmpty())
-		{
-			DeviceHelper.validateImage(image);
-			DeviceHelper.saveImage(device, image);
-			currentSession().save(device);
-		}
 
 	}
 
 	@Override
 	public void update(Device newDevice) {
-		int brandId = Integer.parseInt(newDevice.getBrandId());
-		Brand brand = (Brand)currentSession().get(Brand.class,brandId);
 		Device deviceToUpdate = findById(newDevice.getId());
-		deviceToUpdate.setBrand(brand);
+		deviceToUpdate.setBrand(newDevice.getBrand());
 		deviceToUpdate.setModel(newDevice.getModel());
 		deviceToUpdate.setPrice(newDevice.getPrice());
-		deviceToUpdate.setImageURL(newDevice.getImageURL());
 		deviceToUpdate.setAmountInStock(newDevice.getAmountInStock());
+		deviceToUpdate.setHasImage(newDevice.isHasImage());
 		currentSession().update(deviceToUpdate);
 	}
 
@@ -62,7 +46,6 @@ public class DeviceImpllDao 	extends RootModel
 
 	@Override
 	public void delete(Device device) {
-		DeviceHelper.deleteImage(device.getImageURL());
 		currentSession().delete(device);
 	}
 
@@ -127,6 +110,7 @@ public class DeviceImpllDao 	extends RootModel
 		{
 			Hibernate.initialize(device.getBrand());
 		}
+		
 		return devices;
 	}
 

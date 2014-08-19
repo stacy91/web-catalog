@@ -30,7 +30,9 @@ public class UserRole {
 	public UserRole(){
 		
 	}
-
+	public UserRole(String name){
+		this.name = name;
+	}
 	
 	public int getId() {
 		return id;

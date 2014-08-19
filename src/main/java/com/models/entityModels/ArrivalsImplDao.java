@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.ArrivalsDao;
 import com.entities.Arrival;
+import com.entities.Device;
 
 @Repository
 @Transactional
@@ -23,22 +25,43 @@ public class ArrivalsImplDao 	extends RootModel
 	
 	@Override
 	public void create(Arrival arrival) {
+		arrival.setTime(new DateTime().toDate());
+		Device device = getAttchDevice(arrival);
+		device.setAmountInStock(device.getAmountInStock() + arrival.getAmount());
+		currentSession().update(device);
 		currentSession().save(arrival);
 	}
 
 	@Override
 	public void update(Arrival arrival) {
-		currentSession().update(arrival);
+		Arrival attchArrival = initProxy(arrival.getId());
+		Device attchDevice = getAttchDevice(attchArrival);
+		int updatedAmount = attchDevice.getAmountInStock() - attchArrival.getAmount() + arrival.getAmount();
+		if(updatedAmount >= 0){
+			attchArrival.setTime(new DateTime().toDate());
+			attchArrival.setAmount(arrival.getAmount());
+			attchArrival.setPrice(arrival.getPrice());
+			attchArrival.setUser(arrival.getUser());
+			attchDevice.setAmountInStock(updatedAmount);
+			currentSession().update(attchDevice);
+			currentSession().update(attchDevice);
+		}		
 	}
 
 	@Override
 	public void delete(int id) {
-		currentSession().delete(findById(id));
+		delete(findById(id));
 	}
 
 	@Override
 	public void delete(Arrival arrival) {
-		currentSession().delete(arrival);
+		Device attchDevice = getAttchDevice(arrival);
+		int updatedAmount = attchDevice.getAmountInStock() - arrival.getAmount();
+		if(updatedAmount >= 0){
+			attchDevice.setAmountInStock(updatedAmount);
+			currentSession().update(attchDevice);
+			currentSession().delete(arrival);
+		}	
 	}
 
 	@Override
@@ -63,8 +86,19 @@ public class ArrivalsImplDao 	extends RootModel
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Arrival> getAllDeviceValues() {
-		return currentSession().createCriteria(Arrival.class).list();
+	public List<Arrival> getAllArrivalValues() {
+		List<Arrival> arrivals = currentSession().createCriteria(Arrival.class).list();
+		for(Arrival arrival : arrivals){
+			Hibernate.initialize(arrival.getDevice());
+			Hibernate.initialize(arrival.getUser());
+			Hibernate.initialize(arrival.getDevice().getBrand());
+			Hibernate.initialize(arrival.getUser().getRole());
+		}
+		return arrivals;
+	}
+	
+	private Device getAttchDevice(Arrival arrival){
+		return (Device)currentSession().get(Device.class, arrival.getDevice().getId());
 	}
 
 }

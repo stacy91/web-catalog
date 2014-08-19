@@ -5,7 +5,7 @@
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title"></h3>
+			
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
@@ -25,16 +25,17 @@
 								<tr>
 									<td>${device.brand.brandName}</td>
 									<td>${device.model}</td>
-									<td>${device.amountInStock}</td>
+									<td>${device.amountInStock}, 
+									<a href="${pageContext.request.contextPath}/management/addArrival?deviceId=${device.id}">  (New arrival)</a></td>
 									<td>${device.price}</td>
 									<td >
 									<c:choose>
-										<c:when test="${empty device.imageURL}">
+										<c:when test="${not device.hasImage}">
 										<img class="imageClip" src="${pageContext.request.contextPath}/resources/img/default.jpg" alt="la la" >
 										</c:when>
-										<c:when test="${not empty device.imageURL}">
-										<img class="imageClip" src="${pageContext.request.contextPath}${device.imageURL}" alt="la la">
-										</c:when>
+										<c:when test="${device.hasImage}">
+										<img class="imageClip" src="<c:out value="${imgsPath}${device.id}"/>.jpg"  alt="la la">
+										</c:when>						
 									</c:choose>
 									</td>
 									<td><form:form

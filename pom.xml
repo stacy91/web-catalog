@@ -72,6 +72,18 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             <artifactId>spring-webmvc</artifactId>  
             <version>${spring.version}</version>  
         </dependency>
+        
+        <dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>3.2.5.RELEASE</version>
+		</dependency>
+ 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>3.2.5.RELEASE</version>
+		</dependency>
   
 		<dependency>
   			<groupId>org.hibernate</groupId>

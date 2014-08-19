@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 
 
@@ -28,12 +27,12 @@ public class Device {
 	private Brand brand;
 	@Column(name="Model",nullable=false,unique=true)
 	private String model;
-	@Column(name="ImageURL")
-	private String imageURL;
 	@Column(name="Price",nullable=false)
 	private float price;
 	@Column(name="AmountInStock",nullable=false)
 	private int amountInStock;
+	@Column(name="HasImage",nullable=false)
+	private boolean hasImage;
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="GoodsId")
 	private List<Arrival> arrivals;
@@ -41,18 +40,15 @@ public class Device {
 	@JoinColumn(name="GoodsId")
 	private List<Order_Sale> orders_sales;
 	
-	@Transient
-	private String brandId;
 	
 	public Device(){
 		
 	}
 	
-	public Device(Brand brand,String model,String imageURL,float price,
+	public Device(Brand brand,String model,float price,
 			int amountInStock){
 		this.brand = brand;
 		this.setModel(model);
-		this.imageURL = imageURL;
 		this.price = price;
 		this.amountInStock = amountInStock;
 	}
@@ -78,15 +74,7 @@ public class Device {
 	public void setModel(String model) {
 		this.model = model;
 	}
-	
-	public String getImageURL(){
-		return imageURL;
-	}
-	public void setImageURL(String imageURL){
-		this.imageURL = imageURL;
-	}
-	
-	
+		
 	public float getPrice(){
 		return price;
 	}
@@ -115,10 +103,12 @@ public class Device {
 		this.orders_sales = orders_sales;
 	}
 
-	public String getBrandId() {
-		return brandId;
+	public boolean isHasImage() {
+		return hasImage;
 	}
-	public void setBrandId(String brandId) {
-		this.brandId = brandId;
+
+	public void setHasImage(boolean hasImage) {
+		this.hasImage = hasImage;
 	}
+
 }

@@ -5,12 +5,19 @@
 
 <tiles-definitions>
 
+	
+	<definition name="home" template="/WEB-INF/views/home.jsp">
+
+		<put-attribute name="header" value="/WEB-INF/views/shared/managementHeader.jsp"/>
+
+	</definition>
+	
 	<definition name="management" template="/WEB-INF/views/shared/managementLayout.jsp">
-		<put-attribute name="pageTitle" value="Dashboard"></put-attribute>
-		<put-attribute name="wrapperTitle" value="Overview"></put-attribute>
+		<put-attribute name="pageTitle" value="Dashboard"/>
+		<put-attribute name="wrapperTitle" value="Overview"/>
+		<put-attribute name="header" value="/WEB-INF/views/shared/managementHeader.jsp"/>
 		<put-attribute name="left" value=""/>
 		<put-attribute name="body" value=""/>
-		<put-attribute name="contextPath" value="${pageContext.servletContext.contextPath}"></put-attribute>
 	</definition>
 	
 	
@@ -67,8 +74,26 @@
 	
 		<!-- End Devices -->
 		
+		<!-- Arrivals -->
+	<definition name="adminArrivals" extends="adminIndex">
+		<put-attribute name="pageTitle" value="Arrivals Management"/>
+		<put-attribute name="wrapperTitle" value="All arrivals"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/arrivals/index.jsp"/>
+	</definition>
+	<definition name="adminArrivals/add" extends="adminArrivals">
+		<put-attribute name="pageTitle" value="Arrivals Management"/>
+		<put-attribute name="wrapperTitle" value="Add arrival"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/arrivals/addArrival.jsp"/>
+	</definition>
+	<definition name="adminArrivals/update" extends="adminArrivals">
+		<put-attribute name="pageTitle" value="Arrivals Management"/>
+		<put-attribute name="wrapperTitle" value="Update arrival"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/admin/arrivals/updateArrival.jsp"/>
+	</definition>
+	
+		<!-- End Arrivals -->
+		
 	<!-- End Admin Pages -->
 	
-	<definition name="home" template="/WEB-INF/views/home.jsp"/>
 	
 </tiles-definitions>

@@ -22,7 +22,6 @@ public class Brand {
 	private int id;
 	
 	@Length(min=2,max=10,message="Length should be between 2 and 10 symbols")
-	
 	@Column(name="BrandName",nullable=false)
 	private String brandName;
 	@OneToMany(fetch = FetchType.LAZY)
@@ -61,4 +60,14 @@ public class Brand {
 	public void setDevices(List<Device> devices){
 		this.devices = devices;
 	}
+	
+	 public boolean equals(Object obj) {
+		 boolean result = false;
+	       if (!(obj instanceof Brand))
+	            return result;
+	       Brand brand = (Brand)obj;
+	       if(this.getId() == brand.getId())
+	    	   result = true;
+	       return result;
+	 }
 }

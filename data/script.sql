@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `myonlineshopdb` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `myonlineshopdb`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.18, for Win32 (x86)
 --
 -- Host: localhost    Database: myonlineshopdb
 -- ------------------------------------------------------
--- Server version	5.6.19
+-- Server version	5.6.19-enterprise-commercial-advanced
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -37,7 +37,7 @@ CREATE TABLE `arrival` (
   KEY `UserId_FK_idx` (`UserId`),
   CONSTRAINT `Arrival_GoodsId_FK_Goods` FOREIGN KEY (`GoodsId`) REFERENCES `goods` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Arrival_UserId_FK_Users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `brands` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   UNIQUE KEY `BrandName_UNIQUE` (`BrandName`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,16 +67,16 @@ CREATE TABLE `goods` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `BrandId` int(11) NOT NULL,
   `Model` varchar(45) NOT NULL,
-  `ImageURL` varchar(255) DEFAULT NULL,
   `Price` decimal(10,0) NOT NULL,
   `AmountInStock` int(11) NOT NULL,
+  `HasImage` tinyint(1) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   UNIQUE KEY `Model_UNIQUE` (`Model`),
   KEY `ModelId_FK_idx` (`BrandId`),
   KEY `ScreenSizeId_FK_idx` (`Model`),
   CONSTRAINT `Goods_BrandId_FK_Brands` FOREIGN KEY (`BrandId`) REFERENCES `brands` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +115,7 @@ CREATE TABLE `userroles` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   UNIQUE KEY `Role_UNIQUE` (`Role`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +135,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `Login_UNIQUE` (`Login`),
   KEY `RoleId_FK_idx` (`RoleId`),
   CONSTRAINT `Users_RoleId_FK_UserRoles` FOREIGN KEY (`RoleId`) REFERENCES `userroles` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -147,4 +147,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-05 11:26:21
+-- Dump completed on 2014-08-17 15:36:43

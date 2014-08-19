@@ -4,13 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="managementContentWrapperWH">
-	<form:form modelAttribute="device">
+	<form:form modelAttribute="device" enctype="multipart/form-data">
 
 		<label for="brandDD">Select Brand</label>
-		<form:select path="${brandId}" id="brandDD" class="form-control">
+		<form:select path="brand" class="form-control">
 			<form:option value="" class="form-control">Select</form:option>
-			<form:options  items="${brands}" itemLabel="brandName" itemValue="id"/>
-			
+			<form:options  items="${brands}" itemValue="id" itemLabel="brandName" />
 		</form:select>
 
 		<div class="form-group">
@@ -25,11 +24,11 @@
 		</div>
 		<div class="form-group">
 			<label for="amountTXT">Amount</label> <form:input path="amountInStock"
-				class="form-control" id="amountTXT" placeholder="Enter amount..."/>
+				class="form-control" id="amountTXT" placeholder="Enter amount..." disabled="true"/>
 		</div>
 		<div class="form-group">
 			<label for="exampleInputFile">Upload Image</label> <input type="file"
-				id="exampleInputFile">
+				name="image">
 			<!-- <p class="help-block">Example block-level help text here.</p> -->
 		</div>
 		<div class="form-group">

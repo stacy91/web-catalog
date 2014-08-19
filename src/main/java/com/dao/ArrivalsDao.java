@@ -14,5 +14,5 @@ public interface ArrivalsDao {
 	public Arrival findById(int id);
 	public Arrival initProxy(Arrival arrival);
 	public Arrival initProxy(int id);
-	public List<Arrival> getAllDeviceValues();	
+	public List<Arrival> getAllArrivalValues();	
 }

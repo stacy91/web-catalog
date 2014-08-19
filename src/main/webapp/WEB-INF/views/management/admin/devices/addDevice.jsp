@@ -7,7 +7,7 @@
 	<form:form modelAttribute="device" enctype="multipart/form-data">
 
 		<label for="brandDD">Select Brand</label>
-		<form:select path="brandId" id="brandDD" class="form-control">
+		<form:select path="brand" id="brandDD" class="form-control">
 			<form:option value="" class="form-control">Select</form:option>
 			<form:options  items="${brands}" itemLabel="brandName" itemValue="id"/>
 		</form:select>

@@ -18,7 +18,7 @@
                     </li>
                    
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-cubes"></i> Arrivals </a>
+                        <a href="${contextPath}/management/arrivals"><i class="fa fa-fw fa-cubes"></i> Arrivals </a>
                     </li>
                      <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-caret-down"></i> Goods <i class="fa fa-fw"></i></a>

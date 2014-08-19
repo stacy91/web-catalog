@@ -1,4 +1,4 @@
-package com.globalexceptionconfig;
+package com.helpers.globalexceptionconfig;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.dao.DataIntegrityViolationException;
