@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security
+   	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 	
-		
+	<import resource="appServlet/servlet-context.xml"/>
+	
+	<sec:http auto-config="true" use-expressions="true" >
+	<sec:form-login login-processing-url="/j_spring_security_check"
+		login-page="/home" default-target-url="/home"	authentication-failure-url="/home?login_error=t"/>
+	<sec:logout logout-url="/static/j_spring_security_logout"/>
+	<sec:intercept-url pattern="/**" access="permitAll" />
+	<sec:intercept-url pattern="/management/**" access="admin" />
+	</sec:http>
+	
+	<sec:authentication-manager>
+	<sec:authentication-provider>
+		<sec:jdbc-user-service data-source-ref="dataSource"
+			users-by-username-query="select Id as id,Login as username, Password as password from users where Login = ?"
+			authorities-by-username-query="select us.Login as username, ur.Role as role from users us, userroles ur where us.RoleId = ur.Id and us.Login = ?" />
+	</sec:authentication-provider>
+</sec:authentication-manager>
+  
+	
 </beans>
+
+	

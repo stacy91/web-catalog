@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:sec="http://www.springframework.org/schema/security"
+	
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
@@ -11,26 +11,8 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/security
-   		http://www.springframework.org/schema/security/spring-security-3.0.xsd">
-   	
-   	
-   	<!-- <sec:http auto-config="true"  use-expressions="false" >
-	<sec:form-login login-processing-url="/static/j_spring_security_check"
-		login-page="/home"	authentication-failure-url="/home?login_error=t"/>
-	<sec:logout logout-url="/static/j_spring_security_logout"/>
-	<sec:intercept-url pattern="/**" access="permitAll" />
-	<sec:intercept-url pattern="/management/**" access="admin" />
-	</sec:http>
-	
-	
-	
-	<sec:authentication-manager> 
-                <sec:authentication-provider> 
-                        <sec:jdbc-user-service data-source-ref="dataSource" 
-                                users-by-username-query="select Login, Password, Id from users where Login = ?" 
-                                authorities-by-username-query="select Login, Role from users inner join userroles on users.RoleId = roles.Id where username = ?" /> 
-                </sec:authentication-provider> 
-    </sec:authentication-manager> -->
+   		http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+    
 	
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->

@@ -15,17 +15,15 @@
 			</div>
 			<!-- Top Menu Items -->
 			
-			<form class="form-inline" role="form" action="${pageContext.request.contextPath}/static/j_spring_security_check"
-			style="color:#999; float:right; margin:10px;">
-  <div class="form-group">
-    <label class="sr-only" for="exampleInputEmail2">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter login">
-  </div>
-
-  <div class="form-group">
-    <label class="sr-only" for="exampleInputPassword2">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-  </div>
+			<form method="POST" action="${pageContext.request.contextPath}/j_spring_security_check"
+			style="color:#999; float:right; margin:10px;" class="form-inline" >
+  			<div class="form-group">
+    			<input class="form-control" id="username" name="j_username" type="text" placeholder="Enter login">
+  			</div>
+  			<div class="form-group">
+    			<input class="form-control" id="password" name="j_password" type="password" placeholder="Password">
+  			</div>
+  			
   <!-- <div class="checkbox">
     <label>
       <input type="checkbox"> Remember me
@@ -39,7 +37,7 @@
 				
 				
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"><i class="fa fa-user"></i> <security:authentication property="user.login"/>  <b
+					data-toggle="dropdown"><i class="fa fa-user"></i> <security:authentication property="principal"/>  <b
 						class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
