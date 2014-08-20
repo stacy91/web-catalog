@@ -30,7 +30,7 @@
     </label>
   </div> -->
   			<button type="submit" class="btn btn-default" style="color:#333">Sign in</button>
-  			<a href="" style="margin: 0 10px 0 10px;">Sign up</a>
+  			<a href="${pageContext.request.contextPath}/register" style="margin: 0 10px 0 10px;">Sign up</a>
 			</form>
 			</security:authorize>
 			

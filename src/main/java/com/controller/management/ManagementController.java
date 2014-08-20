@@ -166,9 +166,8 @@ public class ManagementController{
 	
 	@RequestMapping(value="/deleteDevice",method=RequestMethod.POST)
 	public String deleteDevice(int id){
-		Device device = devicesDao.findById(id);
-		deviceHelper.deleteImage(device.getId());
-		devicesDao.delete(device);
+		deviceHelper.deleteImage(id);
+		devicesDao.delete(id);
 		return "redirect:/management/devices";
 	}
 	//end devices

@@ -27,14 +27,13 @@
 </head>  
 <body style="background-color: white;">
   
-
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     	<tiles:insertAttribute name="header"></tiles:insertAttribute>
     </nav>
 	
 	<div style="margin:100px 0 0 20px;">
     <h2 >Stacy | Hello World</h2>  
-    
+    <tiles:insertAttribute name="body"></tiles:insertAttribute>
  	<h3><a href="management">Dashboard</a> </h3> 
  	<h4 >login: stas</h4>  
     <h4 >pas:   stas1</h4>  

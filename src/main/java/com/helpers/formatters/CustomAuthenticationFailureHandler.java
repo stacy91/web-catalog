@@ -20,6 +20,5 @@ public void onAuthenticationFailure(HttpServletRequest request, HttpServletRespo
   File file = new File("D:\\test.log");
   PrintStream ps = new PrintStream(file);
   exception.printStackTrace(ps);
-  
   ps.close();
 }}

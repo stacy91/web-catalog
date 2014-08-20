@@ -34,7 +34,7 @@
 										<img class="imageClip" src="${pageContext.request.contextPath}/resources/img/default.jpg" alt="la la" >
 										</c:when>
 										<c:when test="${device.hasImage}">
-										<img class="imageClip" src="<c:out value="${imgsPath}${device.id}"/>.jpg"  alt="la la">
+										<img class="imageClip" src="<c:url value="/getImage?path=${imgsPath}"/>${device.id}.jpg" alt="la la"/>
 										</c:when>						
 									</c:choose>
 									</td>

@@ -24,7 +24,7 @@
 		</div>
 		<div class="form-group">
 			<label for="amountTXT">Amount</label> <form:input path="amountInStock"
-				class="form-control" id="amountTXT" placeholder="Enter amount..." disabled="true"/>
+				class="form-control" id="amountTXT" placeholder="Enter amount..."  disabled="true"/>
 		</div>
 		<div class="form-group">
 			<label for="exampleInputFile">Upload Image</label> <input type="file"

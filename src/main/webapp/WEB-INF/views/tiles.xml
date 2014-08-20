@@ -7,9 +7,13 @@
 
 	
 	<definition name="home" template="/WEB-INF/views/home.jsp">
-
 		<put-attribute name="header" value="/WEB-INF/views/shared/managementHeader.jsp"/>
-
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<definition name="register" template="/WEB-INF/views/home.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/shared/managementHeader.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/catalog/register.jsp"/>
 	</definition>
 	
 	<definition name="management" template="/WEB-INF/views/shared/managementLayout.jsp">

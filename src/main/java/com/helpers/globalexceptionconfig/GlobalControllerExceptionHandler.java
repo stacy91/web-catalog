@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 
-@ControllerAdvice
+/*@ControllerAdvice*/
 public class GlobalControllerExceptionHandler {
 	
 	@ExceptionHandler(DataIntegrityViolationException.class)
@@ -17,8 +17,6 @@ public class GlobalControllerExceptionHandler {
 		mv.addObject("exceptionStackTrace",exception.getStackTrace());
 		mv.addObject("url", req.getRequestURL());
 		mv.setViewName("adminErrors/un");
-		
-		
 		return mv;
 	}
 }
