@@ -34,7 +34,10 @@
 	
 	<div style="margin:100px 0 0 20px;">
     <h2 >Stacy | Hello World</h2>  
- 	<h3><a href="management">bla bla</a> </h3> 
+    
+ 	<h3><a href="management">Dashboard</a> </h3> 
+ 	<h4 >login: stas</h4>  
+    <h4 >pas:   stas1</h4>  
  	</div>
 </body>  
 </html>  
