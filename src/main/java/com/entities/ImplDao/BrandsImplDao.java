@@ -1,4 +1,4 @@
-package com.models.entityModels;
+package com.entities.ImplDao;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.dao.BrandsDao;
 import com.entities.Brand;
 import com.entities.Device;
+import com.entities.Dao.BrandsDao;
 
 
 @Repository

@@ -1,4 +1,4 @@
-package com.models.entityModels;
+package com.entities.ImplDao;
 
 
 import org.hibernate.Session;

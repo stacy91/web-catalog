@@ -5,10 +5,10 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.myProject.sample</groupId>
-  <artifactId>MySpringMaven</artifactId>
+  <artifactId>WebCatalog</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>MySpringMaven Maven Webapp</name>
+  <name>WebCatalog Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
   <properties>  

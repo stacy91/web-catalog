@@ -1,15 +1,17 @@
-package com.models.entityModels;
+package com.entities.ImplDao;
 
 import java.util.List;
+
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.dao.DevicesDao;
+
 import com.entities.Arrival;
 import com.entities.Device;
 import com.entities.Order_Sale;
+import com.entities.Dao.DevicesDao;
 
 
 @Repository

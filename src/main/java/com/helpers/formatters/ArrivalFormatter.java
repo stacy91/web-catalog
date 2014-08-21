@@ -2,16 +2,11 @@ package com.helpers.formatters;
 
 import java.util.Locale;
 import java.text.ParseException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
-
-import com.dao.ArrivalsDao;
-import com.dao.BrandsDao;
 import com.entities.Arrival;
-import com.entities.Brand;
-
+import com.entities.Dao.ArrivalsDao;
 
 @Component
 public class ArrivalFormatter implements Formatter<Arrival> {

@@ -32,7 +32,6 @@ public class DeviceHelper {
     public boolean saveImage(int deviceId, MultipartFile image) {
         try {
             String imgName = deviceId + ".jpg";
-            String path = getImgsPath() + imgName;
             File file = new File(imgsPath + imgName);
             FileUtils.writeByteArrayToFile(file, image.getBytes());
             return true;

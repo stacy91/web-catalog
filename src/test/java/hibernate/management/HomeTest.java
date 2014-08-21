@@ -18,20 +18,21 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.joda.time.DateTime;
+
 import com.controller.management.ManagementController;
-import com.dao.ArrivalsDao;
-import com.dao.BrandsDao;
-import com.dao.DevicesDao;
-import com.dao.Orders_SalesDao;
-import com.dao.UserRolesDao;
-import com.dao.UsersDao;
 import com.entities.Arrival;
 import com.entities.Brand;
 import com.entities.Device;
 import com.entities.Order_Sale;
 import com.entities.User;
 import com.entities.UserRole;
-import com.models.entityModels.BrandsImplDao;
+import com.entities.Dao.ArrivalsDao;
+import com.entities.Dao.BrandsDao;
+import com.entities.Dao.DevicesDao;
+import com.entities.Dao.Orders_SalesDao;
+import com.entities.Dao.UserRolesDao;
+import com.entities.Dao.UsersDao;
+import com.entities.ImplDao.BrandsImplDao;
 
 import junit.framework.TestCase;
 

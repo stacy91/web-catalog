@@ -6,8 +6,9 @@ import java.text.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
-import com.dao.UsersDao;
+
 import com.entities.User;
+import com.entities.Dao.UsersDao;
 
 
 @Component

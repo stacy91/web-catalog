@@ -1,4 +1,4 @@
-package com.models.entityModels;
+package com.entities.ImplDao;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dao.Orders_SalesDao;
 import com.entities.Order_Sale;
+import com.entities.Dao.Orders_SalesDao;
 
 @Repository
 @Transactional
