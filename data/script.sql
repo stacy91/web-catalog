@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `myonlineshopdb` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `myonlineshopdb`;
--- MySQL dump 10.13  Distrib 5.6.18, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
 -- Host: localhost    Database: myonlineshopdb
 -- ------------------------------------------------------
--- Server version	5.6.19-enterprise-commercial-advanced
+-- Server version	5.6.19
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -37,8 +37,17 @@ CREATE TABLE `arrival` (
   KEY `UserId_FK_idx` (`UserId`),
   CONSTRAINT `Arrival_GoodsId_FK_Goods` FOREIGN KEY (`GoodsId`) REFERENCES `goods` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Arrival_UserId_FK_Users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `arrival`
+--
+
+LOCK TABLES `arrival` WRITE;
+/*!40000 ALTER TABLE `arrival` DISABLE KEYS */;
+/*!40000 ALTER TABLE `arrival` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `brands`
@@ -53,8 +62,18 @@ CREATE TABLE `brands` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   UNIQUE KEY `BrandName_UNIQUE` (`BrandName`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `brands`
+--
+
+LOCK TABLES `brands` WRITE;
+/*!40000 ALTER TABLE `brands` DISABLE KEYS */;
+INSERT INTO `brands` VALUES (16,'Apple'),(18,'HTC'),(17,'LG');
+/*!40000 ALTER TABLE `brands` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `goods`
@@ -76,8 +95,18 @@ CREATE TABLE `goods` (
   KEY `ModelId_FK_idx` (`BrandId`),
   KEY `ScreenSizeId_FK_idx` (`Model`),
   CONSTRAINT `Goods_BrandId_FK_Brands` FOREIGN KEY (`BrandId`) REFERENCES `brands` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `goods`
+--
+
+LOCK TABLES `goods` WRITE;
+/*!40000 ALTER TABLE `goods` DISABLE KEYS */;
+INSERT INTO `goods` VALUES (50,16,'cvb',0,0,0),(52,17,'sdf',0,0,1);
+/*!40000 ALTER TABLE `goods` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `orders_sales`
@@ -103,6 +132,15 @@ CREATE TABLE `orders_sales` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `orders_sales`
+--
+
+LOCK TABLES `orders_sales` WRITE;
+/*!40000 ALTER TABLE `orders_sales` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders_sales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `userroles`
 --
 
@@ -115,8 +153,18 @@ CREATE TABLE `userroles` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   UNIQUE KEY `Role_UNIQUE` (`Role`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `userroles`
+--
+
+LOCK TABLES `userroles` WRITE;
+/*!40000 ALTER TABLE `userroles` DISABLE KEYS */;
+INSERT INTO `userroles` VALUES (3,'ROLE_ADMIN'),(4,'ROLE_USER');
+/*!40000 ALTER TABLE `userroles` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -129,14 +177,24 @@ CREATE TABLE `users` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `RoleId` int(11) NOT NULL,
   `Login` varchar(45) NOT NULL,
-  `Password` varchar(45) NOT NULL,
+  `Password` varchar(255) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   UNIQUE KEY `Login_UNIQUE` (`Login`),
   KEY `RoleId_FK_idx` (`RoleId`),
   CONSTRAINT `Users_RoleId_FK_UserRoles` FOREIGN KEY (`RoleId`) REFERENCES `userroles` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (8,4,'stas2','$2a$10$XCasNTQ0NV2Mv6m/wMK1rO8Wvx4zy/3mHS.4XulJ0sGT.dYrvkfnm'),(9,3,'stas','$2a$10$nzTWVV9HDH1TzAgrwyyorOn6zYIhnpBTVqVqWUf7VNFIRqT3ejQe6');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -147,4 +205,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-17 15:36:43
+-- Dump completed on 2014-08-21 11:19:30

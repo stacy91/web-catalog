@@ -24,15 +24,19 @@
 	</sec:http>											
 	<sec:authentication-manager>
 	<sec:authentication-provider>
-		<sec:password-encoder hash="sha"/>
+	    <sec:password-encoder ref="encoder" />
 		<sec:jdbc-user-service data-source-ref="dataSource"
 			users-by-username-query="select Login, Password, 'true' as enabled from users where Login = ?"
 			authorities-by-username-query="select Login, Role from users inner join userroles on
 			users.RoleId = userroles.Id where Login = ?" />
 	</sec:authentication-provider>
-	
-	
 	</sec:authentication-manager>	
+	
+	<bean id="encoder" 
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<constructor-arg name="strength" value="11" />
+  	</bean>
+  	
 </beans>
 
 	

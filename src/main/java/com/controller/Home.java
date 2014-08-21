@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -45,7 +46,7 @@ public class Home {
 	public String register(@Valid User user,String confirmPas, BindingResult result){
 		if(!result.hasErrors() && user.getPassword().equals(confirmPas)){
 			String encodedPas = user.getPassword();
-			encodedPas = new ShaPasswordEncoder().encodePassword(encodedPas, "salt");
+			encodedPas = new BCryptPasswordEncoder().encode(encodedPas);
 			user.setPassword(encodedPas);
 			user.setRole(rolesDao.findById(4));
 			usersDao.create(user);
