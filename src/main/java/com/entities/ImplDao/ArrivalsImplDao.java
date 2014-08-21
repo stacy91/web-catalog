@@ -44,7 +44,7 @@ public class ArrivalsImplDao 	extends RootModel
 			attchArrival.setUser(arrival.getUser());
 			attchDevice.setAmountInStock(updatedAmount);
 			currentSession().update(attchDevice);
-			currentSession().update(attchDevice);
+			currentSession().update(attchArrival);
 		}		
 	}
 
@@ -67,11 +67,6 @@ public class ArrivalsImplDao 	extends RootModel
 	@Override
 	public Arrival findById(int id) {
 		return (Arrival)currentSession().get(Arrival.class, id);
-	}
-
-	@Override
-	public Arrival initProxy(Arrival arrival) {
-		return initProxy(arrival.getId());
 	}
 
 	@Override

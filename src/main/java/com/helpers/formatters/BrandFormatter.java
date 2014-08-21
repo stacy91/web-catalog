@@ -34,5 +34,4 @@ public class BrandFormatter implements Formatter<Brand> {
         return brand;
     } 
 
-
 }

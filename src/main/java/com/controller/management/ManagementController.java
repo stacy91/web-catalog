@@ -1,5 +1,6 @@
 package com.controller.management;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,35 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.entities.Arrival;
 import com.entities.Brand;
 import com.entities.Device;
-import com.entities.User;
-import com.entities.Dao.ArrivalsDao;
-import com.entities.Dao.BrandsDao;
-import com.entities.Dao.DevicesDao;
-import com.entities.Dao.UserRolesDao;
-import com.entities.Dao.UsersDao;
-import com.helpers.DeviceHelper;
+import com.entities.services.ArrivalsService;
+import com.entities.services.BrandsService;
+import com.entities.services.DevicesService;
 
 @Controller 
 @RequestMapping(value="/management")
 public class ManagementController{  
 	
 	@Autowired
-	private DeviceHelper deviceHelper;
+	private DevicesService devicesService;
 	@Autowired
-	private BrandsDao brandsDao;
+	private BrandsService brandsService;
 	@Autowired
-	private DevicesDao devicesDao;
-	@Autowired
-	private ArrivalsDao arrivalsDao;
-	@Autowired
-	private UsersDao usersDao;
-	@Autowired
-	private UserRolesDao userRolesDao;
-	
+	private ArrivalsService arrivalsService;
 	
 	@RequestMapping(value="")
 	public String index(){
@@ -51,7 +40,7 @@ public class ManagementController{
 	
 	@RequestMapping(value="/brands")  
     public String showBrands(ModelMap model) {  
-	List<Brand> brands = brandsDao.getAllBrandValues();
+	List<Brand> brands = brandsService.getBrands();
     model.addAttribute("brands", brands);
     return "adminBrands";
     }  
@@ -67,16 +56,14 @@ public class ManagementController{
 	{
 		if(result.hasErrors())
 			return "adminBrands/add";
-		brandsDao.create(brand);
-		
+		brandsService.create(brand);	
 	}
 	return "redirect:/management/brands";		
 	} 
 	
-	
 	@RequestMapping(value="/updateBrand")
 	public String updateBrand(int id, ModelMap model){
-		Brand brandToUpdate = brandsDao.findById(id);
+		Brand brandToUpdate = brandsService.findById(id);
 		if(brandToUpdate == null)
 			return "redirect:/management/brands";
 		model.addAttribute("brand", brandToUpdate);
@@ -88,8 +75,7 @@ public class ManagementController{
 		{
 			if(result.hasErrors())
 				return "adminBrands/add";
-			brandsDao.update(brand);
-			
+			brandsService.update(brand);	
 		}
 		return "redirect:/management/brands";
 	}
@@ -97,7 +83,7 @@ public class ManagementController{
 	
 	@RequestMapping(value="/deleteBrand", method=RequestMethod.POST)	
 	public String deleteBrand(int id){
-		brandsDao.delete(id);
+		brandsService.delete(id);
 		return "redirect:/management/brands";
 	}
 	
@@ -107,18 +93,16 @@ public class ManagementController{
 	
 	@RequestMapping(value="/devices")  
     public String showDevices(ModelMap model) {  
-	List<Device> devices = devicesDao.getAllDeviceValues();
+	List<Device> devices = devicesService.getDevices();
     model.addAttribute("devices", devices);
-    model.addAttribute("brands", brandsDao.getAllBrandValues());
-    model.addAttribute("imgsPath",deviceHelper.getImgsPath());
+    model.addAttribute("brands", brandsService.getBrands());
     return "adminDevices";
     }   
 	
 	@RequestMapping(value="/addDevice")
 	public String addDevice(ModelMap model){
 		model.addAttribute("device", new Device());
-		model.addAttribute("brands", brandsDao.getAllBrandValues());
-		model.addAttribute("imgsPath",deviceHelper.getImgsPath());
+		model.addAttribute("brands", brandsService.getBrands());
 		return "adminDevices/add";
 	}
 	@RequestMapping(value="/addDevice", method=RequestMethod.POST)
@@ -128,24 +112,16 @@ public class ManagementController{
 		{
 			if(result.hasErrors())
 				return "adminBrands/add";
-			devicesDao.create(device);
-			if(!image.isEmpty() && deviceHelper.validateImage(image))
-			{
-				if(deviceHelper.saveImage(device.getId(), image)){
-					device.setHasImage(true);
-					devicesDao.update(device);
-				}
-			}
+			devicesService.create(device, image);
 		}
 		return "redirect:/management/devices";
 	}
 	
 	@RequestMapping(value="/updateDevice")
 	public String updateDevice(int id,ModelMap model){
-		Device device = devicesDao.initBrand(id);
+		Device device = devicesService.getDevicesWithBrand(id);
 		model.addAttribute("device", device);
-		model.addAttribute("brands", brandsDao.getAllBrandValues());
-		model.addAttribute("imgsPath",deviceHelper.getImgsPath());
+		model.addAttribute("brands", brandsService.getBrands());
 		return "adminDevices/update";
 	}
 	
@@ -157,20 +133,14 @@ public class ManagementController{
 		{
 			if(result.hasErrors())
 				return "adminBrands/add";
-			if(!image.isEmpty() && deviceHelper.validateImage(image))
-			{
-				if(deviceHelper.saveImage(device.getId(), image))
-					device.setHasImage(true);
-			}
-			devicesDao.update(device);
+			devicesService.update(device, image);
 		}
 		return "redirect:/management/devices";
 	}
 	
 	@RequestMapping(value="/deleteDevice",method=RequestMethod.POST)
 	public String deleteDevice(int id){
-		deviceHelper.deleteImage(id);
-		devicesDao.delete(id);
+		devicesService.delete(id);
 		return "redirect:/management/devices";
 	}
 	//end devices
@@ -180,53 +150,49 @@ public class ManagementController{
 	
 	@RequestMapping(value="/arrivals")  
     public String showArrival(ModelMap model) {  
-		model.addAttribute("arrivals", arrivalsDao.getAllArrivalValues());
+		
+		model.addAttribute("arrivals", arrivalsService.getArrivals());
 		return  "adminArrivals";
     }   
 	
 	@RequestMapping(value="/addArrival", method=RequestMethod.GET)
-	public String addArrival(ModelMap model,int deviceId){
-		Device device = devicesDao.initBrand(deviceId);
-		User tempUser = usersDao.initRole(2);
-		Arrival arrival = new Arrival();
-		arrival.setDevice(device);
-		arrival.setUser(tempUser);
-		model.addAttribute("arrival",arrival);
+	public String addArrival(ModelMap model,int deviceId,Principal pricipal){
+		
+		model.addAttribute("arrival",arrivalsService.getArrivalToCreate(deviceId,pricipal.getName()));
 		return "adminArrivals/add";
 	}
 	@RequestMapping(value="/addArrival", method=RequestMethod.POST)
 	public String addArrival(@Valid Arrival arrival,int deviceId,int userId,
 			String action, BindingResult result){
-		
-		arrival.setDevice(devicesDao.initBrand(deviceId));
-		arrival.setUser(usersDao.initRole(userId));
+
 		if(!action.equals("cancel") && !result.hasErrors()){
-				arrivalsDao.create(arrival);
+				arrivalsService.create(arrival,deviceId,userId);
 		}
 		return "redirect:/management/devices";
 	}
 	
 	@RequestMapping(value="/updateArrival")
 	public String updateArrival(int id,ModelMap model){
-		Arrival arrival = arrivalsDao.initProxy(id);
-		model.addAttribute("arrival", arrival);
+		
+		model.addAttribute("arrival", arrivalsService.getArrival(id));
 		return "adminArrivals/update";
 	}
 	
 	
 	@RequestMapping(value="/updateArrival", method=RequestMethod.POST)
-	public String updateArrival(@Valid Arrival arrival,int userId,
+	public String updateArrival(@Valid Arrival arrival,int userId,Principal principal,
 			String action, BindingResult result){
-		arrival.setUser(usersDao.initRole(userId));
+
 		if(!action.equals("cancel") && !result.hasErrors()){
-			arrivalsDao.update(arrival);
+			arrivalsService.update(arrival,principal.getName());
 		}
 		return "redirect:/management/arrivals";
 	}
 	
 	@RequestMapping(value="/deleteArrival",method=RequestMethod.POST)
 	public String deleteArrival(int id){
-		arrivalsDao.delete(id);
+		
+		arrivalsService.delete(id);
 		return "redirect:/management/arrivals";
 	}
 	

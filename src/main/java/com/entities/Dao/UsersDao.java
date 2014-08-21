@@ -10,7 +10,7 @@ public interface UsersDao {
 	public void delete(User user);
 	
 	public User findById(int id);
-	
+	public User findByLogin(String login);
 	public User initRole(User user);
 	public User initRole(int id);
 	

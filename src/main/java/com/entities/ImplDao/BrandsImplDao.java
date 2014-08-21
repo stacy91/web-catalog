@@ -55,10 +55,6 @@ public class BrandsImplDao 	extends RootModel
 		return br;
 	}
 	
-	@Override
-	public Brand initProxy(Brand brand) {
-		return initProxy(brand.getId());
-	};
 	
 	@Override
 	public Brand initProxy(int id) {

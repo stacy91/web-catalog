@@ -7,7 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 @Configuration
 @PropertySource("classpath:path.properties")
@@ -48,6 +54,14 @@ public class DeviceHelper {
 
     public String getImgsPath() {
         return imgsPath;
+    }
+    
+    public byte[] getImgBytes(String id) throws IOException{
+    	
+    	BufferedImage bImage = ImageIO.read(new File(getImgsPath() + id + ".jpg"));
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(bImage, "jpg", baos);
+		return baos.toByteArray();
     }
 
 }

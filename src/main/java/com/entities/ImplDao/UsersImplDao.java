@@ -3,7 +3,9 @@ package com.entities.ImplDao;
 import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +48,13 @@ public class UsersImplDao 	extends RootModel
 	@Override
 	public User findById(int id) {
 		return (User)currentSession().get(User.class, id);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public User findByLogin(String login){
+		List<User> users = currentSession().createCriteria(User.class).add(Restrictions.eq("login", login)).list();
+		return users.get(0);
 	}
 
 	public User initRole(User user) {

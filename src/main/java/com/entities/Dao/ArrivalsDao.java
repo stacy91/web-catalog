@@ -12,7 +12,6 @@ public interface ArrivalsDao {
 	public void delete(Arrival arrival);
 	
 	public Arrival findById(int id);
-	public Arrival initProxy(Arrival arrival);
 	public Arrival initProxy(int id);
 	public List<Arrival> getAllArrivalValues();	
 }

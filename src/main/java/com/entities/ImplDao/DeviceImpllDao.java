@@ -27,7 +27,6 @@ public class DeviceImpllDao 	extends RootModel
 	@Override
 	public void create(Device device){
 		currentSession().save(device);
-
 	}
 
 	@Override
@@ -56,10 +55,6 @@ public class DeviceImpllDao 	extends RootModel
 		return device;
 	}
 
-	@Override
-	public Device initBrand(Device device) {
-		return initBrand(device.getId());
-	}
 	
 	@Override
 	public Device initBrand(int id) {
@@ -68,10 +63,6 @@ public class DeviceImpllDao 	extends RootModel
 		return attchDevice;
 	}
 	
-	@Override
-	public Device initArrivals(Device device) {
-		return initArrivals(device.getId());
-	}
 	
 	@Override
 	public Device initArrivals(int id) {
@@ -86,10 +77,6 @@ public class DeviceImpllDao 	extends RootModel
 		return attchDevice;
 	}
 	
-	@Override
-	public Device initOrders_Sales(Device device) {
-		return initOrders_Sales(device.getId());
-	}
 	
 	@Override
 	public Device initOrders_Sales(int id) {
