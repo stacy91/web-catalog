@@ -24,7 +24,6 @@
 		<put-attribute name="body" value=""/>
 	</definition>
 	
-	
 	<!-- Admin Pages -->
 	
 	<definition name="adminIndex" extends="management" >
