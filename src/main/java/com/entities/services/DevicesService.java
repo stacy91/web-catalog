@@ -23,25 +23,21 @@ public class DevicesService {
 		devicesDao.create(device);
 		if(!image.isEmpty() && deviceHelper.validateImage(image))
 		{
-			if(deviceHelper.saveImage(device.getId(), image)){
-				device.setHasImage(true);
-				devicesDao.update(device);
-			}
+			deviceHelper.saveImage(device.getId(), image);
 		}
 	}
 	
 	public void update(Device device, MultipartFile image){
+		devicesDao.update(device);
 		if(!image.isEmpty() && deviceHelper.validateImage(image))
 		{
-			if(deviceHelper.saveImage(device.getId(), image))
-				device.setHasImage(true);
-		}
-		devicesDao.update(device);
+			deviceHelper.saveImage(device.getId(), image);
+		}	
 	}
 	
 	public void delete(int id){
-		deviceHelper.deleteImage(id);
 		devicesDao.delete(id);
+		deviceHelper.deleteImage(id);
 	}
 	
 	public List<Device> getDevices(){

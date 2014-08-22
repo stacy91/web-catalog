@@ -10,12 +10,10 @@
 		<div class="form-group">
 			<label for="userTXT">${arrival.user.login} / ${arrival.user.role.name}</label>
 			<form:input path="id" type="hidden"/>
-			<input type="hidden" value="2" name="userId"/>
 		</div>
 		
 		<div class="form-group">
 			<label for="deviceTXT">${arrival.device.brand.brandName} / ${arrival.device.model}</label>
-			
 		</div>
 		
 		<div class="form-group">

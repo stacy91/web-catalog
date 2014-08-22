@@ -23,9 +23,9 @@ public class ArrivalsService {
 	@Autowired
 	UsersDao usersDao;
 	
-	public void create(Arrival arrival,int deviceId,int userId){
+	public void create(Arrival arrival,int deviceId,String login){
 		arrival.setDevice(devicesDao.initBrand(deviceId));
-		arrival.setUser(usersDao.initRole(userId));
+		arrival.setUser(usersDao.initRole(usersDao.findByLogin(login)));
 		arrivalsDao.create(arrival);
 	}
 	

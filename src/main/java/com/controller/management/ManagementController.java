@@ -162,11 +162,11 @@ public class ManagementController{
 		return "adminArrivals/add";
 	}
 	@RequestMapping(value="/addArrival", method=RequestMethod.POST)
-	public String addArrival(@Valid Arrival arrival,int deviceId,int userId,
+	public String addArrival(@Valid Arrival arrival,int deviceId,Principal principal,
 			String action, BindingResult result){
 
 		if(!action.equals("cancel") && !result.hasErrors()){
-				arrivalsService.create(arrival,deviceId,userId);
+				arrivalsService.create(arrival,deviceId,principal.getName());
 		}
 		return "redirect:/management/devices";
 	}
@@ -177,10 +177,8 @@ public class ManagementController{
 		model.addAttribute("arrival", arrivalsService.getArrival(id));
 		return "adminArrivals/update";
 	}
-	
-	
 	@RequestMapping(value="/updateArrival", method=RequestMethod.POST)
-	public String updateArrival(@Valid Arrival arrival,int userId,Principal principal,
+	public String updateArrival(@Valid Arrival arrival,Principal principal,
 			String action, BindingResult result){
 
 		if(!action.equals("cancel") && !result.hasErrors()){

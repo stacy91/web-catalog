@@ -9,7 +9,7 @@
 
 		<div class="form-group">
 			<label for="userTXT">${arrival.user.login} / ${arrival.user.role.name}</label>
-				<input value="${arrival.user.id}" name="userId" type="hidden"/>
+				<input value="${arrival.user.id}" type="hidden"/>
 		</div>
 		
 		<div class="form-group">

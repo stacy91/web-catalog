@@ -35,7 +35,6 @@ public class DeviceImpllDao 	extends RootModel
 		deviceToUpdate.setBrand(newDevice.getBrand());
 		deviceToUpdate.setModel(newDevice.getModel());
 		deviceToUpdate.setPrice(newDevice.getPrice());
-		deviceToUpdate.setHasImage(newDevice.isHasImage());
 		currentSession().update(deviceToUpdate);
 	}
 

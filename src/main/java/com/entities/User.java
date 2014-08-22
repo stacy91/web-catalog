@@ -91,5 +91,13 @@ public class User {
 		this.orders_sales = orders_sales;
 	}
 	
-	
+	public boolean equals(Object obj) {
+		 boolean result = false;
+	       if (!(obj instanceof User))
+	            return result;
+	       User user = (User)obj;
+	       if(this.getId() == user.getId())
+	    	   result = true;
+	       return result;
+	 }
 }

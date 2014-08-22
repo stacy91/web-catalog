@@ -37,7 +37,7 @@ CREATE TABLE `arrival` (
   KEY `UserId_FK_idx` (`UserId`),
   CONSTRAINT `Arrival_GoodsId_FK_Goods` FOREIGN KEY (`GoodsId`) REFERENCES `goods` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Arrival_UserId_FK_Users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,6 +46,7 @@ CREATE TABLE `arrival` (
 
 LOCK TABLES `arrival` WRITE;
 /*!40000 ALTER TABLE `arrival` DISABLE KEYS */;
+INSERT INTO `arrival` VALUES (10,61,9,25,400,'2014-08-22 08:46:05');
 /*!40000 ALTER TABLE `arrival` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +63,7 @@ CREATE TABLE `brands` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   UNIQUE KEY `BrandName_UNIQUE` (`BrandName`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +72,7 @@ CREATE TABLE `brands` (
 
 LOCK TABLES `brands` WRITE;
 /*!40000 ALTER TABLE `brands` DISABLE KEYS */;
-INSERT INTO `brands` VALUES (16,'Apple'),(18,'HTC'),(17,'LG');
+INSERT INTO `brands` VALUES (16,'Apple'),(18,'HTC'),(20,'Huawei'),(17,'LG');
 /*!40000 ALTER TABLE `brands` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,14 +89,13 @@ CREATE TABLE `goods` (
   `Model` varchar(45) NOT NULL,
   `Price` decimal(10,0) NOT NULL,
   `AmountInStock` int(11) NOT NULL,
-  `HasImage` tinyint(1) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   UNIQUE KEY `Model_UNIQUE` (`Model`),
   KEY `ModelId_FK_idx` (`BrandId`),
   KEY `ScreenSizeId_FK_idx` (`Model`),
   CONSTRAINT `Goods_BrandId_FK_Brands` FOREIGN KEY (`BrandId`) REFERENCES `brands` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `goods` (
 
 LOCK TABLES `goods` WRITE;
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
-INSERT INTO `goods` VALUES (50,16,'cvb',0,0,0),(52,17,'sdf',0,0,1);
+INSERT INTO `goods` VALUES (61,16,'sdd',0,25),(62,18,'df',0,0),(63,18,'sdf',0,0);
 /*!40000 ALTER TABLE `goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,4 +205,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-21 11:19:30
+-- Dump completed on 2014-08-22 11:48:19

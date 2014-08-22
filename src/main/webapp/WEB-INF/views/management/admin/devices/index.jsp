@@ -29,14 +29,10 @@
 									<a href="${pageContext.request.contextPath}/management/addArrival?deviceId=${device.id}">  (New arrival)</a></td>
 									<td>${device.price}</td>
 									<td >
-									<c:choose>
-										<c:when test="${not device.hasImage}">
-										<img class="imageClip" src="${pageContext.request.contextPath}/resources/img/default.jpg" alt="la la" >
-										</c:when>
-										<c:when test="${device.hasImage}">
+
 										<img class="imageClip" src="<c:url value="/getImage?id="/>${device.id}" alt="la la"/>
-										</c:when>						
-									</c:choose>
+					
+
 									</td>
 									<td><form:form
 											action="${pageContext.request.contextPath}/management/deleteDevice"

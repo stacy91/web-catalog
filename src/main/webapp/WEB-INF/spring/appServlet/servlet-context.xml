@@ -32,6 +32,8 @@
     	<property name="formatters">
         	<set>
             	<ref bean="brandFormatter" />
+            	<ref bean="userFormatter" />
+            	<ref bean="deviceFormatter" />
         	</set>
     	</property>
 	</bean>

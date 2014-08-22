@@ -23,8 +23,8 @@
 				placeholder="Enter price..." />
 		</div>
 		<div class="form-group">
-			<label for="amountTXT">Amount</label> <form:input path="amountInStock"
-				class="form-control" id="amountTXT" placeholder="Enter amount..."/>
+			<label for="amountTXT">Amount</label> <input 
+				class="form-control" id="amountTXT" value="0" disabled/>
 		</div>
 		<div class="form-group">
 			<label for="imgU">Upload Image</label>

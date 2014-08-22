@@ -1,7 +1,6 @@
 package com.entities;
 
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,8 +30,6 @@ public class Device {
 	private float price;
 	@Column(name="AmountInStock",nullable=false)
 	private int amountInStock;
-	@Column(name="HasImage",nullable=false)
-	private boolean hasImage;
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="GoodsId")
 	private List<Arrival> arrivals;
@@ -102,13 +99,15 @@ public class Device {
 	public void setOrders_Sales(List<Order_Sale> orders_sales) {
 		this.orders_sales = orders_sales;
 	}
-
-	public boolean isHasImage() {
-		return hasImage;
-	}
-
-	public void setHasImage(boolean hasImage) {
-		this.hasImage = hasImage;
-	}
+	
+	public boolean equals(Object obj) {
+		 boolean result = false;
+	       if (!(obj instanceof Brand))
+	            return result;
+	       Device device = (Device)obj;
+	       if(this.getId() == device.getId())
+	    	   result = true;
+	       return result;
+	 }
 
 }
