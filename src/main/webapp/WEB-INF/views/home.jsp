@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>  
 <head>  
@@ -34,9 +35,8 @@
 	<div style="margin:100px 0 0 20px;">
     <h2 >Stacy | Hello World</h2>  
     <tiles:insertAttribute name="body"></tiles:insertAttribute>
- 	<h3><a href="management">Dashboard</a> </h3> 
- 	<h4 >login: stas</h4>  
-    <h4 >pas:   stas1</h4>  
+ 	<h3><a href="management"><spring:message code="Dashboard" /></a> </h3> 
+ 	
  	</div>
 </body>  
 </html>  

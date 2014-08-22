@@ -21,7 +21,7 @@ public class Brand {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@Length(min=2,max=10,message="Length should be between 2 and 10 symbols")
+	@Length(min=2,max=10)
 	@Column(name="BrandName",nullable=false)
 	private String brandName;
 	@OneToMany(fetch = FetchType.LAZY)

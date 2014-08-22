@@ -3,12 +3,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title><tiles:insertAttribute name="pageTitle" /></title>
+<c:set var="pageTitle"><tiles:getAsString name="pageTitle"/></c:set>
+<title><spring:message code="${pageTitle}"></spring:message></title>
 
 <link
 	href="<c:url value="/resources/css/management/bootstrap.min.css"/>"
@@ -46,8 +47,9 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<h1 class="page-header">
-							Dashboard <small><tiles:insertAttribute
-									name="wrapperTitle" /></small>
+						<c:set var="wrapperTitle"><tiles:getAsString name="wrapperTitle"/></c:set>
+
+							<spring:message code="Dashboard"/> <small><spring:message code="${wrapperTitle}"/></small>
 						</h1>
 
 					</div>

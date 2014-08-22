@@ -17,8 +17,8 @@
 	</definition>
 	
 	<definition name="management" template="/WEB-INF/views/shared/managementLayout.jsp">
-		<put-attribute name="pageTitle" value="Dashboard"/>
-		<put-attribute name="wrapperTitle" value="Overview"/>
+		<put-attribute name="pageTitle" value="Management.index.pageTitle"/>
+		<put-attribute name="wrapperTitle" value="Management.index.wrapperTitle"/>
 		<put-attribute name="header" value="/WEB-INF/views/shared/managementHeader.jsp"/>
 		<put-attribute name="left" value=""/>
 		<put-attribute name="body" value=""/>
@@ -41,12 +41,12 @@
 		<!-- Brands -->
 	
 	<definition name="adminBrands" extends="adminIndex">
-		<put-attribute name="pageTitle" value="Brands Management"/>
-		<put-attribute name="wrapperTitle" value="All Brands"/>
+		<put-attribute name="pageTitle" value="Management.brands.pageTitle"/>
+		<put-attribute name="wrapperTitle" value="Management.brands.add.wrapperTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands/index.jsp"/>
 	</definition>
 	<definition name="adminBrands/add" extends="adminBrands">
-		<put-attribute name="wrapperTitle" value="Add Brand"/>
+		<put-attribute name="wrapperTitle" value="Brands.add.wrapperTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands/addBrand.jsp"/>
 	</definition>
 	<definition name="adminBrands/update" extends="adminBrands">
