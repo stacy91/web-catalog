@@ -195,11 +195,4 @@ public class ManagementController{
 	}
 	
 	//end arrivals
-	
-	
-	
-	//order_sales
-	
-	
-	//end order_sales
 }  
