@@ -93,7 +93,7 @@ public class ManagementController{
 	
 	@RequestMapping(value="/devices")  
     public String showDevices(ModelMap model) {  
-	List<Device> devices = devicesService.getDevices();
+	List<Device> devices = devicesService.getDevices(null,null,null).getDevices();
     model.addAttribute("devices", devices);
     model.addAttribute("brands", brandsService.getBrands());
     return "adminDevices";
@@ -119,7 +119,7 @@ public class ManagementController{
 	
 	@RequestMapping(value="/updateDevice")
 	public String updateDevice(int id,ModelMap model){
-		Device device = devicesService.getDevicesWithBrand(id);
+		Device device = devicesService.getDeviceWithBrand(id);
 		model.addAttribute("device", device);
 		model.addAttribute("brands", brandsService.getBrands());
 		return "adminDevices/update";
@@ -195,4 +195,11 @@ public class ManagementController{
 	}
 	
 	//end arrivals
+	
+	
+	
+	//order_sales
+	
+	
+	//end order_sales
 }  

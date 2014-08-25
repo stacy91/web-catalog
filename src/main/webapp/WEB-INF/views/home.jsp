@@ -4,39 +4,118 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
-<html>  
-<head>  
-<title>Stacy | Hello World</title>  
-<link
-	href="<c:url value="/resources/css/management/bootstrap.min.css"/>"
-	rel="stylesheet">
-<link href="<c:url value="/resources/css/management/sb-admin.css"/>"
-	rel="stylesheet">
-<link
-	href="<c:url value="/resources/css/management/font-awesome-4.1.0/css/font-awesome.min.css"/>"
-	rel="stylesheet" type="text/css">
-<link
-	href="<c:url value="/resources/css/style.css"/>"
-	rel="stylesheet" type="text/css">	
 
-<script src="<c:url value="/resources/js/jquery-1.11.0.js" />"></script>
-<script src="<c:url value="/resources/js/jquery-ui.js" />"></script>
+<c:url var="firstUrl" value="/?page=1" />
+<c:url var="lastUrl" value="/?page=${totalPages}&brandId=${brandId }&search=${search }" />
+<c:url var="prevUrl" value="/?page=${currentIndex - 1}&brandId=${brandId }&search=${search }" />
+<c:url var="nextUrl" value="/?page=${currentIndex + 1}&brandId=${brandId }&search=${search }" />
 
-<!-- Bootstrap Core JavaScript -->
-<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
-</head>  
-<body style="background-color: white;">
+
+	<div class="catalogToolBar">
+		<div class="form-inline">
+		<form method="get">
+			<label>
+				Select Brand:		
+				<select class="form-control" onchange="this.form.submit()" name="brandId">
+					<option label="" value="" />
+					<c:forEach items="${brands}" var="itemBrand">
+						<option label="${itemBrand.brandName }" value="${itemBrand.id }" ${itemBrand.id == brandId ? "selected" : "" }/>
+					</c:forEach>
+				</select>			
+    		</label>
+    		
+		</form>
+			
+			<form method="get">
+    		<input type="text" class="form-control" id="searchTXT" placeholder="search..." name="search">
+			<button type="submit" class="btn btn-default">Search</button>
+			</form>
+  		</div>
+  </div>
+
+ 	<!-- Page Content -->
+    <div class="container">
+            <div class="col-md-9">
+
+                <div class="row carousel-holder">
+
+                <div class="row">
+					
+					<c:forEach items="${devices}" var="itemDevice">
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="<c:url value="/getImage?id="/>${itemDevice.id}" />
+                            <div class="caption">
+                                <h4 class="pull-right">$${itemDevice.price }</h4>
+                                <h4><a href="#" > Brand:&nbsp;&nbsp;<b>${itemDevice.brand.brandName }</b></a>
+                                </h4>
+                                <p> Model:&nbsp;&nbsp;&nbsp;&nbsp;<b>${itemDevice.model }</b></p>
+                            </div>
+                            
+                            <security:authorize access="isAuthenticated()">
+                            <div class="order">
+                                <form class="form-inline">
+                                <input class="form-control" type="text" value="1"/>
+                                <input class="btn btn-danger" type="submit" value="Order"/>
+                                </form>
+                            </div>
+                            </security:authorize>
+                        </div>
+                    </div>
+                    </c:forEach>
+
+                   
+
+
+                </div>
+
+            </div>
+            
+            <div class="col-md-offset-5">
+            <ul class="pagination">
+        <c:choose>
+            <c:when test="${currentIndex == 1}">
+                <li class="disabled"><a>&lt;&lt;</a></li>
+                <li class="disabled"><a>&lt;</a></li>
+            </c:when>
+            <c:otherwise>
+                <li><a href="${firstUrl}">&lt;&lt;</a></li>
+                <li><a href="${prevUrl}">&lt;</a></li>
+            </c:otherwise>
+        </c:choose>
+        <c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
+            <c:url var="pageUrl" value="/?page=${i}&brandId=${brandId }&search=${search }" />
+            <c:choose>
+                <c:when test="${i == currentIndex}">
+                    <li class="active"><a href="${pageUrl}"><c:out value="${i}" /></a></li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="${pageUrl}"><c:out value="${i}" /></a></li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <c:choose>
+            <c:when test="${currentIndex == totalPages}">
+                <li class="disabled"><a>&gt;</a></li>
+                <li class="disabled"><a>&gt;&gt;</a></li>
+            </c:when>
+            <c:otherwise>
+                <li><a href="${nextUrl}">&gt;</a></li>
+                <li><a href="${lastUrl}">&gt;&gt;</a></li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+    </div>
+
+        </div>
+    </div>
+    
+
   
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    	<tiles:insertAttribute name="header"></tiles:insertAttribute>
-    </nav>
-	
-	<div style="margin:100px 0 0 20px;">
-    <h2 >Stacy | Hello World</h2>  
-    <tiles:insertAttribute name="body"></tiles:insertAttribute>
- 	<h3><a href="management"><spring:message code="Dashboard" /></a> </h3> 
- 	
- 	</div>
-</body>  
-</html>  
+
+    <!-- /.container -->
+
+    
+

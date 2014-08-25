@@ -25,27 +25,6 @@
 			</form>
 			</div>
 			
-			<security:authorize access="!isAuthenticated()">
-			
-			<form method="POST" action="${pageContext.request.contextPath}/j_spring_security_check"
-			style="color:#999; float:right; margin:10px auto;" class="form-inline" >
-  			<div class="form-group">
-    			<input class="form-control" id="username" name="Login"  type="text" placeholder="Enter login">
-  			</div>
-  			<div class="form-group">
-    			<input class="form-control" id="password" name="Password"  type="password" placeholder="Password">
-  			</div>
-  			
-  <!-- <div class="checkbox">
-    <label>
-      <input type="checkbox"> Remember me
-    </label>
-  </div> -->
-  			<button type="submit" class="btn btn-default" style="color:#333" ><spring:message code="SignIn"/></button>
-  			<a href="${pageContext.request.contextPath}/register" style="margin: 0 10px 0 10px;"><spring:message code="SignUp"/></a>
-			</form>
-			</security:authorize>
-			
 			<ul class="nav navbar-right top-nav">
 				
 				<security:authorize access="isAuthenticated()">

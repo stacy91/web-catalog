@@ -3,7 +3,10 @@ package com.entities.Dao;
 import java.util.List;
 
 
+
+
 import com.entities.Device;
+import com.helpers.FilteredDevices;
 
 public interface DevicesDao {
 	
@@ -18,5 +21,5 @@ public interface DevicesDao {
 	public Device initArrivals(int id);
 	public Device initOrders_Sales(int id);
 	
-	public List<Device> getAllDeviceValues();	
+	public FilteredDevices getAllDeviceValues(int page,int brandId, String search);	
 }

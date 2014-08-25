@@ -29,10 +29,7 @@
 									<a href="${pageContext.request.contextPath}/management/addArrival?deviceId=${device.id}">  (New arrival)</a></td>
 									<td>${device.price}</td>
 									<td >
-
-										<img class="imageClip" src="<c:url value="/getImage?id="/>${device.id}" alt="la la"/>
-					
-
+										<img class="imageClip" src="<c:url value="/getImage?id="/>${device.id}" />
 									</td>
 									<td><form:form
 											action="${pageContext.request.contextPath}/management/deleteDevice"

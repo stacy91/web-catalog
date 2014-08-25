@@ -2,8 +2,12 @@ package com.entities.ImplDao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,12 +16,16 @@ import com.entities.Arrival;
 import com.entities.Device;
 import com.entities.Order_Sale;
 import com.entities.Dao.DevicesDao;
+import com.helpers.FilteredDevices;
 
 
 @Repository
 @Transactional
 public class DeviceImpllDao 	extends RootModel
 								implements DevicesDao {
+	
+
+	private final int PAGE_SIZE = 6;
 	
 	@Autowired
 	public DeviceImpllDao(SessionFactory sessionFactory) {
@@ -91,14 +99,29 @@ public class DeviceImpllDao 	extends RootModel
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Device> getAllDeviceValues() {
-		List<Device> devices = currentSession().createCriteria(Device.class).list();
-		for(Device device : devices)
-		{
-			Hibernate.initialize(device.getBrand());
-		}
+	public FilteredDevices getAllDeviceValues(int page,int brandId, String search) {
 		
-		return devices;
+		Criteria criteria = currentSession().createCriteria(Device.class);
+
+		criteria.createAlias("brand", "brand");
+		criteria.setFetchMode("brand", FetchMode.JOIN);
+		if(brandId != 0){
+			criteria.add(Restrictions.eq("brand.id", brandId));
+		}
+		else if(search != null && !search.isEmpty()){
+			criteria.add(Restrictions.disjunction().add(Restrictions.eq("brand.brandName",search)).
+					add(Restrictions.eq("model",search)));
+			}
+		criteria.addOrder(Order.asc("brand.brandName"));
+		List<Device> devices = criteria.list();
+
+		int incZ = devices.size() % PAGE_SIZE != 0 ? 1 : 0;
+		int totalPages = devices.size() / PAGE_SIZE + incZ;
+		int begin = Math.max(1, page - 3);
+	    int end = Math.min(begin + 3,  totalPages);
+
+	    return new FilteredDevices(devices.subList(Math.max(page*PAGE_SIZE,0),Math.min(page*PAGE_SIZE + PAGE_SIZE, devices.size())),
+	    		totalPages, begin, end, page + 1);
 	}
 
 }

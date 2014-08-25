@@ -56,10 +56,11 @@
 				</div>
 
 				<tiles:insertAttribute name="body"></tiles:insertAttribute>
-
+				
 			</div>
 			<div style="float: right; height: 100%; width: 100%;"></div>
 		</div>
+		
 	</div>
 </body>
 </html>

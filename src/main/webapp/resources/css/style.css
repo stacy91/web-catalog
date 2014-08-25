@@ -29,3 +29,164 @@
 	height: 100px;
 	overflow: hidden;
 }
+
+.catalogToolBar{
+	margin:100px 0 40px 0;
+	height:50px;
+	width:100%;
+	padding:10px;
+	background-color: #d9edf7;
+	color:white;
+}
+.form-inline form{
+	float: left;
+	margin:0 40px 0 40px;
+	padding:0;
+}
+
+
+
+.login{
+width:210px;
+height:240px;
+float:right;
+padding: 25px 15px 15px;
+margin: 100px 15px 15px;
+border-style:solid;
+border-color: #ddd;
+border-width: 1px;
+border-radius: 4px 4px 0;
+}
+.login p{
+	padding: 0 0 20px 0;
+	font-weight: bold;
+}
+
+.login i{
+	margin:0 0 40px 0;
+}
+
+.login ol{
+	margin-left:-14px
+}
+.login i a{
+	font-size:13px;
+	font-weight: bold;
+	margin:0 0 0 10px;
+}
+
+
+.bgWhite{
+	background-color: white;
+}
+
+
+
+
+
+/* ////////////////////////////////////////////////////////////////////End Home /////////////////////////////////////////////////////////////////////// */
+
+.slide-image {
+    width: 100%;
+}
+
+.carousel-holder {
+    margin-bottom: 30px;
+}
+
+.carousel-control,
+.item {
+    border-radius: 4px;
+}
+
+.caption {
+    
+    overflow: hidden;
+}
+
+.caption h4 {
+    white-space: nowrap;
+}
+
+
+.order {
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #d17581;
+    margin-bottom: 60px;
+}
+
+.order .form-control{
+	width:150px;
+	float:left;
+}
+
+.order .btn {
+
+	float:right;
+}
+
+.thumbnail {
+	max-height:350px;
+	overflow: hidden;
+    padding: 0;
+}
+
+.thumbnail img{
+	margin:20px auto;
+	width:auto;
+	max-height:150px;
+}
+
+
+.thumbnail .caption-full {
+    color: #333;
+}
+
+footer {
+    margin: 50px 0;.slide-image {
+    width: 100%;
+}
+
+.carousel-holder {
+    margin-bottom: 30px;
+}
+
+.carousel-control,
+.item {
+    border-radius: 4px;
+}
+
+.caption {
+    height: 130px;
+    overflow: hidden;
+}
+
+.caption h4 {
+    white-space: nowrap;
+}
+
+.thumbnail img {
+    width: 100%;
+}
+
+.ratings {
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #d17581;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+.thumbnail .caption-full {
+    color: #333;
+}
+
+footer {
+    margin: 50px 0;
+}
+}
+
+/* ////////////////////////////////////////////////////////////////////End Home /////////////////////////////////////////////////////////////////////// */

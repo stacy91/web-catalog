@@ -5,16 +5,25 @@
 
 <tiles-definitions>
 
-	
-	<definition name="home" template="/WEB-INF/views/home.jsp">
+	<definition name="base" template="/WEB-INF/views/shared/base.jsp">
+		<put-attribute name="pageTitle" value=""></put-attribute>
 		<put-attribute name="header" value="/WEB-INF/views/shared/managementHeader.jsp"/>
-		<put-attribute name="body" value=""/>
+		<put-attribute name="rightCatalog" value="/WEB-INF/views/shared/rightCatalog.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/shared/footer.jsp"/>
 	</definition>
 	
-	<definition name="register" template="/WEB-INF/views/home.jsp">
-		<put-attribute name="header" value="/WEB-INF/views/shared/managementHeader.jsp"/>
-		<put-attribute name="body" value="/WEB-INF/views/catalog/register.jsp"/>
+	<definition name="home" extends="base">
+		<put-attribute name="pageTitle" value=""></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/home.jsp"/>
 	</definition>
+	
+	<definition name="register" extends="base">
+		<put-attribute name="pageTitle" value=""></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/catalog/register.jsp"/>
+		<put-attribute name="rightCatalog" value=""/>
+	</definition>
+	
+	
 	
 	<definition name="management" template="/WEB-INF/views/shared/managementLayout.jsp">
 		<put-attribute name="pageTitle" value="Management.index.pageTitle"/>
@@ -28,7 +37,7 @@
 	
 	<definition name="adminIndex" extends="management" >
 		<put-attribute name="left" value="/WEB-INF/views/shared/leftAdmin.jsp"/>
-		<put-attribute name="body" value="/WEB-INF/views/management/admin/index.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/index.jsp"/>
 	</definition>
 	
 	<definition name="adminErrors/un" extends="management" >
@@ -42,15 +51,15 @@
 	
 	<definition name="adminBrands" extends="adminIndex">
 		<put-attribute name="pageTitle" value="Management.brands.pageTitle"/>
-		<put-attribute name="wrapperTitle" value="Management.brands.add.wrapperTitle"/>
+		<put-attribute name="wrapperTitle" value="Management.brands.pageTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands/index.jsp"/>
 	</definition>
 	<definition name="adminBrands/add" extends="adminBrands">
-		<put-attribute name="wrapperTitle" value="Brands.add.wrapperTitle"/>
+		<put-attribute name="wrapperTitle" value="Management.brands.add.wrapperTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands/addBrand.jsp"/>
 	</definition>
 	<definition name="adminBrands/update" extends="adminBrands">
-		<put-attribute name="wrapperTitle" value="Update Brand"/>
+		<put-attribute name="wrapperTitle" value="Management.brands.update.wrapperTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands/updateBrand.jsp"/>
 	</definition>
 	
@@ -60,18 +69,16 @@
 		<!-- Devices -->
 	
 	<definition name="adminDevices" extends="adminIndex">
-		<put-attribute name="pageTitle" value="Devices Management"/>
-		<put-attribute name="wrapperTitle" value="All Devices"/>
+		<put-attribute name="pageTitle" value="Management.devices.pageTitle"/>
+		<put-attribute name="wrapperTitle" value="Management.devices.pageTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/devices/index.jsp"/>
 	</definition>
 	<definition name="adminDevices/add" extends="adminDevices">
-		<put-attribute name="pageTitle" value="Devices Management"/>
-		<put-attribute name="wrapperTitle" value="Add Device"/>
+		<put-attribute name="wrapperTitle" value="Management.devices.add.wrapperTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/devices/addDevice.jsp"/>
 	</definition>
 	<definition name="adminDevices/update" extends="adminDevices">
-		<put-attribute name="pageTitle" value="Devices Management"/>
-		<put-attribute name="wrapperTitle" value="Update Device"/>
+		<put-attribute name="wrapperTitle" value="Management.devices.update.wrapperTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/devices/updateDevice.jsp"/>
 	</definition>
 	
@@ -79,18 +86,16 @@
 		
 		<!-- Arrivals -->
 	<definition name="adminArrivals" extends="adminIndex">
-		<put-attribute name="pageTitle" value="Arrivals Management"/>
-		<put-attribute name="wrapperTitle" value="All arrivals"/>
+		<put-attribute name="pageTitle" value="Management.arrivals.pageTitle"/>
+		<put-attribute name="wrapperTitle" value="Management.arrivals.pageTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/arrivals/index.jsp"/>
 	</definition>
 	<definition name="adminArrivals/add" extends="adminArrivals">
-		<put-attribute name="pageTitle" value="Arrivals Management"/>
-		<put-attribute name="wrapperTitle" value="Add arrival"/>
+		<put-attribute name="wrapperTitle" value="Management.arrivals.add.wrapperTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/arrivals/addArrival.jsp"/>
 	</definition>
 	<definition name="adminArrivals/update" extends="adminArrivals">
-		<put-attribute name="pageTitle" value="Arrivals Management"/>
-		<put-attribute name="wrapperTitle" value="Update arrival"/>
+		<put-attribute name="wrapperTitle" value="Management.arrivals.update.wrapperTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/arrivals/updateArrival.jsp"/>
 	</definition>
 	

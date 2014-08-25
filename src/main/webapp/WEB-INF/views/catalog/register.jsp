@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<div class="container">
 <div class="managementContentWrapperWH">
 	<form:form modelAttribute="user">
 
@@ -17,7 +18,7 @@
 		</div>
 		<div class="form-group">
 			<label for="amountTXT">Confirm password</label>
-		<input type="input" type="password"
+		<input type="password"
 				class="form-control"  placeholder="Confirm password..."name="confirmPas">
 		</div>
 		<div class="form-group">
@@ -30,4 +31,5 @@
 			</div>
 		</div>
 	</form:form>
+</div>
 </div>
