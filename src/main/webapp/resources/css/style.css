@@ -47,8 +47,8 @@
 
 
 .login{
-width:200px;
-height:223px;
+width:210px;
+height:230px;
 float:right;
 padding: 25px 15px 15px;
 margin: 100px 15px 15px;
@@ -113,6 +113,7 @@ border-radius: 4px 4px 0;
     padding-right: 10px;
     padding-left: 10px;
     color: #d17581;
+    margin-bottom: 50px;
 }
 
 .order .form-control{
@@ -126,7 +127,7 @@ border-radius: 4px 4px 0;
 }
 
 .thumbnail {
-	height:330px;
+	max-height:330px;
 	overflow: hidden;
     padding: 0;
 }

@@ -4,7 +4,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 
 <c:url var="firstUrl" value="/?page=1" />
@@ -52,12 +52,16 @@
                                 </h4>
                                 <p> Model:&nbsp;&nbsp;&nbsp;&nbsp;<b>${itemDevice.model }</b></p>
                             </div>
+                            
+                            <security:authorize access="isAuthenticated()">
                             <div class="order">
                                 <form class="form-inline">
                                 <input class="form-control" type="text" value="1"/>
                                 <input class="btn btn-danger" type="submit" value="Order"/>
                                 </form>
                             </div>
+                            </security:authorize>
+                            
                         </div>
                     </div>
                     </c:forEach>
