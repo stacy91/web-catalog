@@ -6,8 +6,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +21,12 @@ import com.entities.Arrival;
 import com.entities.Brand;
 import com.entities.Device;
 import com.entities.Order_Sale;
+import com.entities.User;
 import com.entities.services.ArrivalsService;
 import com.entities.services.BrandsService;
 import com.entities.services.DevicesService;
 import com.entities.services.Orders_SalesService;
+import com.entities.services.UsersService;
 import com.helpers.FilteredCollection;
 
 @Controller 
@@ -37,6 +41,8 @@ public class ManagementController{
 	private ArrivalsService arrivalsService;
 	@Autowired 
 	private Orders_SalesService o_sService;
+	@Autowired
+	private UsersService usersService;
 	
 	@RequestMapping(value="")
 	public String index(ModelMap model,Principal principal){
@@ -45,8 +51,7 @@ public class ManagementController{
 		List<Order_Sale> available = o_sService.findAvailable(orders);
 		List<Order_Sale> sales = o_sService.getSales(principal.getName());
 		
-		model.addAttribute("orders", orders);
-		
+		model.addAttribute("orders", o_sService.getFilteredCollection(orders, 1).getItems());
 		model.addAttribute("ordersCount", orders.size());
 		model.addAttribute("availaCount", available.size());
 		model.addAttribute("salesCount", sales.size());
@@ -219,37 +224,75 @@ public class ManagementController{
 	
 	//orders_sales
 	
-	
-	@RequestMapping(value="/orders")
-	public String showOrders(ModelMap model,Principal principal,Integer page){
+	@RequestMapping(value="/allOS")
+	public String showOS(ModelMap model,Integer page, String show){
 		
-		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(
-				o_sService.getOrders(principal.getName()), page);
+		List<Order_Sale> o_s = null;	
+		if(show != null && !show.isEmpty())
+		{
+			switch (show) {
+			case "orders":
+				o_s = o_sService.getAllOrders();
+				break;
+			case "sales":
+				o_s = o_sService.getAllSales();
+				break;
+			
+		}}
+		else {
+			o_s = o_sService.getAllOS();
+		}
 		
-		List<Order_Sale> o_s = fO_S.getItems();
+		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(o_s, page);
 		
-		model.addAttribute("orders", o_s);
-		
+		model.addAttribute("o_s", fO_S.getItems());	
+		model.addAttribute("show", show);
 		model.addAttribute("beginIndex", fO_S.getBegin());
 	    model.addAttribute("endIndex", fO_S.getEnd());
 	    model.addAttribute("currentIndex", fO_S.getCurrentPage());
 		model.addAttribute("totalPages",fO_S.getTotalPages());
 		
+		return "admin/AllOS";
+	}
+	
+	@RequestMapping(value="/deleteOS",method=RequestMethod.POST)
+	public String deleteOS(int id,Integer page, String show){
+		String redirect = "redirect:/management/allOS";
+		o_sService.deleteOS(id);
+		if(page != null)
+			redirect += "?page=" + page;
+		if(show != null)
+			redirect += "&show=" + show;
+		
+		return redirect;
+	}
+	
+	@RequestMapping(value="/orders")
+	public String showOrders(ModelMap model,Principal principal,Integer page,String show){
+		
+		List<Order_Sale> o_s = o_sService.getOrders(principal.getName());
+		if(show != null && show.equals("available")){
+			o_s = o_sService.findAvailable(o_s);
+		}
+		else{
+			show = "all";
+		}
+		
+		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(o_s,page);
+		model.addAttribute("show", show);
+		model.addAttribute("orders", fO_S.getItems());
+		model.addAttribute("beginIndex", fO_S.getBegin());
+	    model.addAttribute("endIndex", fO_S.getEnd());
+	    model.addAttribute("currentIndex", fO_S.getCurrentPage());
+		model.addAttribute("totalPages",fO_S.getTotalPages());
 		return "orders";
 	}
 	
-	@RequestMapping(value="/deleteOrder")
+	@RequestMapping(value="/deleteOrder",method=RequestMethod.POST)
 	public String deleteOrder(int id){
 		
 		o_sService.deleteOrder(id);
 		return "redirect:/management/orders";
-	}
-	
-	@RequestMapping(value="/deleteSale")
-	public String deleteSale(int id){
-		
-		o_sService.deleteSale(id);
-		return "redirect:/management/sales";
 	}
 	
 	@RequestMapping(value="/order")
@@ -284,7 +327,6 @@ public class ManagementController{
 				o_sService.getSales(principal.getName()), page);
 				
 		model.addAttribute("sales", fO_S.getItems());
-		
 		model.addAttribute("beginIndex", fO_S.getBegin());
 	    model.addAttribute("endIndex", fO_S.getEnd());
 	    model.addAttribute("currentIndex", fO_S.getCurrentPage());
@@ -295,4 +337,61 @@ public class ManagementController{
 	
 	//end orders_sales
 	
+	
+	//Users
+	
+	
+	@RequestMapping(value="users")
+	public String showUsers(ModelMap model, Integer page){
+		
+		FilteredCollection<User> fUsers = usersService.getFilteredCollection(page);
+		model.addAttribute("users", fUsers.getItems());
+		model.addAttribute("beginIndex", fUsers.getBegin());
+	    model.addAttribute("endIndex", fUsers.getEnd());
+	    model.addAttribute("currentIndex", fUsers.getCurrentPage());
+		model.addAttribute("totalPages",fUsers.getTotalPages());
+		return "admin/users";
+	}
+	
+	@RequestMapping(value="deleteUser",method=RequestMethod.POST)
+	public String deleteUser(ModelMap model,Integer page, int id){
+		
+		String redirect = "redirect:/management/users";
+		usersService.delete(id);
+		if(page != null)
+			redirect += "?page=" + page;
+		return redirect;
+	}
+	
+	@RequestMapping(value="changeRole",method=RequestMethod.POST)
+	public String changeRole(ModelMap model,Integer page,int id,Principal principal){
+		
+		String redirect = "redirect:/management/users";
+		
+		usersService.changeRole(id, principal.getName());
+		if(page != null)
+			redirect += "?page=" + page;
+		return redirect;
+	}
+	
+	@RequestMapping(value="user")
+	public String showUser(ModelMap model, Principal principal){
+		
+		model.addAttribute("user", usersService.findUser(principal.getName()));
+		return "user";
+	}
+	
+	@RequestMapping(value="user",method=RequestMethod.POST)
+	public String updateUser(ModelMap model, User user,
+			String oldPassword,String newPassword,String repeatPassword,String action){
+		
+		User updatedUser = usersService.update(user,oldPassword, newPassword, repeatPassword);
+		
+		Authentication authentication = new UsernamePasswordAuthenticationToken(updatedUser.getLogin(),
+				 updatedUser.getPassword()); 
+		 SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		return "redirect:/management";
+	}
+	//end Users
 }  

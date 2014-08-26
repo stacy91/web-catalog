@@ -17,8 +17,9 @@
 			<label>
 				Show:		
 				<select class="form-control" onchange="this.form.submit()" name="show" >
-					<option label="All" value="all" ${ show == 'all' ? 'selected' : ''}/>
-					<option label="Available" value="available" ${ show == 'available' ? 'selected' : ''}/>
+					<option label="All"/>
+					<option label="Orders" value="orders" ${ show == 'orders' ? 'selected' : ''}/>
+					<option label="Sales" value="sales" ${ show == 'sales' ? 'selected' : ''}/>
 				</select>	
 						
     		</label>
@@ -29,32 +30,33 @@
 					<table class="table table-bordered table-hover table-striped">
 						<thead>
 							<tr>
+								<th>Type</th>
 								<th>Date</th>
+								<th>User / role</th>
 								<th>Brand / model</th>
 								<th>Amount</th>
 								<th>Price</th>
-								<th class="manage">Manage</th>
+								<th>Manage</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${orders}" var="order">
+							<c:forEach items="${o_s}" var="item">
 								<tr>
-									<td>${order.time}</td>
-									<td>${order.device.brand.brandName} / ${order.device.model}</td>						
-									<td>${order.amount}</td>
-									<td>${order.device.price}</td>
-									<td><form:form
-											action="${pageContext.request.contextPath}/management/deleteOrder"
+									<td>${item.isSold == false ? 'Order' : 'Sale' }</td>
+									<td>${item.time}</td>
+									<td>${item.user.login} / ${item.user.role.name}</td>	
+									<td>${item.device.brand.brandName} / ${item.device.model}</td>						
+									<td>${item.amount}</td>
+									<td>${item.device.price}</td>
+									<td>
+									<form
+											action="${pageContext.request.contextPath}/management/deleteOS"
 											method="POST">
-											<button value="${order.id}" name="id"
+											<button value="${item.id}" name="id"
 												class="btn btn-default myButtons col-lg-5">Delete</button>
-										</form:form> <form:form
-											action="${pageContext.request.contextPath}/management/order"
-											method="GET">
-											<button value="${order.id}" name="id"
-												class="btn btn-default myButtons col-lg-5"
-												style="margin-left: 20px">Buy</button>
-										</form:form></td>
+												<input type="hidden" name="page" value="${currentIndex }"/>
+												<input type="hidden" name="show" value="${show }"/>
+										</form> 
 								</tr>
 							</c:forEach>
 						</tbody>

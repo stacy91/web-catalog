@@ -3,58 +3,47 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:url var="firstUrl" value="?page=1" />
-<c:url var="lastUrl" value="?page=${totalPages}&show=${show }" />
-<c:url var="prevUrl" value="?page=${currentIndex - 1}&show=${show }" />
-<c:url var="nextUrl" value="?page=${currentIndex + 1}&show=${show }" />
+<c:url var="lastUrl" value="?page=${totalPages}" />
+<c:url var="prevUrl" value="?page=${currentIndex - 1}" />
+<c:url var="nextUrl" value="?page=${currentIndex + 1}" />
 
 
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-			<form method="get" class="form-inline">
-			<input type="hidden" name="page" value="${1 }"/>
-			<label>
-				Show:		
-				<select class="form-control" onchange="this.form.submit()" name="show" >
-					<option label="All" value="all" ${ show == 'all' ? 'selected' : ''}/>
-					<option label="Available" value="available" ${ show == 'available' ? 'selected' : ''}/>
-				</select>	
-						
-    		</label>
-		</form>
+			
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-striped">
 						<thead>
 							<tr>
-								<th>Date</th>
-								<th>Brand / model</th>
-								<th>Amount</th>
-								<th>Price</th>
+								<th>Login</th>
+								<th>Role</th>
 								<th class="manage">Manage</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${orders}" var="order">
+							<c:forEach items="${users}" var="item">
 								<tr>
-									<td>${order.time}</td>
-									<td>${order.device.brand.brandName} / ${order.device.model}</td>						
-									<td>${order.amount}</td>
-									<td>${order.device.price}</td>
-									<td><form:form
-											action="${pageContext.request.contextPath}/management/deleteOrder"
+									<td>${item.login}</td>
+									<td>${item.role.name}</td>
+									<td >
+									<form action="${pageContext.request.contextPath}/management/deleteUser"
 											method="POST">
-											<button value="${order.id}" name="id"
+											<button value="${item.id}" name="id"
 												class="btn btn-default myButtons col-lg-5">Delete</button>
-										</form:form> <form:form
-											action="${pageContext.request.contextPath}/management/order"
-											method="GET">
-											<button value="${order.id}" name="id"
-												class="btn btn-default myButtons col-lg-5"
-												style="margin-left: 20px">Buy</button>
-										</form:form></td>
+												<input type="hidden" name="page" value="${currentIndex }"/>
+									</form> 
+									
+									<form action="${pageContext.request.contextPath}/management/changeRole"
+											method="POST">
+											<button value="${item.id}" name="id"
+												class="btn btn-default myButtons col-lg-5" style="width:110px">Change Role</button>
+												
+											<input type="hidden" name="page" value="${currentIndex }" />
+									</form> 
 								</tr>
 							</c:forEach>
 						</tbody>

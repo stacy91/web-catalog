@@ -1,13 +1,17 @@
 package com.entities.ImplDao;
 
 import java.util.List;
+
 import org.joda.time.DateTime;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.entities.Order_Sale;
 import com.entities.Dao.Orders_SalesDao;
 
@@ -65,10 +69,42 @@ public class Orders_SalesImplDao 	extends RootModel
 		return attchO_S;
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public List<Order_Sale> getAllOrders_Sales() {
-		return currentSession().createCriteria(Order_Sale.class).list();
+	public List<Order_Sale> getAllOrders() {
+		return confCriteria(false);
+	}
+	
+
+	@Override
+	public List<Order_Sale> getAllSales() {
+		return confCriteria(true);
+	}
+	
+	@Override
+	public List<Order_Sale> getAll() {
+		return confCriteria(null);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private List<Order_Sale> confCriteria(Boolean isSold){
+		
+		Criteria criteria = currentSession().createCriteria(Order_Sale.class);
+		criteria.createAlias("user", "user");
+		criteria.createAlias("device", "device");
+		criteria.createAlias("user.role", "role");
+		criteria.createAlias("device.brand", "brand");
+		criteria.setFetchMode("user", FetchMode.JOIN);
+		criteria.setFetchMode("device", FetchMode.JOIN);
+		criteria.setFetchMode("role", FetchMode.JOIN);
+		criteria.setFetchMode("brand", FetchMode.JOIN);
+		
+		if(isSold != null){
+			criteria.add(Restrictions.eq("isSold", isSold));
+		}
+		criteria.addOrder(Order.desc("time")).addOrder(Order.asc("role.name")).addOrder(Order.asc("user.login"));
+		List<Order_Sale> o_s = criteria.list();
+		return o_s;
 	}
 
 }

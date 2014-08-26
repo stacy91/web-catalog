@@ -36,7 +36,6 @@ public class Orders_SalesService {
 	    
 		return new FilteredCollection<Order_Sale>(o_s.subList(Math.max(page*PAGE_SIZE,0),Math.min(page*PAGE_SIZE + PAGE_SIZE, o_s.size())),
 	    		totalPages, begin, end, page + 1);
-		
 	}
 
 	
@@ -60,12 +59,16 @@ public class Orders_SalesService {
 		}
 	}
 	
-	public void deleteSale(int id){
+	public void deleteOS(int id){
+		
 		Order_Sale o_s = order_salesDao.initProxy(id);
-		Device device = o_s.getDevice();
-		device.setAmountInStock(device.getAmountInStock() + o_s.getAmount());
-		devicesDao.update(device);
-		order_salesDao.delete(o_s);
+		if(o_s.getIsSold()){
+			Device device = o_s.getDevice();
+			device.setAmountInStock(device.getAmountInStock() + o_s.getAmount());
+			devicesDao.update(device);		
+		}	
+		
+		order_salesDao.delete(o_s);	
 	}
 	
 	public Order_Sale getOrder(int id){
@@ -88,6 +91,7 @@ public class Orders_SalesService {
 		
 		return result;
 	}
+	
 	public List<Order_Sale> getOrders(String login){
 		
 		User user = usersDao.initOrders(usersDao.findByLogin(login));
@@ -98,6 +102,18 @@ public class Orders_SalesService {
 		
 		User user = usersDao.initSales(usersDao.findByLogin(login));
 		return user.getOrders_Sales();
+	}
+	
+	public List<Order_Sale> getAllOS(){
+		return order_salesDao.getAll();
+	}
+	
+	public List<Order_Sale> getAllOrders(){
+		return order_salesDao.getAllOrders();
+	}
+	
+	public List<Order_Sale> getAllSales(){
+		return order_salesDao.getAllSales();
 	}
 	
 	public FilteredCollection<Order_Sale> getFilteredCollection(List<Order_Sale> o_s, Integer page){

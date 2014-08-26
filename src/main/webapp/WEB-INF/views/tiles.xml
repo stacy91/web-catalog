@@ -101,6 +101,18 @@
 	
 		<!-- End Arrivals -->
 		
+		<definition name="admin/AllOS" extends="adminIndex">
+			<put-attribute name="pageTitle" value="Management.arrivals.pageTitle"/>
+			<put-attribute name="wrapperTitle" value="Management.arrivals.update.wrapperTitle"/>
+			<put-attribute name="body" value="/WEB-INF/views/management/admin/orders_sales.jsp"/>
+		</definition>
+		
+		<definition name="admin/users" extends="adminIndex">
+			<put-attribute name="pageTitle" value="Management.arrivals.pageTitle"/>
+			<put-attribute name="wrapperTitle" value="Management.arrivals.update.wrapperTitle"/>
+			<put-attribute name="body" value="/WEB-INF/views/management/admin/users.jsp"/>
+		</definition> 
+				
 	<!-- End Admin Pages -->
 	<definition name="orders" extends="adminIndex">
 		<put-attribute name="pageTitle" value="Management.orders.pageTitle"/>
@@ -114,6 +126,10 @@
 	<definition name="sales" extends="orders">
 		<put-attribute name="wrapperTitle" value="Management.sales.wrapperTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/sales_orders/sales.jsp"/>
+	</definition>
+	<definition name="user" extends="orders">
+		<put-attribute name="wrapperTitle" value="Management.sales.wrapperTitle"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/user.jsp"/>
 	</definition>
 	
 	

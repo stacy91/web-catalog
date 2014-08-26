@@ -18,7 +18,6 @@
 						<thead>
 							<tr>
 								<th>Date</th>
-								<th>User / role</th>
 								<th>Brand / model</th>
 								<th>Amount</th>
 								<th>Price</th>
@@ -29,7 +28,6 @@
 							<c:forEach items="${sales}" var="sale">
 								<tr>
 									<td>${sale.time}</td>
-									<td>${sale.user.login} / ${sale.user.role.name}</td>
 									<td>${sale.device.brand.brandName} / ${sale.device.model}</td>						
 									<td>${sale.amount}</td>
 									<td>${sale.device.price}</td>

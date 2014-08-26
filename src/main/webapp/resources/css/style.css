@@ -10,7 +10,8 @@
 	}
 
 .myButtons{
-	width:70px;
+	width:100px;
+	margin:0 10px 0 10px;
 }
 
 .error{
@@ -82,7 +83,7 @@ border-radius: 4px 4px 0;
 
 
 .table .manage{
-	width:180px;
+	width:270px;
 }
 
 

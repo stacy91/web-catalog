@@ -14,5 +14,8 @@ public interface Orders_SalesDao {
 	public Order_Sale findById(int id);
 	public Order_Sale initProxy(Order_Sale o_s);
 	public Order_Sale initProxy(int id);
-	public List<Order_Sale> getAllOrders_Sales();
+	
+	public List<Order_Sale> getAllOrders();
+	public List<Order_Sale> getAllSales();
+	public List<Order_Sale> getAll();
 }

@@ -35,46 +35,29 @@
 						<thead>
 							<tr>
 								<th>Date</th>
-								<th>User / role</th>
 								<th>Brand / model</th>
 								<th>Amount</th>
 								<th>Price</th>
-								<th class="manage">Manage</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${orders}" var="order">
 								<tr>
 									<td>${order.time}</td>
-									<td>${order.user.login} / ${order.user.role.name}</td>
 									<td>${order.device.brand.brandName} / ${order.device.model}</td>						
 									<td>${order.amount}</td>
 									<td>${order.device.price}</td>
-									<td><form:form
-											action="${pageContext.request.contextPath}/management/deleteOrder"
-											method="POST">
-											<button value="${order.id}" name="id"
-												class="btn btn-default myButtons col-lg-5">Delete</button>
-										</form:form> <form:form
-											action="${pageContext.request.contextPath}/management/order"
-											method="GET">
-											<button value="${order.id}" name="id"
-												class="btn btn-default myButtons col-lg-5"
-												style="margin-left: 20px">Buy</button>
-										</form:form></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 				</div>
 				<div class="text-right">
-					
+					<a href="management/orders">View All Orders<i class="fa fa-arrow-circle-right"></i></a>
 				</div>
 			</div>
 			</div>
 		</div>
-
-
 	</div>
 	<!--  row -->
 
@@ -94,7 +77,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="#">
+				<a href="management/orders?show=available">
 					<div class="panel-footer">
 						<span class="pull-left">View Details</span> <span
 							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -118,7 +101,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="#">
+				<a href="management/orders">
 					<div class="panel-footer">
 						<span class="pull-left">View Details</span> <span
 							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -140,7 +123,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="#">
+				<a href="management/sales">
 					<div class="panel-footer">
 						<span class="pull-left">View Details</span> <span
 							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

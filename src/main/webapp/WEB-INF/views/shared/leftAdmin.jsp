@@ -12,17 +12,24 @@
                     
                     
                     <li>
-                        <a href="${contextPath}/management/sales"><i class="fa fa-fw fa-money"></i>View Purchases</a>
+                        <a href="${contextPath}/management/sales"><i class="fa fa-fw fa-money"></i> View Purchases</a>
                     </li>
                     <li>
-                        <a href="${contextPath}/management/orders"><i class="fa fa-fw fa-shopping-cart"></i>View Orders</a>
+                        <a href="${contextPath}/management/orders"><i class="fa fa-fw fa-shopping-cart"></i> View Orders</a>
+                    </li>
+                    
+                    <li>
+                        <a href="${contextPath}/management/allOS"><i class="fa fa-fw  fa-asterisk"></i> Orders / Sales </a>
                     </li>
                    
                     <li>
                         <a href="${contextPath}/management/arrivals"><i class="fa fa-fw fa-cubes"></i> Arrivals </a>
                     </li>
+                    <li>
+                        <a href="${contextPath}/management/users"><i class="fa fa-fw fa-group"></i> Users </a>
+                    </li>
                      <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-caret-down"></i> Goods <i class="fa fa-fw"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-caret-down"></i>Goods <i class="fa fa-fw"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
                                 <a href="${contextPath}/management/brands">Brands</a>

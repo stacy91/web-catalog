@@ -1,18 +1,15 @@
 package com.entities.ImplDao;
 
 import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.entities.Arrival;
 import com.entities.Order_Sale;
 import com.entities.User;
@@ -35,7 +32,10 @@ public class UsersImplDao 	extends RootModel
 
 	@Override
 	public void update(User user) {
-		currentSession().update(user);
+		User attchUser = findById(user.getId());
+		attchUser.setLogin(user.getLogin());
+		attchUser.setPassword(user.getPassword());
+		currentSession().update(attchUser);
 	}
 
 	@Override
@@ -56,7 +56,11 @@ public class UsersImplDao 	extends RootModel
 	@SuppressWarnings("unchecked")
 	@Override
 	public User findByLogin(String login){
-		List<User> users = currentSession().createCriteria(User.class).add(Restrictions.eq("login", login)).list();
+		Criteria criteria = currentSession().createCriteria(User.class);
+		criteria.createAlias("role", "role");
+
+		criteria.setFetchMode("role", FetchMode.JOIN);
+		List<User> users = criteria.add(Restrictions.eq("login", login)).list();
 		return users.get(0);
 	}
 
@@ -140,7 +144,11 @@ public class UsersImplDao 	extends RootModel
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getAllUserValues() {
-		return currentSession().createCriteria(User.class).list();
+		Criteria criteria = currentSession().createCriteria(User.class);
+		criteria.createAlias("role", "role");
+		criteria.setFetchMode("role", FetchMode.JOIN);
+		criteria.addOrder(Order.asc("role")).addOrder(Order.asc("login"));
+		return criteria.list();
 	}
 
 }
