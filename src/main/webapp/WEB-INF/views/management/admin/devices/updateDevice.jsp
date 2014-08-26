@@ -23,8 +23,10 @@
 				placeholder="Enter price..." />
 		</div>
 		<div class="form-group">
-			<label for="amountTXT">Amount</label> <form:input path="amountInStock"
-				class="form-control" id="amountTXT" disabled="true"/>
+			<label for="amountTXT">Amount</label>
+			<input value="${device.amountInStock}" class="form-control" disabled/>
+			 <form:input path="amountInStock"
+				class="form-control" id="amountTXT" type="hidden"/>
 		</div>
 		<div class="form-group">
 			<label for="exampleInputFile">Upload Image</label> <input type="file"

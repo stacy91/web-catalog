@@ -1,7 +1,7 @@
 package com.entities.ImplDao;
 
 import java.util.List;
-
+import org.joda.time.DateTime;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,16 @@ public class Orders_SalesImplDao 	extends RootModel
 	
 	@Override
 	public void create(Order_Sale o_s) {
+		o_s.setTime(new DateTime().toDate());
 		currentSession().save(o_s);
 	}
 
 	@Override
 	public void update(Order_Sale o_s) {
-		currentSession().update(o_s);
+		Order_Sale attchO_S = findById(o_s.getId());
+		attchO_S.setIsSold(o_s.getIsSold());
+		attchO_S.setTime(new DateTime().toDate());
+		currentSession().update(attchO_S);
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public class Orders_SalesImplDao 	extends RootModel
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Order_Sale> getAllDeviceValues() {
+	public List<Order_Sale> getAllOrders_Sales() {
 		return currentSession().createCriteria(Order_Sale.class).list();
 	}
 

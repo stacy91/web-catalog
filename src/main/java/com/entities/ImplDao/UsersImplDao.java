@@ -2,9 +2,12 @@ package com.entities.ImplDao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -87,21 +90,51 @@ public class UsersImplDao 	extends RootModel
 	}
 	
 	@Override
-	public User initOrders_Sales(User user) {
-		return initOrders_Sales(user.getId());
+	public User initOrders(User user) {
+		return initOrders(user.getId());
 	}
 	
 	@Override
-	public User initOrders_Sales(int id) {
-		User attchUser = findById(id);
-		attchUser.getOrders_Sales().size();
-		for(Order_Sale item : attchUser.getOrders_Sales())
-		{
-			Hibernate.initialize(item.getDevice());
-			Hibernate.initialize(item.getDevice().getBrand());
-		}
+	public User initSales(User user) {
+		return initSales(user.getId());
+	}
+	
+	
+	@Override
+	public User initOrders(int id) {
 		
-		return attchUser;
+		return confCriteria(id, false);
+	}
+	
+	@Override
+	public User initSales(int id) {
+		
+		return confCriteria(id, true);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private User confCriteria(int id, boolean isSold){
+		
+		Criteria criteria = currentSession().createCriteria(Order_Sale.class);
+		criteria.createAlias("user", "user");
+		criteria.createAlias("device", "device");
+		criteria.createAlias("user.role", "role");
+		criteria.createAlias("device.brand", "brand");
+		
+		criteria.setFetchMode("user", FetchMode.JOIN);
+		criteria.setFetchMode("device", FetchMode.JOIN);
+		criteria.setFetchMode("role", FetchMode.JOIN);
+		criteria.setFetchMode("brand", FetchMode.JOIN);
+		
+		criteria.add(Restrictions.eq("user.id", id)).add(Restrictions.eq("isSold", isSold));
+		criteria.addOrder(Order.desc("time"));
+		User user = findById(id);
+		currentSession().evict(user);
+		
+		List<Order_Sale> o_s = criteria.list();
+		user.setOrders_Sales(o_s);
+		
+		return user;
 	}
 
 	@SuppressWarnings("unchecked")

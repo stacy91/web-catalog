@@ -10,11 +10,12 @@
                        <a href="${contextPath}/management"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     
+                    
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-shopping-cart"></i>View Orders</a>
+                        <a href="${contextPath}/management/sales"><i class="fa fa-fw fa-money"></i>View Purchases</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-money"></i>View Sales</a>
+                        <a href="${contextPath}/management/orders"><i class="fa fa-fw fa-shopping-cart"></i>View Orders</a>
                     </li>
                    
                     <li>

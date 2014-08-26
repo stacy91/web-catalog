@@ -33,8 +33,8 @@
 		<ol class="breadcrumb bgWhite">
                             <li class="">
         <i class="fa fa-dashboard header"><a href="management"><spring:message code="Dashboard" /></a> </i> 
-        <i class="fa fa-shopping-cart"><a href="management"><spring:message code="Orders" /></a> </i> 
-        <i class="fa fa-money"><a href="management"><spring:message code="Purchases" /></a> </i> 
+        <i class="fa fa-shopping-cart"><a href="${pageContext.request.contextPath}/management/orders"><spring:message code="Orders" /></a> </i> 
+        <i class="fa fa-money"><a href="${pageContext.request.contextPath}/management/sales"><spring:message code="Purchases" /></a> </i> 
         </li>
         </ol>
 			 

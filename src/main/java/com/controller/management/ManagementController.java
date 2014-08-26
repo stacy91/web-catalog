@@ -7,18 +7,23 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.entities.Arrival;
 import com.entities.Brand;
 import com.entities.Device;
+import com.entities.Order_Sale;
 import com.entities.services.ArrivalsService;
 import com.entities.services.BrandsService;
 import com.entities.services.DevicesService;
+import com.entities.services.Orders_SalesService;
+import com.helpers.FilteredCollection;
 
 @Controller 
 @RequestMapping(value="/management")
@@ -30,9 +35,22 @@ public class ManagementController{
 	private BrandsService brandsService;
 	@Autowired
 	private ArrivalsService arrivalsService;
+	@Autowired 
+	private Orders_SalesService o_sService;
 	
 	@RequestMapping(value="")
-	public String index(){
+	public String index(ModelMap model,Principal principal){
+		
+		List<Order_Sale> orders = o_sService.getOrders(principal.getName());
+		List<Order_Sale> available = o_sService.findAvailable(orders);
+		List<Order_Sale> sales = o_sService.getSales(principal.getName());
+		
+		model.addAttribute("orders", orders);
+		
+		model.addAttribute("ordersCount", orders.size());
+		model.addAttribute("availaCount", available.size());
+		model.addAttribute("salesCount", sales.size());
+		
 		return "adminIndex";
 	}
 	
@@ -40,6 +58,7 @@ public class ManagementController{
 	
 	@RequestMapping(value="/brands")  
     public String showBrands(ModelMap model) {  
+
 	List<Brand> brands = brandsService.getBrands();
     model.addAttribute("brands", brands);
     return "adminBrands";
@@ -93,7 +112,7 @@ public class ManagementController{
 	
 	@RequestMapping(value="/devices")  
     public String showDevices(ModelMap model) {  
-	List<Device> devices = devicesService.getDevices(null,null,null).getDevices();
+	List<Device> devices = devicesService.getDevices(null,null,null).getItems();
     model.addAttribute("devices", devices);
     model.addAttribute("brands", brandsService.getBrands());
     return "adminDevices";
@@ -195,4 +214,85 @@ public class ManagementController{
 	}
 	
 	//end arrivals
+	
+	
+	
+	//orders_sales
+	
+	
+	@RequestMapping(value="/orders")
+	public String showOrders(ModelMap model,Principal principal,Integer page){
+		
+		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(
+				o_sService.getOrders(principal.getName()), page);
+		
+		List<Order_Sale> o_s = fO_S.getItems();
+		
+		model.addAttribute("orders", o_s);
+		
+		model.addAttribute("beginIndex", fO_S.getBegin());
+	    model.addAttribute("endIndex", fO_S.getEnd());
+	    model.addAttribute("currentIndex", fO_S.getCurrentPage());
+		model.addAttribute("totalPages",fO_S.getTotalPages());
+		
+		return "orders";
+	}
+	
+	@RequestMapping(value="/deleteOrder")
+	public String deleteOrder(int id){
+		
+		o_sService.deleteOrder(id);
+		return "redirect:/management/orders";
+	}
+	
+	@RequestMapping(value="/deleteSale")
+	public String deleteSale(int id){
+		
+		o_sService.deleteSale(id);
+		return "redirect:/management/sales";
+	}
+	
+	@RequestMapping(value="/order")
+	public String order(ModelMap model, int id,String error){
+		
+
+		Order_Sale o_s = o_sService.getOrder(id);
+		model.addAttribute("order", o_s);
+		
+		if(error != null && error.equals("true")){
+			
+			model.addAttribute("message", "Management.order.buy.errorMsg");
+		}
+			
+		return "order";
+	}
+	
+	@RequestMapping(value="/order",method=RequestMethod.POST)
+	public String order(ModelMap model, Order_Sale o_s, String action){
+
+		if(!action.equals("cancel")){
+			if(!o_sService.buy(o_s.getId()))
+				return "redirect:/management/order?id=" + o_s.getId() + "&error=true";
+		}
+		return "redirect:/management/orders";
+	}
+	
+	@RequestMapping(value="/sales")
+	public String showSales(ModelMap model, Principal principal, Integer page){
+		
+		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(
+				o_sService.getSales(principal.getName()), page);
+				
+		model.addAttribute("sales", fO_S.getItems());
+		
+		model.addAttribute("beginIndex", fO_S.getBegin());
+	    model.addAttribute("endIndex", fO_S.getEnd());
+	    model.addAttribute("currentIndex", fO_S.getCurrentPage());
+		model.addAttribute("totalPages",fO_S.getTotalPages());
+		
+		return "sales";
+	}
+	
+	//end orders_sales
+	
 }  

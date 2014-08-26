@@ -7,10 +7,10 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 
-<c:url var="firstUrl" value="/?page=1" />
-<c:url var="lastUrl" value="/?page=${totalPages}&brandId=${brandId }&search=${search }" />
-<c:url var="prevUrl" value="/?page=${currentIndex - 1}&brandId=${brandId }&search=${search }" />
-<c:url var="nextUrl" value="/?page=${currentIndex + 1}&brandId=${brandId }&search=${search }" />
+<c:url var="firstUrl" value="?page=1" />
+<c:url var="lastUrl" value="?page=${totalPages}&brandId=${brandId }&search=${search }" />
+<c:url var="prevUrl" value="?page=${currentIndex - 1}&brandId=${brandId }&search=${search }" />
+<c:url var="nextUrl" value="?page=${currentIndex + 1}&brandId=${brandId }&search=${search }" />
 
 
 	<div class="catalogToolBar">
@@ -55,9 +55,13 @@
                             
                             <security:authorize access="isAuthenticated()">
                             <div class="order">
-                                <form class="form-inline">
-                                <input class="form-control" type="text" value="1"/>
+                                <form class="form-inline" action="order" method="post">
+                                <input class="form-control" type="text" name="amount" value="1"/>
                                 <input class="btn btn-danger" type="submit" value="Order"/>
+                                <input type="hidden" value="${itemDevice.id}" name="deviceId"/>
+                                <input type="hidden" value="${brandId }" name="brandId"/>
+                                <input type="hidden" value="${search }" name="search"/>
+                                <input type="hidden" value="${currentIndex }" name="page"/>
                                 </form>
                             </div>
                             </security:authorize>
@@ -86,7 +90,7 @@
             </c:otherwise>
         </c:choose>
         <c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-            <c:url var="pageUrl" value="/?page=${i}&brandId=${brandId }&search=${search }" />
+            <c:url var="pageUrl" value="?page=${i}&brandId=${brandId }&search=${search }" />
             <c:choose>
                 <c:when test="${i == currentIndex}">
                     <li class="active"><a href="${pageUrl}"><c:out value="${i}" /></a></li>

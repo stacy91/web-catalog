@@ -17,8 +17,11 @@ public interface UsersDao {
 	public User initArrivals(User user);
 	public User initArrivals(int id);
 	
-	public User initOrders_Sales(User user);
-	public User initOrders_Sales(int id);
+	public User initSales(User user);
+	public User initOrders(User user);
+	
+	public User initSales(int id);
+	public User initOrders(int id);
 	
 	public List<User> getAllUserValues();
 }

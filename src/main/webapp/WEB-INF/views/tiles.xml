@@ -102,6 +102,19 @@
 		<!-- End Arrivals -->
 		
 	<!-- End Admin Pages -->
+	<definition name="orders" extends="adminIndex">
+		<put-attribute name="pageTitle" value="Management.orders.pageTitle"/>
+		<put-attribute name="wrapperTitle" value="Management.orders.pageTitle"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/sales_orders/orders.jsp"/>
+	</definition>
+	<definition name="order" extends="orders">
+		<put-attribute name="wrapperTitle" value="Management.order.wrapperTitle"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/sales_orders/order.jsp"/>
+	</definition>
+	<definition name="sales" extends="orders">
+		<put-attribute name="wrapperTitle" value="Management.sales.wrapperTitle"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/sales_orders/sales.jsp"/>
+	</definition>
 	
 	
 </tiles-definitions>

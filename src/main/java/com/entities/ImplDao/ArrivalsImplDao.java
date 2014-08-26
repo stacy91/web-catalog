@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.entities.Arrival;
 import com.entities.Device;
 import com.entities.Dao.ArrivalsDao;

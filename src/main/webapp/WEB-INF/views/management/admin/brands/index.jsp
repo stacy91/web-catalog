@@ -7,7 +7,7 @@
 		<th>No</th>
 		<th>Brand Name</th>
 		<th>Reference</th>
-		<th>Manage <c:forEach var="brand" items="${brands}"
+		<th class="manage">Manage <c:forEach var="brand" items="${brands}"
 				varStatus="status">
 				<tr>
 					<td>${status.index + 1}</td>

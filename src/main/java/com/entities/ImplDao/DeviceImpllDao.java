@@ -11,12 +11,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.entities.Arrival;
 import com.entities.Device;
 import com.entities.Order_Sale;
 import com.entities.Dao.DevicesDao;
-import com.helpers.FilteredDevices;
+
 
 
 @Repository
@@ -25,7 +24,7 @@ public class DeviceImpllDao 	extends RootModel
 								implements DevicesDao {
 	
 
-	private final int PAGE_SIZE = 6;
+	
 	
 	@Autowired
 	public DeviceImpllDao(SessionFactory sessionFactory) {
@@ -43,6 +42,7 @@ public class DeviceImpllDao 	extends RootModel
 		deviceToUpdate.setBrand(newDevice.getBrand());
 		deviceToUpdate.setModel(newDevice.getModel());
 		deviceToUpdate.setPrice(newDevice.getPrice());
+		deviceToUpdate.setAmountInStock(newDevice.getAmountInStock());
 		currentSession().update(deviceToUpdate);
 	}
 
@@ -99,7 +99,7 @@ public class DeviceImpllDao 	extends RootModel
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public FilteredDevices getAllDeviceValues(int page,int brandId, String search) {
+	public List<Device> getAllDeviceValues(int brandId, String search) {
 		
 		Criteria criteria = currentSession().createCriteria(Device.class);
 
@@ -115,13 +115,7 @@ public class DeviceImpllDao 	extends RootModel
 		criteria.addOrder(Order.asc("brand.brandName"));
 		List<Device> devices = criteria.list();
 
-		int incZ = devices.size() % PAGE_SIZE != 0 ? 1 : 0;
-		int totalPages = devices.size() / PAGE_SIZE + incZ;
-		int begin = Math.max(1, page - 3);
-	    int end = Math.min(begin + 3,  totalPages);
-
-	    return new FilteredDevices(devices.subList(Math.max(page*PAGE_SIZE,0),Math.min(page*PAGE_SIZE + PAGE_SIZE, devices.size())),
-	    		totalPages, begin, end, page + 1);
+	    return devices;
 	}
 
 }

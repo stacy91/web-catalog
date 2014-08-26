@@ -17,7 +17,7 @@
 								<th>Brand / model</th>
 								<th>Amount</th>
 								<th>Price</th>
-								<th>Manage</th>
+								<th class="manage">Manage</th>
 							</tr>
 						</thead>
 						<tbody>

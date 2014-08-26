@@ -17,7 +17,7 @@
 								<th>Amount in Stock</th>
 								<th>Price</th>
 								<th>Image</th>
-								<th>Manage</th>
+								<th class="manage">Manage</th>
 							</tr>
 						</thead>
 						<tbody>
