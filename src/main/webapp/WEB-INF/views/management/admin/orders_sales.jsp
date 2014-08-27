@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:url var="firstUrl" value="?page=1" />
 <c:url var="lastUrl" value="?page=${totalPages}&show=${show }" />
@@ -15,13 +16,12 @@
 			<form method="get" class="form-inline">
 			<input type="hidden" name="page" value="${1 }"/>
 			<label>
-				Show:		
+				<spring:message code="Show" />:		
 				<select class="form-control" onchange="this.form.submit()" name="show" >
-					<option label="All"/>
-					<option label="Orders" value="orders" ${ show == 'orders' ? 'selected' : ''}/>
-					<option label="Sales" value="sales" ${ show == 'sales' ? 'selected' : ''}/>
-				</select>	
-						
+					<option label="<spring:message code="ShowAll" />"/>
+					<option label="<spring:message code="ShowOrders" />" value="orders" ${ show == 'orders' ? 'selected' : ''}/>
+					<option label="<spring:message code="ShowSales" />" value="sales" ${ show == 'sales' ? 'selected' : ''}/>
+				</select>			
     		</label>
 		</form>
 			</div>
@@ -29,14 +29,14 @@
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-striped">
 						<thead>
-							<tr>
-								<th>Type</th>
-								<th>Date</th>
-								<th>User / role</th>
-								<th>Brand / model</th>
-								<th>Amount</th>
-								<th>Price</th>
-								<th>Manage</th>
+							<tr>							
+								<th><spring:message code="Tables.type" /></th>
+								<th><spring:message code="Tables.Date" /></th>
+								<th><spring:message code="Tables.user/role" /></th>
+								<th><spring:message code="Tables.brand/model" /></th>
+								<th><spring:message code="Tables.amount" /></th>
+								<th><spring:message code="Tables.price" /></th>
+								<th><spring:message code="Tables.manage" /></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -53,7 +53,7 @@
 											action="${pageContext.request.contextPath}/management/deleteOS"
 											method="POST">
 											<button value="${item.id}" name="id"
-												class="btn btn-default myButtons col-lg-5">Delete</button>
+												class="btn btn-default myButtons col-lg-5"><spring:message code="Delete" /></button>
 												<input type="hidden" name="page" value="${currentIndex }"/>
 												<input type="hidden" name="show" value="${show }"/>
 										</form> 

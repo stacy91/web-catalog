@@ -49,7 +49,7 @@
 
 .login{
 width:210px;
-height:230px;
+max-height:260px;
 float:right;
 padding: 25px 15px 15px;
 margin: 100px 15px 15px;
@@ -83,11 +83,16 @@ border-radius: 4px 4px 0;
 
 
 .table .manage{
-	width:270px;
+	width:280px;
 }
 
 
+
 /* ////////////////////////////////////////////////////////////////////End Home /////////////////////////////////////////////////////////////////////// */
+
+.width200{
+	min-width:225px;
+}
 
 .slide-image {
     width: 100%;

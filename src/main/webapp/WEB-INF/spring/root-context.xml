@@ -20,9 +20,30 @@
                         always-use-default-target="true" authentication-failure-handler-ref="customAuthenticationFailureHandler"/>
 			
 	<sec:logout logout-url="/j_spring_security_logout" logout-success-url="/" />
-	<sec:intercept-url pattern="/management/**" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/brands" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/addBrand" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/updateBrand" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/deleteBrand" access="hasRole('ROLE_ADMIN')" />
+	
+	<sec:intercept-url pattern="/management/devices" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/addDevice" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/updateDevice" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/deleteDevice" access="hasRole('ROLE_ADMIN')" />
+	
+	<sec:intercept-url pattern="/management/arrivals" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/addArrival" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/updateArrival" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/deleteArrival" access="hasRole('ROLE_ADMIN')" />
+	
+	<sec:intercept-url pattern="/management/allOS" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/deleteOS" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/users" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/deleteUser" access="hasRole('ROLE_ADMIN')" />
+	<sec:intercept-url pattern="/management/changeRole" access="hasRole('ROLE_ADMIN')" />
+	
+	<sec:intercept-url pattern="/management/**" access="isAuthenticated()" />
 	</sec:http>											
-	<sec:authentication-manager>
+	<sec:authentication-manager alias="authenticationManager">
 	<sec:authentication-provider>
 	    <sec:password-encoder ref="encoder" />
 		<sec:jdbc-user-service data-source-ref="dataSource"

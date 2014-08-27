@@ -2,37 +2,40 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div class="managementContentWrapperWH">
 	<form:form modelAttribute="arrival" action="updateArrival" method="POST">
 
 
 		<div class="form-group">
-			<label for="userTXT">${arrival.user.login} / ${arrival.user.role.name}</label>
+			<label for="userTXT"><spring:message code="Tables.user/role" /></label>
+			<input	class="form-control" disabled value="${arrival.user.login} / ${arrival.user.role.name}"/>
 			<form:input path="id" type="hidden"/>
 		</div>
 		
 		<div class="form-group">
-			<label for="deviceTXT">${arrival.device.brand.brandName} / ${arrival.device.model}</label>
+			<label for="userTXT"><spring:message code="Tables.brand/model" /></label>
+			<input	class="form-control" disabled value="${arrival.device.brand.brandName} / ${arrival.device.model}"/>
 		</div>
 		
 		<div class="form-group">
-			<label for="amountTXT">Amount</label> <form:input path="amount"
-				class="form-control" id="amountTXT" placeholder="Enter amount..."/>
+			<label for="amountTXT"><spring:message code="Tables.amount" /></label> <form:input path="amount"
+				class="form-control" id="amountTXT" />
 		</div>
 		
 		<div class="form-group">
-			<label for="amountTXT">Price</label> <form:input path="price"
-				class="form-control" id="amountTXT" placeholder="Enter price..."/>
+			<label for="amountTXT"><spring:message code="Tables.price" /></label> <form:input path="price"
+				class="form-control" id="amountTXT" />
 		</div>
 		
 		<div class="form-group">
 			<div class="row"
 				style="margin: 20px 0 0 16px; width: 240px; float: right;">
 				<form:button type="submit" class="btn btn-default myButtons"
-					name="action">Update</form:button>
+					name="action"><spring:message code="Update" /></form:button>
 				<button class="btn btn-default myButtons" name="action"
-					value="cancel">Cancel</button>
+					value="cancel"><spring:message code="Cancel" /></button>
 			</div>
 		</div>
 	</form:form>

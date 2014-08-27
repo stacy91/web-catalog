@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div class="row">
 	<div class="col-lg-12">
@@ -12,12 +13,12 @@
 					<table class="table table-bordered table-hover table-striped">
 						<thead>
 							<tr>
-								<th>Brand</th>
-								<th>Name</th>
-								<th>Amount in Stock</th>
-								<th>Price</th>
-								<th>Image</th>
-								<th class="manage">Manage</th>
+								<th><spring:message code="Brand"/></th>
+								<th><spring:message code="Tables.name"/></th>
+								<th><spring:message code="Tables.amount"/></th>
+								<th><spring:message code="Tables.price"/></th>
+								<th><spring:message code="Tables.image"/></th>
+								<th class="manage"><spring:message code="Tables.manage"/></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -26,7 +27,8 @@
 									<td>${device.brand.brandName}</td>
 									<td>${device.model}</td>
 									<td>${device.amountInStock}, 
-									<a href="${pageContext.request.contextPath}/management/addArrival?deviceId=${device.id}">  (New arrival)</a></td>
+									<a href="${pageContext.request.contextPath}/management/addArrival?deviceId=${device.id}">  (<spring:message code="Management.devices.addArrival"/>)
+									</a></td>
 									<td>${device.price}</td>
 									<td >
 										<img class="imageClip" src="<c:url value="/getImage?id="/>${device.id}" />
@@ -35,13 +37,13 @@
 											action="${pageContext.request.contextPath}/management/deleteDevice"
 											method="POST">
 											<button value="${device.id}" name="id"
-												class="btn btn-default myButtons col-lg-5">Delete</button>
+												class="btn btn-default myButtons col-lg-5"><spring:message code="Delete"/></button>
 										</form:form> <form:form
 											action="${pageContext.request.contextPath}/management/updateDevice"
 											method="GET">
 											<button value="${device.id}" name="id"
 												class="btn btn-default myButtons col-lg-5"
-												style="margin-left: 20px">Update</button>
+												style="margin-left: 20px"><spring:message code="Update"/></button>
 										</form:form></td>
 								</tr>
 							</c:forEach>
@@ -57,5 +59,5 @@
 </div>
 
 <form:form action="${pageContext.request.contextPath}/management/addDevice" method="GET">
-	<input type="submit" class="btn btn-success myButtons" style="float:left" value="Add new"/>
+	<input type="submit" class="btn btn-success myButtons" style="float:left" value="<spring:message code="Add"/>"/>
 	</form:form>

@@ -14,21 +14,22 @@
 		</c:choose>
 	
 		<div class="form-group">
-			<label for="userTXT">${order.user.login} / ${order.user.role.name}</label>
 			<form:input path="id" type="hidden"/>
 		</div>
 		
 		<div class="form-group">
-			<label for="deviceTXT">${order.device.brand.brandName} / ${order.device.model}</label>
+			<label for="deviceTXT"><spring:message code="Tables.brand/model"/></th></label>
+			<input value="${order.device.brand.brandName} / ${order.device.model}"
+				class="form-control" id="amountTXT" disabled/>
 		</div>
 		
 		<div class="form-group">
-			<label for="amountTXT">Amount</label> <form:input path="amount"
+			<label for="amountTXT"><spring:message code="Tables.amount"/></label> <form:input path="amount"
 				class="form-control" id="amountTXT" placeholder="Enter amount..." disabled="true"/>
 		</div>
 		
 		<div class="form-group">
-			<label for="amountTXT">Price</label> <input value="${order.device.price}"
+			<label for="amountTXT"><spring:message code="Tables.price"/></label> <input value="${order.device.price}"
 				class="form-control" id="amountTXT" disabled/>
 		</div>
 		
@@ -36,9 +37,9 @@
 			<div class="row"
 				style="margin: 20px 0 0 16px; width: 240px; float: right;">
 				<form:button type="submit" class="btn btn-default myButtons"
-					name="action">Buy</form:button>
+					name="action"><spring:message code="Buy"/></form:button>
 				<button class="btn btn-default myButtons" name="action"
-					value="cancel">Cancel</button>
+					value="cancel"><spring:message code="Cancel"/></button>
 			</div>
 		</div>
 	</form:form>

@@ -1,6 +1,8 @@
 package com.controller.management;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,11 +24,11 @@ import com.entities.Brand;
 import com.entities.Device;
 import com.entities.Order_Sale;
 import com.entities.User;
-import com.entities.services.ArrivalsService;
-import com.entities.services.BrandsService;
-import com.entities.services.DevicesService;
-import com.entities.services.Orders_SalesService;
-import com.entities.services.UsersService;
+import com.entities.servicesImpl.ArrivalsService;
+import com.entities.servicesImpl.BrandsService;
+import com.entities.servicesImpl.DevicesService;
+import com.entities.servicesImpl.Orders_SalesService;
+import com.entities.servicesImpl.UsersService;
 import com.helpers.FilteredCollection;
 
 @Controller 
@@ -55,8 +57,8 @@ public class ManagementController{
 		model.addAttribute("ordersCount", orders.size());
 		model.addAttribute("availaCount", available.size());
 		model.addAttribute("salesCount", sales.size());
-		
-		return "adminIndex";
+		model.addAttribute("date", new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
+		return "management";
 	}
 	
 	//Brands
@@ -186,11 +188,11 @@ public class ManagementController{
 		return "adminArrivals/add";
 	}
 	@RequestMapping(value="/addArrival", method=RequestMethod.POST)
-	public String addArrival(@Valid Arrival arrival,int deviceId,Principal principal,
+	public String addArrival(@Valid Arrival arrival,Principal principal,
 			String action, BindingResult result){
 
 		if(!action.equals("cancel") && !result.hasErrors()){
-				arrivalsService.create(arrival,deviceId,principal.getName());
+				arrivalsService.create(arrival,principal.getName());
 		}
 		return "redirect:/management/devices";
 	}
@@ -226,7 +228,6 @@ public class ManagementController{
 	
 	@RequestMapping(value="/allOS")
 	public String showOS(ModelMap model,Integer page, String show){
-		
 		List<Order_Sale> o_s = null;	
 		if(show != null && !show.isEmpty())
 		{
@@ -241,17 +242,14 @@ public class ManagementController{
 		}}
 		else {
 			o_s = o_sService.getAllOS();
-		}
-		
+		}		
 		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(o_s, page);
-		
 		model.addAttribute("o_s", fO_S.getItems());	
 		model.addAttribute("show", show);
 		model.addAttribute("beginIndex", fO_S.getBegin());
 	    model.addAttribute("endIndex", fO_S.getEnd());
 	    model.addAttribute("currentIndex", fO_S.getCurrentPage());
 		model.addAttribute("totalPages",fO_S.getTotalPages());
-		
 		return "admin/AllOS";
 	}
 	
@@ -277,7 +275,6 @@ public class ManagementController{
 		else{
 			show = "all";
 		}
-		
 		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(o_s,page);
 		model.addAttribute("show", show);
 		model.addAttribute("orders", fO_S.getItems());
@@ -298,10 +295,8 @@ public class ManagementController{
 	@RequestMapping(value="/order")
 	public String order(ModelMap model, int id,String error){
 		
-
 		Order_Sale o_s = o_sService.getOrder(id);
-		model.addAttribute("order", o_s);
-		
+		model.addAttribute("order", o_s);		
 		if(error != null && error.equals("true")){
 			
 			model.addAttribute("message", "Management.order.buy.errorMsg");

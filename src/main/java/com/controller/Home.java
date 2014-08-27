@@ -2,23 +2,37 @@ package com.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.entities.Device;
 import com.entities.User;
-import com.entities.services.BrandsService;
-import com.entities.services.DevicesService;
 import com.helpers.FilteredCollection;
-import com.entities.services.Orders_SalesService;
-import com.entities.services.UsersService;
+import com.entities.servicesImpl.BrandsService;
+import com.entities.servicesImpl.DevicesService;
+import com.entities.servicesImpl.Orders_SalesService;
+import com.entities.servicesImpl.UsersService;
 import com.helpers.DeviceHelper;
+
+
+
+
+
+
+
 
 
 import java.security.Principal;
@@ -38,6 +52,8 @@ public class Home {
 	DevicesService devicesService;
 	@Autowired 
 	private Orders_SalesService o_sService;
+	@Autowired
+    protected AuthenticationManager authenticationManager;
 	
 	@RequestMapping("*")
 	public String welcome(ModelMap model, Integer page, Integer brandId, String search){
@@ -63,10 +79,17 @@ public class Home {
 	}
 	
 	@RequestMapping(value="/register",method=RequestMethod.POST)
-	public String register(@Valid User user,String confirmPas, BindingResult result){
+	public String register(@Valid User user,String confirmPas, BindingResult result,HttpServletRequest request){
 		
 		if(!result.hasErrors() && user.getPassword().equals(confirmPas)){
-			usersService.create(user);
+			if(usersService.create(user) != null){
+				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+			            user.getLogin(), user.getPassword());
+				token.setDetails(new WebAuthenticationDetails(request));
+				Authentication authenticatedUser = authenticationManager.authenticate(token);
+				SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+			}
+				
 		}
 		return "redirect:/home";
 	}

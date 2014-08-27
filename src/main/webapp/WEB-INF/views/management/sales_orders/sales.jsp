@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:url var="firstUrl" value="?page=1" />
 <c:url var="lastUrl" value="?page=${totalPages}" />
@@ -10,18 +11,17 @@
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-			
+
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-striped">
 						<thead>
 							<tr>
-								<th>Date</th>
-								<th>Brand / model</th>
-								<th>Amount</th>
-								<th>Price</th>
-								<th>Delete</th>
+								<th><spring:message code="Tables.Date"/></th>
+								<th><spring:message code="Tables.brand/model"/></th>
+								<th><spring:message code="Tables.amount"/></th>
+								<th><spring:message code="Tables.price"/></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -30,16 +30,7 @@
 									<td>${sale.time}</td>
 									<td>${sale.device.brand.brandName} / ${sale.device.model}</td>						
 									<td>${sale.amount}</td>
-									<td>${sale.device.price}</td>
-									<td><form:form
-											action="${pageContext.request.contextPath}/management/deleteSale"
-											method="POST">
-											<button value="${sale.id}" name="id"
-												class="btn btn-default myButtons col-lg-5">
-												Delete
-											</button>
-										</form:form>
-									</td>
+									<td>${sale.device.price}$</td>
 								</tr>
 							</c:forEach>
 						</tbody>

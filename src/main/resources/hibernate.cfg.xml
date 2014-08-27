@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<!-- <?xml version='1.0' encoding='utf-8'?>
   <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd"> 
@@ -7,7 +7,7 @@
 <hibernate-configuration>
         
   <session-factory>
-    <!-- Database connection settings -->
+    Database connection settings
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="connection.url">jdbc:mysql://localhost:3306/myonlineshopdb</property>
     <property name="connection.username">stacy</property>
@@ -19,20 +19,20 @@
   	<property name="hibernate.c3p0.max_statements">50</property>
   	<property name="hibernate.c3p0.idle_test_period">3000</property>
 
-    <!-- SQL dialect -->
+    SQL dialect
     <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
-    <!-- Enable Hibernate's automatic session context management -->
+    Enable Hibernate's automatic session context management
     <property name="current_session_context_class">thread</property>
 
-    <!-- Disable the second-level cache  -->
+    Disable the second-level cache 
     <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
 
-    <!-- Echo all executed SQL to stdout -->
+    Echo all executed SQL to stdout
     <property name="show_sql">true</property>
 
-    <!-- Drop and re-create the database schema on startup -->
-    <!-- <property name="hbm2ddl.auto">update</property> -->
+    Drop and re-create the database schema on startup
+    <property name="hbm2ddl.auto">update</property>
     
     
     <mapping class="com.entities.Arrival"/>
@@ -43,4 +43,4 @@
     <mapping class="com.entities.UserRole"/>
     
   </session-factory>
-  </hibernate-configuration>
+  </hibernate-configuration> -->

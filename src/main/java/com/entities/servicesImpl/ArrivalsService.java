@@ -1,4 +1,4 @@
-package com.entities.services;
+package com.entities.servicesImpl;
 
 import java.util.List;
 
@@ -23,8 +23,7 @@ public class ArrivalsService {
 	@Autowired
 	UsersDao usersDao;
 	
-	public void create(Arrival arrival,int deviceId,String login){
-		arrival.setDevice(devicesDao.initBrand(deviceId));
+	public void create(Arrival arrival,String login){
 		arrival.setUser(usersDao.initRole(usersDao.findByLogin(login)));
 		arrivalsDao.create(arrival);
 	}

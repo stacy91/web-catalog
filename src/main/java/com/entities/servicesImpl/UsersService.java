@@ -1,14 +1,10 @@
-package com.entities.services;
+package com.entities.servicesImpl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-
 import com.entities.User;
-import com.entities.UserRole;
 import com.entities.Dao.UserRolesDao;
 import com.entities.Dao.UsersDao;
 import com.helpers.FilteredCollection;
@@ -22,12 +18,13 @@ public class UsersService {
 	private UserRolesDao rolesDao;
 	private final int PAGE_SIZE = 10;
 	
-	public void create(User user){
+	public User create(User user){
 		String encodedPas = user.getPassword();
 		encodedPas = new BCryptPasswordEncoder().encode(encodedPas);
 		user.setPassword(encodedPas);
 		user.setRole(rolesDao.findById(4));
 		usersDao.create(user);
+		return user;
 	}
 	
 	public void changeRole(int id, String login){

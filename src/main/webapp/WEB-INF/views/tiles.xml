@@ -29,16 +29,11 @@
 		<put-attribute name="pageTitle" value="Management.index.pageTitle"/>
 		<put-attribute name="wrapperTitle" value="Management.index.wrapperTitle"/>
 		<put-attribute name="header" value="/WEB-INF/views/shared/managementHeader.jsp"/>
-		<put-attribute name="left" value=""/>
-		<put-attribute name="body" value=""/>
+		<put-attribute name="left" value="/WEB-INF/views/shared/leftManagement.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/management/index.jsp"/>
 	</definition>
 	
 	<!-- Admin Pages -->
-	
-	<definition name="adminIndex" extends="management" >
-		<put-attribute name="left" value="/WEB-INF/views/shared/leftAdmin.jsp"/>
-		<put-attribute name="body" value="/WEB-INF/views/management/admin/index.jsp"/>
-	</definition>
 	
 	<definition name="adminErrors/un" extends="management" >
 		<put-attribute name="pageTitle" value="Unique name error"/>
@@ -49,7 +44,7 @@
 	
 		<!-- Brands -->
 	
-	<definition name="adminBrands" extends="adminIndex">
+	<definition name="adminBrands" extends="management">
 		<put-attribute name="pageTitle" value="Management.brands.pageTitle"/>
 		<put-attribute name="wrapperTitle" value="Management.brands.pageTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/brands/index.jsp"/>
@@ -66,9 +61,9 @@
 		<!-- End Brands -->
 	
 	
-		<!-- Devices -->
+		<!-- Devices -->  
 	
-	<definition name="adminDevices" extends="adminIndex">
+	<definition name="adminDevices" extends="management">
 		<put-attribute name="pageTitle" value="Management.devices.pageTitle"/>
 		<put-attribute name="wrapperTitle" value="Management.devices.pageTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/devices/index.jsp"/>
@@ -85,7 +80,7 @@
 		<!-- End Devices -->
 		
 		<!-- Arrivals -->
-	<definition name="adminArrivals" extends="adminIndex">
+	<definition name="adminArrivals" extends="management">
 		<put-attribute name="pageTitle" value="Management.arrivals.pageTitle"/>
 		<put-attribute name="wrapperTitle" value="Management.arrivals.pageTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/admin/arrivals/index.jsp"/>
@@ -101,20 +96,24 @@
 	
 		<!-- End Arrivals -->
 		
-		<definition name="admin/AllOS" extends="adminIndex">
-			<put-attribute name="pageTitle" value="Management.arrivals.pageTitle"/>
-			<put-attribute name="wrapperTitle" value="Management.arrivals.update.wrapperTitle"/>
+		
+		
+		<definition name="admin/AllOS" extends="management">
+			<put-attribute name="pageTitle" value="Management.os.pageTitle"/>
+			<put-attribute name="wrapperTitle" value="Management.os.pageTitle"/>
 			<put-attribute name="body" value="/WEB-INF/views/management/admin/orders_sales.jsp"/>
 		</definition>
 		
-		<definition name="admin/users" extends="adminIndex">
-			<put-attribute name="pageTitle" value="Management.arrivals.pageTitle"/>
-			<put-attribute name="wrapperTitle" value="Management.arrivals.update.wrapperTitle"/>
+		<definition name="admin/users" extends="management">
+			<put-attribute name="pageTitle" value="Management.users.pageTitle"/>
+			<put-attribute name="wrapperTitle" value="Management.users.pageTitle"/>
 			<put-attribute name="body" value="/WEB-INF/views/management/admin/users.jsp"/>
 		</definition> 
+		
+		
 				
 	<!-- End Admin Pages -->
-	<definition name="orders" extends="adminIndex">
+	<definition name="orders" extends="management">
 		<put-attribute name="pageTitle" value="Management.orders.pageTitle"/>
 		<put-attribute name="wrapperTitle" value="Management.orders.pageTitle"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/sales_orders/orders.jsp"/>

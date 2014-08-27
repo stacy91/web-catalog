@@ -35,6 +35,7 @@ public class UsersImplDao 	extends RootModel
 		User attchUser = findById(user.getId());
 		attchUser.setLogin(user.getLogin());
 		attchUser.setPassword(user.getPassword());
+		attchUser.setRole(user.getRole());
 		currentSession().update(attchUser);
 	}
 

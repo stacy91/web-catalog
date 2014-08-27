@@ -1,4 +1,4 @@
-package com.entities.services;
+package com.entities.servicesImpl;
 
 public class UserRolesService {
 

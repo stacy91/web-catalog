@@ -17,7 +17,7 @@
 		<div class="form-inline">
 		<form method="get">
 			<label>
-				Select Brand:		
+				<spring:message code="SelectBrand" />:		
 				<select class="form-control" onchange="this.form.submit()" name="brandId">
 					<option label="" value="" />
 					<c:forEach items="${brands}" var="itemBrand">
@@ -28,8 +28,8 @@
 		</form>
 			
 			<form method="get">
-    		<input type="text" class="form-control" id="searchTXT" placeholder="search..." name="search">
-			<button type="submit" class="btn btn-default">Search</button>
+    		<input type="text" class="form-control" id="searchTXT" placeholder="<spring:message code="Search"/>..." name="search">
+			<button type="submit" class="btn btn-default"><spring:message code="Search"/></button>
 			</form>
   		</div>
   </div>
@@ -48,16 +48,16 @@
                             <img src="<c:url value="/getImage?id="/>${itemDevice.id}" />
                             <div class="caption">
                                 <h4 class="pull-right">$${itemDevice.price }</h4>
-                                <h4><a href="#" > Brand:&nbsp;&nbsp;<b>${itemDevice.brand.brandName }</b></a>
+                                <h4><a href="#" > <spring:message code="Brand"/>:&nbsp;&nbsp;<b>${itemDevice.brand.brandName }</b></a>
                                 </h4>
-                                <p> Model:&nbsp;&nbsp;&nbsp;&nbsp;<b>${itemDevice.model }</b></p>
+                                <p> <spring:message code="Model"/>:&nbsp;&nbsp;&nbsp;&nbsp;<b>${itemDevice.model }</b></p>
                             </div>
                             
                             <security:authorize access="isAuthenticated()">
                             <div class="order">
                                 <form class="form-inline" action="order" method="post">
                                 <input class="form-control" type="text" name="amount" value="1"/>
-                                <input class="btn btn-danger" type="submit" value="Order"/>
+                                <input class="btn btn-danger" type="submit" value="<spring:message code="Order"/>"/>
                                 <input type="hidden" value="${itemDevice.id}" name="deviceId"/>
                                 <input type="hidden" value="${brandId }" name="brandId"/>
                                 <input type="hidden" value="${search }" name="search"/>

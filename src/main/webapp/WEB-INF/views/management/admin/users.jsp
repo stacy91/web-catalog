@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:url var="firstUrl" value="?page=1" />
 <c:url var="lastUrl" value="?page=${totalPages}" />
@@ -17,11 +18,11 @@
 			<div class="panel-body">
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-striped">
-						<thead>
+						<thead>						
 							<tr>
-								<th>Login</th>
-								<th>Role</th>
-								<th class="manage">Manage</th>
+								<th><spring:message code="Login" /></th>
+								<th><spring:message code="Role" /></th>
+								<th class="manage"><spring:message code="Tables.manage" /></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -33,14 +34,14 @@
 									<form action="${pageContext.request.contextPath}/management/deleteUser"
 											method="POST">
 											<button value="${item.id}" name="id"
-												class="btn btn-default myButtons col-lg-5">Delete</button>
+												class="btn btn-default myButtons col-lg-5"><spring:message code="Delete" /></button>
 												<input type="hidden" name="page" value="${currentIndex }"/>
 									</form> 
 									
 									<form action="${pageContext.request.contextPath}/management/changeRole"
 											method="POST">
 											<button value="${item.id}" name="id"
-												class="btn btn-default myButtons col-lg-5" style="width:110px">Change Role</button>
+												class="btn btn-default myButtons col-lg-5" style="width:120px"><spring:message code="ChangeRole" /></button>
 												
 											<input type="hidden" name="page" value="${currentIndex }" />
 									</form> 
