@@ -118,56 +118,90 @@ public class ManagementController{
 	//Devices
 	
 	@RequestMapping(value="/devices")  
-    public String showDevices(ModelMap model) {  
-	List<Device> devices = devicesService.getDevices(null,null,null).getItems();
+    public String showDevices(ModelMap model,Integer page) {  
+	
+	FilteredCollection<Device> fDevices = devicesService.getDevices(page,null,null);
+	List<Device> devices = fDevices.getItems();
     model.addAttribute("devices", devices);
     model.addAttribute("brands", brandsService.getBrands());
+    
+    model.addAttribute("beginIndex", fDevices.getBegin());
+    model.addAttribute("endIndex", fDevices.getEnd());
+    model.addAttribute("currentIndex", fDevices.getCurrentPage());
+	model.addAttribute("totalPages",fDevices.getTotalPages());
+    
     return "adminDevices";
     }   
 	
 	@RequestMapping(value="/addDevice")
-	public String addDevice(ModelMap model){
+	public String addDevice(ModelMap model,Integer page){
+		
 		model.addAttribute("device", new Device());
 		model.addAttribute("brands", brandsService.getBrands());
+		model.addAttribute("page", page);
+		
 		return "adminDevices/add";
 	}
 	@RequestMapping(value="/addDevice", method=RequestMethod.POST)
 	public String addDevice(@Valid Device device,MultipartFile image,
-			String action, BindingResult result){
+			String action, BindingResult result,Integer page){
+		
+		String redirect = "redirect:/management/devices";
+		
 		if(!action.equals("cancel"))
 		{
 			if(result.hasErrors())
 				return "adminBrands/add";
 			devicesService.create(device, image);
 		}
-		return "redirect:/management/devices";
+
+		if(page != null)
+			redirect += "?page=" + page;
+		
+		return redirect;
 	}
 	
 	@RequestMapping(value="/updateDevice")
-	public String updateDevice(int id,ModelMap model){
+	public String updateDevice(int id,ModelMap model,Integer page){
+		
 		Device device = devicesService.getDeviceWithBrand(id);
 		model.addAttribute("device", device);
 		model.addAttribute("brands", brandsService.getBrands());
+		model.addAttribute("page", page);
+		
 		return "adminDevices/update";
 	}
 	
 	
 	@RequestMapping(value="/updateDevice", method=RequestMethod.POST)
 	public String updateDevice(@Valid Device device,MultipartFile image,
-			String action, BindingResult result){
+			String action, BindingResult result,Integer page){
+		
+		String redirect = "redirect:/management/devices";
 		if(!action.equals("cancel"))
 		{
 			if(result.hasErrors())
 				return "adminBrands/add";
 			devicesService.update(device, image);
 		}
-		return "redirect:/management/devices";
+		
+		if(page != null){
+			redirect += "?page=" + page;
+		}
+		
+		return redirect;
 	}
 	
 	@RequestMapping(value="/deleteDevice",method=RequestMethod.POST)
-	public String deleteDevice(int id){
+	public String deleteDevice(int id,Integer page){
+		
+		String redirect = "redirect:/management/devices";
 		devicesService.delete(id);
-		return "redirect:/management/devices";
+		
+		if(page != null){
+			redirect += "?page=" + page;
+		}
+		return redirect;
 	}
 	//end devices
 	
@@ -257,11 +291,10 @@ public class ManagementController{
 	public String deleteOS(int id,Integer page, String show){
 		String redirect = "redirect:/management/allOS";
 		o_sService.deleteOS(id);
-		if(page != null)
-			redirect += "?page=" + page;
 		if(show != null)
-			redirect += "&show=" + show;
-		
+			redirect += "?show=" + show;
+		if(page != null)
+			redirect += "&page=" + page;
 		return redirect;
 	}
 	

@@ -108,12 +108,13 @@ public class Home {
 		o_sService.create(deviceId, principal.getName(), amount);
 		String redirect = "redirect:";
 		
-		if(page != null)
-			redirect += "page=" + page;
+		
 		if(brandId != null)
 			redirect += "?brandId=" + brandId;
 		if(search != null && !search.isEmpty())
-			redirect += "?search=" + search;
+			redirect += "&search=" + search;
+		if(page != null)
+			redirect += "&page=" + page;
 		
 		return redirect;
 	}

@@ -35,8 +35,9 @@
 				style="margin: 20px 0 0 16px; width: 240px; float: right;">
 				<form:button type="submit" class="btn btn-default myButtons"
 					name="action"><spring:message code="Add"/></form:button>
-				<button class="btn btn-default myButtons" name="action" translate="no"
-					value="cancel"><spring:message code="Cancel"/></button>
+				<form:button class="btn btn-default myButtons" name="action" translate="no"
+					value="cancel"><spring:message code="Cancel"/></form:button>
+				<input type="hidden" name="page" value="${page}" />
 			</div>
 		</div>
 	</form:form>

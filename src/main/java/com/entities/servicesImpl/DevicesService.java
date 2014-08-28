@@ -1,14 +1,17 @@
 package com.entities.servicesImpl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.entities.Device;
 import com.entities.Dao.BrandsDao;
 import com.entities.Dao.DevicesDao;
 import com.helpers.DeviceHelper;
 import com.helpers.FilteredCollection;
+import com.helpers.FilteredCollectionGenerator;
 
 
 
@@ -50,14 +53,7 @@ public class DevicesService {
 		int pageInt = page != null ? page - 1 : 0;
 		int brandIdInt = brandId != null ? brandId : 0;
 		List<Device> devices = devicesDao.getAllDeviceValues(brandIdInt,search);
-		
-		int incZ = devices.size() % PAGE_SIZE != 0 ? 1 : 0;
-		int totalPages = devices.size() / PAGE_SIZE + incZ;
-		int begin = Math.max(1, pageInt - 3);
-	    int end = Math.min(begin + 3,  totalPages);
-		
-		return new FilteredCollection<Device>(devices.subList(Math.max(pageInt*PAGE_SIZE,0),Math.min(pageInt*PAGE_SIZE + PAGE_SIZE, devices.size())),
-	    		totalPages, begin, end, pageInt + 1);
+		return FilteredCollectionGenerator.getFilteredCollection(pageInt, PAGE_SIZE, devices);
 	}
 	
 	public Device getDeviceWithBrand(int id) {

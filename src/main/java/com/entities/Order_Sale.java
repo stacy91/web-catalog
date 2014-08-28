@@ -45,6 +45,7 @@ public class Order_Sale {
 	
 	public Order_Sale(Device device, User user, boolean isSold,
 			int amount, Date time){
+		
 		this.device = device;
 		this.user = user;
 		this.isSold = isSold;

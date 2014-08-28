@@ -1,13 +1,16 @@
 package com.entities.servicesImpl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.entities.User;
 import com.entities.Dao.UserRolesDao;
 import com.entities.Dao.UsersDao;
 import com.helpers.FilteredCollection;
+import com.helpers.FilteredCollectionGenerator;
 
 @Service
 public class UsersService {
@@ -45,10 +48,8 @@ public class UsersService {
 	
 	public User update(User user,String oldPassword,String newPassword,String repeatPassword){
 		
-
 		BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
 		String encodedOldPas = bc.encode(oldPassword);
-		
 		if(oldPassword != null && newPassword != null & repeatPassword != null){
 			if(encodedOldPas.equals(oldPassword) && newPassword.equals(repeatPassword)){
 				user.setPassword(bc.encode(newPassword));
@@ -68,12 +69,7 @@ public class UsersService {
 		
 		int pageInt = page != null ? page - 1 : 0;
 		List<User> users = usersDao.getAllUserValues();	
-		int incZ = users.size() % PAGE_SIZE != 0 ? 1 : 0;
-		int totalPages = users.size() / PAGE_SIZE + incZ;
-		int begin = Math.max(1, pageInt - 3);
-	    int end = Math.min(begin + 3,  totalPages);
 		
-		return new FilteredCollection<User>(users.subList(Math.max(pageInt*PAGE_SIZE,0),Math.min(pageInt*PAGE_SIZE + PAGE_SIZE, users.size())),
-	    		totalPages, begin, end, pageInt + 1);
+		return FilteredCollectionGenerator.getFilteredCollection(pageInt, PAGE_SIZE, users);
 	}
 }

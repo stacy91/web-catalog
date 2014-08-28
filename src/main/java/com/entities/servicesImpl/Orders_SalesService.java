@@ -14,6 +14,7 @@ import com.entities.Dao.DevicesDao;
 import com.entities.Dao.Orders_SalesDao;
 import com.entities.Dao.UsersDao;
 import com.helpers.FilteredCollection;
+import com.helpers.FilteredCollectionGenerator;
 
 @Service
 public class Orders_SalesService {
@@ -26,17 +27,6 @@ public class Orders_SalesService {
 	private DevicesDao devicesDao;
 	
 	private final int PAGE_SIZE = 10;
-	
-	private FilteredCollection<Order_Sale> getFiltered(List<Order_Sale> o_s,int page){
-		
-		int incZ = o_s.size() % PAGE_SIZE != 0 ? 1 : 0;
-		int totalPages = o_s.size() / PAGE_SIZE + incZ;
-		int begin = Math.max(1, page - 3);
-	    int end = Math.min(begin + 3,  totalPages);
-	    
-		return new FilteredCollection<Order_Sale>(o_s.subList(Math.max(page*PAGE_SIZE,0),Math.min(page*PAGE_SIZE + PAGE_SIZE, o_s.size())),
-	    		totalPages, begin, end, page + 1);
-	}
 
 	
 	public void create(Integer deviceId,String login,Integer amount){
@@ -118,7 +108,7 @@ public class Orders_SalesService {
 	
 	public FilteredCollection<Order_Sale> getFilteredCollection(List<Order_Sale> o_s, Integer page){
 		int pageInt = page != null ? page - 1 : 0;
-		return getFiltered(o_s, pageInt);
+		return FilteredCollectionGenerator.getFilteredCollection(pageInt, PAGE_SIZE, o_s);
 	}
 	
 	public List<Order_Sale> findAvailable(List<Order_Sale> o_s){
