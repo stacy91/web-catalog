@@ -11,6 +11,8 @@ import com.entities.User;
 import com.entities.Dao.ArrivalsDao;
 import com.entities.Dao.DevicesDao;
 import com.entities.Dao.UsersDao;
+import com.helpers.FilteredCollection;
+import com.helpers.FilteredCollectionGenerator;
 
 
 @Service
@@ -22,6 +24,8 @@ public class ArrivalsService {
 	DevicesDao devicesDao;
 	@Autowired
 	UsersDao usersDao;
+	
+	private final int PAGE_SIZE = 10;
 	
 	public void create(Arrival arrival,String login){
 		arrival.setUser(usersDao.initRole(usersDao.findByLogin(login)));
@@ -53,5 +57,9 @@ public class ArrivalsService {
 	
 	public List<Arrival> getArrivals(){
 		return arrivalsDao.getAllArrivalValues();
+	}
+	
+	public FilteredCollection<Arrival> getArrivals(Integer page){
+		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, getArrivals());
 	}
 }

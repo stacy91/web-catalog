@@ -50,10 +50,9 @@ public class DevicesService {
 	
 	public FilteredCollection<Device> getDevices(Integer page,Integer brandId, String search){
 		
-		int pageInt = page != null ? page - 1 : 0;
 		int brandIdInt = brandId != null ? brandId : 0;
 		List<Device> devices = devicesDao.getAllDeviceValues(brandIdInt,search);
-		return FilteredCollectionGenerator.getFilteredCollection(pageInt, PAGE_SIZE, devices);
+		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, devices);
 	}
 	
 	public Device getDeviceWithBrand(int id) {

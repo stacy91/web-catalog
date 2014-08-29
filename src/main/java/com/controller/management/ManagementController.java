@@ -30,6 +30,7 @@ import com.entities.servicesImpl.DevicesService;
 import com.entities.servicesImpl.Orders_SalesService;
 import com.entities.servicesImpl.UsersService;
 import com.helpers.FilteredCollection;
+import com.helpers.FilteredCollectionGenerator;
 
 @Controller 
 @RequestMapping(value="/management")
@@ -45,6 +46,7 @@ public class ManagementController{
 	private Orders_SalesService o_sService;
 	@Autowired
 	private UsersService usersService;
+	
 	
 	@RequestMapping(value="")
 	public String index(ModelMap model,Principal principal){
@@ -64,53 +66,81 @@ public class ManagementController{
 	//Brands
 	
 	@RequestMapping(value="/brands")  
-    public String showBrands(ModelMap model) {  
+    public String showBrands(ModelMap model,Integer page) {  
 
-	List<Brand> brands = brandsService.getBrands();
-    model.addAttribute("brands", brands);
+	FilteredCollection<Brand> fBrands = brandsService.getBrands(page);
+    model.addAttribute("brands", fBrands.getItems());
+    
+    FilteredCollectionGenerator.fillPagination(model,fBrands);
+    
     return "adminBrands";
     }  
 	
 	@RequestMapping(value="/addBrand")  
-    public String addBrand(ModelMap model) {  
+    public String addBrand(ModelMap model,Integer page) {  
+		
     model.addAttribute("brand", new Brand());
+    model.addAttribute("page", page);
+    
     return "adminBrands/add";
     }  
 	@RequestMapping(value="/addBrand", method=RequestMethod.POST)  
-    public String addBrand(@RequestParam String action, @Valid Brand brand,BindingResult result) {  
+    public String addBrand(@RequestParam String action, @Valid Brand brand,BindingResult result,
+    		Integer page) {  
+		
+	String redirect = "redirect:/management/brands"; 	
 	if(!action.equals("cancel"))
 	{
 		if(result.hasErrors())
 			return "adminBrands/add";
 		brandsService.create(brand);	
 	}
-	return "redirect:/management/brands";		
+	
+	if(page != null){
+		redirect += "?page=" + page;
+	}
+	return redirect;		
 	} 
 	
 	@RequestMapping(value="/updateBrand")
-	public String updateBrand(int id, ModelMap model){
+	public String updateBrand(int id, ModelMap model,Integer page){
 		Brand brandToUpdate = brandsService.findById(id);
 		if(brandToUpdate == null)
 			return "redirect:/management/brands";
 		model.addAttribute("brand", brandToUpdate);
+		
 		return "adminBrands/update";
 	}
 	@RequestMapping(value="/updateBrand",method=RequestMethod.POST)
-	public String updateBrand(@RequestParam String action,@Valid Brand brand, BindingResult result){
+	public String updateBrand(@RequestParam String action,@Valid Brand brand, BindingResult result,
+			Integer page){
+		
+		String redirect = "redirect:/management/brands"; 
 		if(!action.equals("cancel"))
 		{
 			if(result.hasErrors())
 				return "adminBrands/add";
 			brandsService.update(brand);	
 		}
-		return "redirect:/management/brands";
+		
+		if(page != null){
+			redirect += "?page=" + page;
+		}
+		
+		return redirect;
 	}
 	
 	
 	@RequestMapping(value="/deleteBrand", method=RequestMethod.POST)	
-	public String deleteBrand(int id){
+	public String deleteBrand(int id,Integer page){
+		String redirect = "redirect:/management/brands";
 		brandsService.delete(id);
-		return "redirect:/management/brands";
+		
+		if(page != null){
+			redirect += "?page=" + page;
+		}
+		
+		return redirect;
 	}
 	
 	//end Brands
@@ -125,10 +155,7 @@ public class ManagementController{
     model.addAttribute("devices", devices);
     model.addAttribute("brands", brandsService.getBrands());
     
-    model.addAttribute("beginIndex", fDevices.getBegin());
-    model.addAttribute("endIndex", fDevices.getEnd());
-    model.addAttribute("currentIndex", fDevices.getCurrentPage());
-	model.addAttribute("totalPages",fDevices.getTotalPages());
+    FilteredCollectionGenerator.fillPagination(model,fDevices);
     
     return "adminDevices";
     }   
@@ -209,49 +236,72 @@ public class ManagementController{
 	//Arrivals
 	
 	@RequestMapping(value="/arrivals")  
-    public String showArrival(ModelMap model) {  
+    public String showArrivals(ModelMap model,Integer page) {  
 		
-		model.addAttribute("arrivals", arrivalsService.getArrivals());
+		FilteredCollection<Arrival> fArrivals = arrivalsService.getArrivals(page);
+		model.addAttribute("arrivals", fArrivals.getItems());
+		FilteredCollectionGenerator.fillPagination(model, fArrivals);
 		return  "adminArrivals";
     }   
 	
 	@RequestMapping(value="/addArrival", method=RequestMethod.GET)
-	public String addArrival(ModelMap model,int deviceId,Principal pricipal){
+	public String addArrival(ModelMap model,int deviceId,Principal pricipal,Integer page){
+		
 		
 		model.addAttribute("arrival",arrivalsService.getArrivalToCreate(deviceId,pricipal.getName()));
+		model.addAttribute("page", page);
 		return "adminArrivals/add";
 	}
 	@RequestMapping(value="/addArrival", method=RequestMethod.POST)
 	public String addArrival(@Valid Arrival arrival,Principal principal,
-			String action, BindingResult result){
-
+			String action, BindingResult result,Integer page){
+		
+		String redirect = "redirect:/management/devices";
 		if(!action.equals("cancel") && !result.hasErrors()){
 				arrivalsService.create(arrival,principal.getName());
 		}
-		return "redirect:/management/devices";
+		
+		if(page != null){
+			redirect += "?page=" + page;
+		}
+		
+		return redirect;
 	}
 	
 	@RequestMapping(value="/updateArrival")
-	public String updateArrival(int id,ModelMap model){
+	public String updateArrival(int id,ModelMap model,Integer page){
 		
 		model.addAttribute("arrival", arrivalsService.getArrival(id));
+		model.addAttribute("page", page);
 		return "adminArrivals/update";
 	}
 	@RequestMapping(value="/updateArrival", method=RequestMethod.POST)
 	public String updateArrival(@Valid Arrival arrival,Principal principal,
-			String action, BindingResult result){
-
+			String action, BindingResult result,Integer page){
+		
+		String redirect = "redirect:/management/arrivals";
 		if(!action.equals("cancel") && !result.hasErrors()){
 			arrivalsService.update(arrival,principal.getName());
 		}
-		return "redirect:/management/arrivals";
+		
+		if(page != null){
+			redirect += "?page=" + page;
+		}
+		
+		return redirect;
 	}
 	
 	@RequestMapping(value="/deleteArrival",method=RequestMethod.POST)
-	public String deleteArrival(int id){
+	public String deleteArrival(int id,Integer page){
 		
+		String redirect = "redirect:/management/arrivals";
 		arrivalsService.delete(id);
-		return "redirect:/management/arrivals";
+		
+		if(page != null){
+			redirect += "?page=" + page;
+		}
+		
+		return redirect;
 	}
 	
 	//end arrivals
@@ -280,10 +330,9 @@ public class ManagementController{
 		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(o_s, page);
 		model.addAttribute("o_s", fO_S.getItems());	
 		model.addAttribute("show", show);
-		model.addAttribute("beginIndex", fO_S.getBegin());
-	    model.addAttribute("endIndex", fO_S.getEnd());
-	    model.addAttribute("currentIndex", fO_S.getCurrentPage());
-		model.addAttribute("totalPages",fO_S.getTotalPages());
+		
+		FilteredCollectionGenerator.fillPagination(model, fO_S);
+		
 		return "admin/AllOS";
 	}
 	
@@ -311,10 +360,9 @@ public class ManagementController{
 		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(o_s,page);
 		model.addAttribute("show", show);
 		model.addAttribute("orders", fO_S.getItems());
-		model.addAttribute("beginIndex", fO_S.getBegin());
-	    model.addAttribute("endIndex", fO_S.getEnd());
-	    model.addAttribute("currentIndex", fO_S.getCurrentPage());
-		model.addAttribute("totalPages",fO_S.getTotalPages());
+		
+		FilteredCollectionGenerator.fillPagination(model, fO_S);
+		
 		return "orders";
 	}
 	
@@ -352,13 +400,10 @@ public class ManagementController{
 	public String showSales(ModelMap model, Principal principal, Integer page){
 		
 		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(
-				o_sService.getSales(principal.getName()), page);
-				
+				o_sService.getSales(principal.getName()), page);		
 		model.addAttribute("sales", fO_S.getItems());
-		model.addAttribute("beginIndex", fO_S.getBegin());
-	    model.addAttribute("endIndex", fO_S.getEnd());
-	    model.addAttribute("currentIndex", fO_S.getCurrentPage());
-		model.addAttribute("totalPages",fO_S.getTotalPages());
+		
+		FilteredCollectionGenerator.fillPagination(model, fO_S);
 		
 		return "sales";
 	}
@@ -374,10 +419,8 @@ public class ManagementController{
 		
 		FilteredCollection<User> fUsers = usersService.getFilteredCollection(page);
 		model.addAttribute("users", fUsers.getItems());
-		model.addAttribute("beginIndex", fUsers.getBegin());
-	    model.addAttribute("endIndex", fUsers.getEnd());
-	    model.addAttribute("currentIndex", fUsers.getCurrentPage());
-		model.addAttribute("totalPages",fUsers.getTotalPages());
+	
+		FilteredCollectionGenerator.fillPagination(model, fUsers);
 		return "admin/users";
 	}
 	
@@ -422,4 +465,17 @@ public class ManagementController{
 		return "redirect:/management";
 	}
 	//end Users
+	
+	
+	
+	//statistics
+	
+	@RequestMapping(value="statistics")
+	public String showStatistics(ModelMap model){
+		
+		
+		return "admin/statistics";
+	}
+	
+	//statistics
 }  

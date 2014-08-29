@@ -107,8 +107,8 @@ public class Orders_SalesService {
 	}
 	
 	public FilteredCollection<Order_Sale> getFilteredCollection(List<Order_Sale> o_s, Integer page){
-		int pageInt = page != null ? page - 1 : 0;
-		return FilteredCollectionGenerator.getFilteredCollection(pageInt, PAGE_SIZE, o_s);
+
+		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, o_s);
 	}
 	
 	public List<Order_Sale> findAvailable(List<Order_Sale> o_s){

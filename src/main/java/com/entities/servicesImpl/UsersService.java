@@ -67,9 +67,7 @@ public class UsersService {
 	
 	public FilteredCollection<User> getFilteredCollection(Integer page){
 		
-		int pageInt = page != null ? page - 1 : 0;
 		List<User> users = usersDao.getAllUserValues();	
-		
-		return FilteredCollectionGenerator.getFilteredCollection(pageInt, PAGE_SIZE, users);
+		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, users);
 	}
 }

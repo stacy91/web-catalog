@@ -28,7 +28,7 @@
 									<td>${device.brand.brandName}</td>
 									<td>${device.model}</td>
 									<td>${device.amountInStock}, 
-									<a href="${pageContext.request.contextPath}/management/addArrival?deviceId=${device.id}">  (<spring:message code="Management.devices.addArrival"/>)
+									<a href="${pageContext.request.contextPath}/management/addArrival?deviceId=${device.id}&page=${currentIndex}">  (<spring:message code="Management.devices.addArrival"/>)
 									</a></td>
 									<td>${device.price}</td>
 									<td >

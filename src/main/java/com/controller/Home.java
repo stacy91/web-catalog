@@ -35,6 +35,8 @@ import com.helpers.DeviceHelper;
 
 
 
+import com.helpers.FilteredCollectionGenerator;
+
 import java.security.Principal;
 
 @Controller
@@ -55,15 +57,16 @@ public class Home {
 	@Autowired
     protected AuthenticationManager authenticationManager;
 	
+	
+
+	
 	@RequestMapping("*")
 	public String welcome(ModelMap model, Integer page, Integer brandId, String search){
 		
 		FilteredCollection<Device> fDevices = devicesService.getDevices(page,brandId,search);
 
-	    model.addAttribute("beginIndex", fDevices.getBegin());
-	    model.addAttribute("endIndex", fDevices.getEnd());
-	    model.addAttribute("currentIndex", fDevices.getCurrentPage());
-		model.addAttribute("totalPages",fDevices.getTotalPages());
+	    FilteredCollectionGenerator.fillPagination(model, fDevices);
+	    
 		model.addAttribute("brands", brandsService.getBrands());
 		model.addAttribute("devices", fDevices.getItems());
 		model.addAttribute("brandId",brandId);

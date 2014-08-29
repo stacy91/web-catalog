@@ -110,12 +110,10 @@
 			<put-attribute name="body" value="/WEB-INF/views/management/admin/users.jsp"/>
 		</definition> 
 		
-		<definition name="pagination" template="/WEB-INF/views/shared/pagination.jsp">
-			<put-attribute name="queryPrmtrs" 	value="?"/>
-			<put-attribute name="beginIndex" 	/>	
-			<put-attribute name="endIndex"   	/>	
-			<put-attribute name="currentIndex" 	/>	
-			<put-attribute name="totalPages" 	/>
+		<definition name="admin/statistics" extends="management">
+			<put-attribute name="pageTitle" value="Management.users.pageTitle"/>
+			<put-attribute name="wrapperTitle" value="Management.users.pageTitle"/>
+			<put-attribute name="body" value="/WEB-INF/views/management/admin/statistics.jsp"/>
 		</definition>
 				
 	<!-- End Admin Pages -->
@@ -137,5 +135,12 @@
 		<put-attribute name="body" value="/WEB-INF/views/management/user.jsp"/>
 	</definition>
 	
+	<definition name="pagination" template="/WEB-INF/views/shared/pagination.jsp">
+			<put-attribute name="queryPrmtrs" 	value="?"/>
+			<put-attribute name="beginIndex" 	/>	
+			<put-attribute name="endIndex"   	/>	
+			<put-attribute name="currentIndex" 	/>	
+			<put-attribute name="totalPages" 	/>
+	</definition>
 	
 </tiles-definitions>
