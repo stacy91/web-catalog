@@ -63,7 +63,7 @@ public class Home {
 	@RequestMapping("*")
 	public String welcome(ModelMap model, Integer page, Integer brandId, String search){
 		
-		FilteredCollection<Device> fDevices = devicesService.getDevices(page,brandId,search);
+		FilteredCollection<Device> fDevices = devicesService.getFiltered(devicesService.getDevices(brandId,search), page);
 
 	    FilteredCollectionGenerator.fillPagination(model, fDevices);
 	    
@@ -71,6 +71,7 @@ public class Home {
 		model.addAttribute("devices", fDevices.getItems());
 		model.addAttribute("brandId",brandId);
 		model.addAttribute("search",search);
+		model.addAttribute("page", page);
 		return "home";
 	}
 	
@@ -109,15 +110,15 @@ public class Home {
 			Integer amount,Integer page){
 		
 		o_sService.create(deviceId, principal.getName(), amount);
-		String redirect = "redirect:";
+		String redirect = "redirect:?";
 		
 		
 		if(brandId != null)
-			redirect += "?brandId=" + brandId;
+			redirect += "brandId=" + brandId + "&";
 		if(search != null && !search.isEmpty())
-			redirect += "&search=" + search;
+			redirect += "search=" + search + "&";
 		if(page != null)
-			redirect += "&page=" + page;
+			redirect += "page=" + page;
 		
 		return redirect;
 	}

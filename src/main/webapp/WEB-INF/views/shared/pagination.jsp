@@ -6,16 +6,6 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 
-<c:set var="beginIndexStr"> <tiles:insertAttribute name="beginIndex"/> </c:set>
-<c:set var="endIndexStr"> <tiles:insertAttribute name="endIndex"/> </c:set>
-<c:set var="currentIndexStr"> <tiles:insertAttribute name="currentIndex"/> </c:set>
-<c:set var="totalPagesStr"> <tiles:insertAttribute name="totalPages"/> </c:set>
-
-<%-- <fmt:parseNumber var="beginIndex" type="number" value="${beginIndexStr}" />
-<fmt:parseNumber var="endIndex" type="number" value="${endIndexStr}" />
-<fmt:parseNumber var="totalPages" type="number" value="${totalPagesStr}" />
-<fmt:parseNumber var="currentIndex" type="number" value="${currentIndexStr}" /> --%>
-
 
 <c:set var="firstUrl"> <tiles:insertAttribute name="queryPrmtrs"/><c:out value="page=1"/></c:set>
 <c:set var="lastUrl"> <tiles:insertAttribute name="queryPrmtrs"/><c:out value="page=${endIndex}" /> </c:set>

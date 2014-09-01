@@ -35,22 +35,27 @@ public class Order_Sale {
 	@Column(name="Amount",nullable=false)
 	private int amount;
 	
-	@Column(name="Time",nullable=false)
+	@Column(name="TimeOrdered")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date time;
+	private Date timeOrdered;
+	
+	@Column(name="TimeSold")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date timeSold;
 	
 	public Order_Sale(){
 		
 	}
 	
 	public Order_Sale(Device device, User user, boolean isSold,
-			int amount, Date time){
+			int amount, Date timeOrdered, Date timeSold){
 		
 		this.device = device;
 		this.user = user;
 		this.isSold = isSold;
 		this.amount = amount;
-		this.time = time;
+		this.setTimeOrdered(timeOrdered);
+		this.setTimeSold(timeSold);
 	}
 	
 	
@@ -89,12 +94,20 @@ public class Order_Sale {
 	public void setAmount(int amount){
 		this.amount = amount;
 	}
-	
-	public Date getTime(){
-		return time;
+
+	public Date getTimeOrdered() {
+		return timeOrdered;
 	}
-	public void setTime(Date time){
-		this.time = time;
+	public void setTimeOrdered(Date timeOrdered) {
+		this.timeOrdered = timeOrdered;
 	}
+
+	public Date getTimeSold() {
+		return timeSold;
+	}
+	public void setTimeSold(Date timeSold) {
+		this.timeSold = timeSold;
+	}
+
 
 }

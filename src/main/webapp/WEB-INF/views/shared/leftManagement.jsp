@@ -23,6 +23,9 @@
                     
                     <security:authorize access="hasRole('ROLE_ADMIN')">
                     <li>
+                        <a href="${contextPath}/management/statistics"><i class="fa fa-fw fa-bar-chart-o"></i> <spring:message code="Statistics"/> </a>
+                    </li>
+                    <li>
                         <a href="${contextPath}/management/allOS"><i class="fa fa-fw  fa-asterisk"></i> <spring:message code="Orders"/> / <spring:message code="Purchases"/> </a>
                     </li>
                    

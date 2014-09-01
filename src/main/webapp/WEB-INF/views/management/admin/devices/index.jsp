@@ -55,12 +55,7 @@
 					</table>
 				</div>
 				<div class="col-md-offset-5">
-					<tiles:insertDefinition name="pagination">
-					<tiles:putAttribute name="beginIndex" 	value="${beginIndex}" 	type="string"/>	
-					<tiles:putAttribute name="endIndex"   	value="${endIndex}"	 	type="string"/>	
-					<tiles:putAttribute name="currentIndex" value="${currentIndex}"	type="string"/>	
-					<tiles:putAttribute name="totalPages" 	value="${totalPages}"	type="string"/>	
-					</tiles:insertDefinition>
+					<tiles:insertDefinition name="pagination"/>
 				</div>
 			</div>
 		</div>

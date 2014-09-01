@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.entities.Arrival;
 import com.entities.Device;
 import com.entities.Order_Sale;
@@ -112,6 +113,20 @@ public class DeviceImpllDao 	extends RootModel
 			criteria.add(Restrictions.disjunction().add(Restrictions.eq("brand.brandName",search)).
 					add(Restrictions.eq("model",search)));
 			}
+		criteria.addOrder(Order.asc("brand.brandName"));
+		List<Device> devices = criteria.list();
+
+	    return devices;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Device> getAllDeviceValues() {
+		
+		Criteria criteria = currentSession().createCriteria(Device.class);
+
+		criteria.createAlias("brand", "brand");
+		criteria.setFetchMode("brand", FetchMode.JOIN);
 		criteria.addOrder(Order.asc("brand.brandName"));
 		List<Device> devices = criteria.list();
 

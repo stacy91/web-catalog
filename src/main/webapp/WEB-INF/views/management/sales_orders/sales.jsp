@@ -25,7 +25,7 @@
 						<tbody>
 							<c:forEach items="${sales}" var="sale">
 								<tr>
-									<td>${sale.time}</td>
+									<td>${sale.timeSold}</td>
 									<td>${sale.device.brand.brandName} / ${sale.device.model}</td>						
 									<td>${sale.amount}</td>
 									<td>${sale.device.price}$</td>
@@ -40,12 +40,7 @@
 			</div>
 			
 			<div class="col-md-offset-5">
-            	<tiles:insertDefinition name="pagination">
-					<tiles:putAttribute name="beginIndex" 	value="${beginIndex}" 	type="string"/>	
-					<tiles:putAttribute name="endIndex"   	value="${endIndex}"	 	type="string"/>	
-					<tiles:putAttribute name="currentIndex" value="${currentIndex}"	type="string"/>	
-					<tiles:putAttribute name="totalPages" 	value="${totalPages}"	type="string"/>	
-				</tiles:insertDefinition>
+            	<tiles:insertDefinition name="pagination"/>
    		   </div>
     
 		</div>

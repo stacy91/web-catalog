@@ -29,6 +29,7 @@ import com.entities.servicesImpl.BrandsService;
 import com.entities.servicesImpl.DevicesService;
 import com.entities.servicesImpl.Orders_SalesService;
 import com.entities.servicesImpl.UsersService;
+import com.helpers.Charts;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
 
@@ -150,7 +151,7 @@ public class ManagementController{
 	@RequestMapping(value="/devices")  
     public String showDevices(ModelMap model,Integer page) {  
 	
-	FilteredCollection<Device> fDevices = devicesService.getDevices(page,null,null);
+	FilteredCollection<Device> fDevices = devicesService.getFiltered(devicesService.getDevices(null,null), page);
 	List<Device> devices = fDevices.getItems();
     model.addAttribute("devices", devices);
     model.addAttribute("brands", brandsService.getBrands());
@@ -360,6 +361,7 @@ public class ManagementController{
 		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(o_s,page);
 		model.addAttribute("show", show);
 		model.addAttribute("orders", fO_S.getItems());
+		model.addAttribute("page", page);
 		
 		FilteredCollectionGenerator.fillPagination(model, fO_S);
 		
@@ -367,17 +369,23 @@ public class ManagementController{
 	}
 	
 	@RequestMapping(value="/deleteOrder",method=RequestMethod.POST)
-	public String deleteOrder(int id){
+	public String deleteOrder(int id,Integer page){
 		
+		String redirect = "redirect:/management/orders";
 		o_sService.deleteOrder(id);
-		return "redirect:/management/orders";
+		
+		if(page != null)
+			redirect += "?page=" + page;
+		return redirect;
 	}
 	
 	@RequestMapping(value="/order")
-	public String order(ModelMap model, int id,String error){
+	public String order(ModelMap model, int id,String error, Integer page){
 		
 		Order_Sale o_s = o_sService.getOrder(id);
 		model.addAttribute("order", o_s);		
+		model.addAttribute("page", page);
+		
 		if(error != null && error.equals("true")){
 			
 			model.addAttribute("message", "Management.order.buy.errorMsg");
@@ -387,13 +395,18 @@ public class ManagementController{
 	}
 	
 	@RequestMapping(value="/order",method=RequestMethod.POST)
-	public String order(ModelMap model, Order_Sale o_s, String action){
+	public String order(ModelMap model, Order_Sale o_s, String action, Integer page){
 
+		String redirect = "redirect:/management/orders";
 		if(!action.equals("cancel")){
 			if(!o_sService.buy(o_s.getId()))
-				return "redirect:/management/order?id=" + o_s.getId() + "&error=true";
+				return "redirect:/management/order?id=" + o_s.getId() + "&error=true" + "&page=" + page;
 		}
-		return "redirect:/management/orders";
+		
+		if(page != null)
+			redirect += "?page=" + page;
+		
+		return redirect;
 	}
 	
 	@RequestMapping(value="/sales")
@@ -473,7 +486,10 @@ public class ManagementController{
 	@RequestMapping(value="statistics")
 	public String showStatistics(ModelMap model){
 		
-		
+		model.addAttribute("areaChart", Charts.getAreaChart(o_sService));
+		model.addAttribute("donutChart",Charts.getDonutChart(o_sService, devicesService));
+		model.addAttribute("graphChart",Charts.getLineChart(arrivalsService));
+		model.addAttribute("barChart",Charts.getBarChart(o_sService));
 		return "admin/statistics";
 	}
 	

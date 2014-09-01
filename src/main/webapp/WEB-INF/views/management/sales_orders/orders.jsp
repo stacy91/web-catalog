@@ -37,7 +37,7 @@
 						<tbody>
 							<c:forEach items="${orders}" var="order">
 								<tr>
-									<td>${order.time}</td>
+									<td>${order.timeOrdered}</td>
 									<td>${order.device.brand.brandName} / ${order.device.model}</td>						
 									<td>${order.amount}</td>
 									<td>${order.device.price}$</td>
@@ -46,12 +46,14 @@
 											method="POST">
 											<button value="${order.id}" name="id"
 												class="btn btn-default myButtons col-lg-5"><spring:message code="Cancel"/></button>
+												<input type="hidden" name="page" value="${page }" />
 										</form:form> <form:form
 											action="${pageContext.request.contextPath}/management/order"
 											method="GET">
 											<button value="${order.id}" name="id"
 												class="btn btn-default myButtons col-lg-5"
 												style="margin-left: 20px"><spring:message code="Buy"/></button>
+												<input type="hidden" name="page" value="${page }" />
 										</form:form></td>
 								</tr>
 							</c:forEach>
@@ -66,10 +68,6 @@
 			<div class="col-md-offset-5">
             	<tiles:insertDefinition name="pagination">
             		<tiles:putAttribute name="queryPrmtrs" 	value="${queryStr}" 	type="string"/>	
-					<tiles:putAttribute name="beginIndex" 	value="${beginIndex}" 	type="string"/>	
-					<tiles:putAttribute name="endIndex"   	value="${endIndex}"	 	type="string"/>	
-					<tiles:putAttribute name="currentIndex" value="${currentIndex}"	type="string"/>	
-					<tiles:putAttribute name="totalPages" 	value="${totalPages}"	type="string"/>	
 				</tiles:insertDefinition>
     		</div>
 			

@@ -1,6 +1,7 @@
 package com.entities.ImplDao;
 
 import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
@@ -10,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.entities.Arrival;
 import com.entities.Order_Sale;
 import com.entities.User;
@@ -108,17 +110,17 @@ public class UsersImplDao 	extends RootModel
 	@Override
 	public User initOrders(int id) {
 		
-		return confCriteria(id, false);
+		return confCriteria(id, false,"timeOrdered");
 	}
 	
 	@Override
 	public User initSales(int id) {
 		
-		return confCriteria(id, true);
+		return confCriteria(id, true,"timeSold");
 	}
 	
 	@SuppressWarnings("unchecked")
-	private User confCriteria(int id, boolean isSold){
+	private User confCriteria(int id, boolean isSold,String time){
 		
 		Criteria criteria = currentSession().createCriteria(Order_Sale.class);
 		criteria.createAlias("user", "user");
@@ -132,7 +134,13 @@ public class UsersImplDao 	extends RootModel
 		criteria.setFetchMode("brand", FetchMode.JOIN);
 		
 		criteria.add(Restrictions.eq("user.id", id)).add(Restrictions.eq("isSold", isSold));
-		criteria.addOrder(Order.desc("time"));
+		
+		if(time != null)
+		criteria.addOrder(Order.desc(time));
+		else{
+			criteria.addOrder(Order.desc("timeOrdered")).addOrder(Order.desc("timeSold"));	
+		}
+		
 		User user = findById(id);
 		currentSession().evict(user);
 		

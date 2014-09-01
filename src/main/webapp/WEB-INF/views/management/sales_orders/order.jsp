@@ -18,7 +18,7 @@
 		</div>
 		
 		<div class="form-group">
-			<label for="deviceTXT"><spring:message code="Tables.brand/model"/></th></label>
+			<label for="deviceTXT"><spring:message code="Tables.brand/model"/></label>
 			<input value="${order.device.brand.brandName} / ${order.device.model}"
 				class="form-control" id="amountTXT" disabled/>
 		</div>
@@ -40,6 +40,7 @@
 					name="action"><spring:message code="Buy"/></form:button>
 				<button class="btn btn-default myButtons" name="action"
 					value="cancel"><spring:message code="Cancel"/></button>
+					<input type="hidden" name="page" value="${page }" />
 			</div>
 		</div>
 	</form:form>

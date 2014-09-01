@@ -1,7 +1,6 @@
 package com.entities.ImplDao;
 
 import java.util.List;
-
 import org.joda.time.DateTime;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -27,7 +26,6 @@ public class Orders_SalesImplDao 	extends RootModel
 	
 	@Override
 	public void create(Order_Sale o_s) {
-		o_s.setTime(new DateTime().toDate());
 		currentSession().save(o_s);
 	}
 
@@ -35,7 +33,9 @@ public class Orders_SalesImplDao 	extends RootModel
 	public void update(Order_Sale o_s) {
 		Order_Sale attchO_S = findById(o_s.getId());
 		attchO_S.setIsSold(o_s.getIsSold());
-		attchO_S.setTime(new DateTime().toDate());
+		
+		if(attchO_S.getIsSold())
+			attchO_S.setTimeSold(new DateTime().toDate());
 		currentSession().update(attchO_S);
 	}
 
@@ -72,22 +72,22 @@ public class Orders_SalesImplDao 	extends RootModel
 
 	@Override
 	public List<Order_Sale> getAllOrders() {
-		return confCriteria(false);
+		return confCriteria(false,"timeOrdered");
 	}
 	
 
 	@Override
 	public List<Order_Sale> getAllSales() {
-		return confCriteria(true);
+		return confCriteria(true,"timeSold");
 	}
 	
 	@Override
 	public List<Order_Sale> getAll() {
-		return confCriteria(null);
+		return confCriteria(null,null);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<Order_Sale> confCriteria(Boolean isSold){
+	private List<Order_Sale> confCriteria(Boolean isSold,String time){
 		
 		Criteria criteria = currentSession().createCriteria(Order_Sale.class);
 		criteria.createAlias("user", "user");
@@ -102,7 +102,12 @@ public class Orders_SalesImplDao 	extends RootModel
 		if(isSold != null){
 			criteria.add(Restrictions.eq("isSold", isSold));
 		}
-		criteria.addOrder(Order.desc("time")).addOrder(Order.asc("role.name")).addOrder(Order.asc("user.login"));
+		criteria.addOrder(Order.asc("role.name")).addOrder(Order.asc("user.login"));
+		if(time != null)
+			criteria.addOrder(Order.desc(time));
+		else{
+			criteria.addOrder(Order.desc("timeOrdered")).addOrder(Order.desc("timeSold"));
+		}
 		List<Order_Sale> o_s = criteria.list();
 		return o_s;
 	}

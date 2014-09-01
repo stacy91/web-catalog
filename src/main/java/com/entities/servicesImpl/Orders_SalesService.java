@@ -1,11 +1,18 @@
 package com.entities.servicesImpl;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+import javassist.expr.NewArray;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.joda.time.DateTime;
 
 import com.entities.Device;
 import com.entities.Order_Sale;
@@ -35,6 +42,7 @@ public class Orders_SalesService {
 		o_s.setDevice(devicesDao.findById(deviceId));
 		o_s.setUser(usersDao.findByLogin(login));
 		o_s.setAmount(amount);
+		o_s.setTimeOrdered((new DateTime().toDate()));
 		order_salesDao.create(o_s);
 	}
 	

@@ -48,11 +48,20 @@ public class DevicesService {
 		deviceHelper.deleteImage(id);
 	}
 	
-	public FilteredCollection<Device> getDevices(Integer page,Integer brandId, String search){
+	public FilteredCollection<Device> getFiltered(List<Device> devices,Integer page){
+		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, devices);
+	}
+	
+	public List<Device> getDevices(Integer brandId, String search){
 		
 		int brandIdInt = brandId != null ? brandId : 0;
 		List<Device> devices = devicesDao.getAllDeviceValues(brandIdInt,search);
-		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, devices);
+		return devices;
+		
+	}
+	
+	public List<Device> getDevices(){
+		return devicesDao.getAllDeviceValues();
 	}
 	
 	public Device getDeviceWithBrand(int id) {

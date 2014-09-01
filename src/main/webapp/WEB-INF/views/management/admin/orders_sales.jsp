@@ -40,7 +40,7 @@
 							<c:forEach items="${o_s}" var="item">
 								<tr>
 									<td>${item.isSold == false ? 'Order' : 'Sale' }</td>
-									<td>${item.time}</td>
+									<td>${item.isSold == false ? item.timeOrdered : item.timeSold}</td>
 									<td>${item.user.login} / ${item.user.role.name}</td>	
 									<td>${item.device.brand.brandName} / ${item.device.model}</td>						
 									<td>${item.amount}</td>
@@ -68,10 +68,6 @@
             
             	<tiles:insertDefinition name="pagination">
             	<tiles:putAttribute name="queryPrmtrs" 	value="${queryStr}" 	type="string"/>	
-				<tiles:putAttribute name="beginIndex" 	value="${beginIndex}" 	type="string"/>	
-				<tiles:putAttribute name="endIndex"   	value="${endIndex}"	 	type="string"/>	
-				<tiles:putAttribute name="currentIndex" value="${currentIndex}"	type="string"/>	
-				<tiles:putAttribute name="totalPages" 	value="${totalPages}"	type="string"/>	
 				</tiles:insertDefinition>
             
     		</div>

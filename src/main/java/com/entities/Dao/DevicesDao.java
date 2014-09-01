@@ -17,5 +17,6 @@ public interface DevicesDao {
 	public Device initArrivals(int id);
 	public Device initOrders_Sales(int id);
 	
-	public List<Device> getAllDeviceValues(int brandId, String search);	
+	public List<Device> getAllDeviceValues(int brandId, String search);
+	public List<Device> getAllDeviceValues();	
 }

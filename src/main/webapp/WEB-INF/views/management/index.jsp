@@ -46,7 +46,7 @@
 						<tbody>
 							<c:forEach items="${orders}" var="order">
 								<tr>
-									<td>${order.time}</td>
+									<td>${order.timeOrdered}</td>
 									<td>${order.device.brand.brandName} / ${order.device.model}</td>						
 									<td>${order.amount}</td>
 									<td>${order.device.price}</td>
