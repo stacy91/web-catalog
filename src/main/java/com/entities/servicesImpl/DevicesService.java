@@ -1,5 +1,6 @@
 package com.entities.servicesImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.entities.Device;
 import com.entities.Dao.BrandsDao;
 import com.entities.Dao.DevicesDao;
+import com.entities.dto.DeviceDto;
 import com.helpers.DeviceHelper;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
@@ -27,16 +29,28 @@ public class DevicesService {
 
 	private final int PAGE_SIZE = 6;
 	
-	public void create(Device device,MultipartFile image){
-		devicesDao.create(device);
+	private List<DeviceDto> convertToDto(List<Device> items){
+		
+		List<DeviceDto> devices = new ArrayList<DeviceDto>();
+		for(Device item : items){
+			devices.add(new DeviceDto(item));
+		}
+		
+		return devices;
+	}
+	
+	public void create(DeviceDto device,MultipartFile image){
+		Device device2 = device.getEntity();
+		devicesDao.create(device2);
+		
 		if(!image.isEmpty() && deviceHelper.validateImage(image))
 		{
 			deviceHelper.saveImage(device.getId(), image);
 		}
 	}
 	
-	public void update(Device device, MultipartFile image){
-		devicesDao.update(device);
+	public void update(DeviceDto device, MultipartFile image){
+		devicesDao.update(device.getEntity());
 		if(!image.isEmpty() && deviceHelper.validateImage(image))
 		{
 			deviceHelper.saveImage(device.getId(), image);
@@ -48,32 +62,23 @@ public class DevicesService {
 		deviceHelper.deleteImage(id);
 	}
 	
-	public FilteredCollection<Device> getFiltered(List<Device> devices,Integer page){
+	public FilteredCollection<DeviceDto> getFiltered(List<DeviceDto> devices,Integer page){
 		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, devices);
 	}
 	
-	public List<Device> getDevices(Integer brandId, String search){
+	public List<DeviceDto> getDevices(Integer brandId, String search){
 		
 		int brandIdInt = brandId != null ? brandId : 0;
-		List<Device> devices = devicesDao.getAllDeviceValues(brandIdInt,search);
-		return devices;
+		return convertToDto(devicesDao.getAllDeviceValues(brandIdInt,search));
 		
 	}
 	
-	public List<Device> getDevices(){
-		return devicesDao.getAllDeviceValues();
+	public List<DeviceDto> getDevices(){
+		return convertToDto(devicesDao.getAllDeviceValues());
 	}
 	
-	public Device getDeviceWithBrand(int id) {
-		return devicesDao.initBrand(id);
+	public DeviceDto getDevice(int id) {
+		return new DeviceDto(devicesDao.initBrand(id));
 	}
-	
-	public Device getDeviceWithArrivals(int id) {
-		return devicesDao.initArrivals(id);
-	}
-
-	public Device getDeviceWithO_S(int id) {
-		return devicesDao.initOrders_Sales(id);
-	}
-	
+		
 }

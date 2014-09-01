@@ -47,9 +47,10 @@ public class Order_Sale {
 		
 	}
 	
-	public Order_Sale(Device device, User user, boolean isSold,
+	public Order_Sale(int id,Device device, User user, boolean isSold,
 			int amount, Date timeOrdered, Date timeSold){
 		
+		this.id = id;
 		this.device = device;
 		this.user = user;
 		this.isSold = isSold;

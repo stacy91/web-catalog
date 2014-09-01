@@ -10,9 +10,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import com.entities.Arrival;
-import com.entities.Device;
-import com.entities.Order_Sale;
+import com.entities.dto.ArrivalDto;
+import com.entities.dto.DeviceDto;
+import com.entities.dto.Order_SaleDto;
 import com.entities.servicesImpl.ArrivalsService;
 import com.entities.servicesImpl.DevicesService;
 import com.entities.servicesImpl.Orders_SalesService;
@@ -20,18 +20,17 @@ import com.entities.servicesImpl.Orders_SalesService;
 public class Charts {
 	
 	
-	
 	public static HashMap<String, AreaChartPoint> getAreaChart(Orders_SalesService o_sService){
 		
 		HashMap<String, AreaChartPoint> hmOs = new LinkedHashMap<String, AreaChartPoint>();	
 		
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-		List<Order_Sale> o_s = o_sService.getAllOS();
+		List<Order_SaleDto> o_s = o_sService.getAllOS();
 		String time = null;
 		AreaChartPoint point = null;
 
 		
-		for (Order_Sale item : o_s) {
+		for (Order_SaleDto item : o_s) {
 			if (hmOs.size() < 10) {
 				if (item.getIsSold() && item.getTimeSold() != null) {
 					time = df.format(item.getTimeSold());
@@ -66,13 +65,13 @@ public class Charts {
 		int tSales = 0;
 		int tDevices = 0;
 		
-		for(Order_Sale o_s : o_sService.getAllOS()){
+		for(Order_SaleDto o_s : o_sService.getAllOS()){
 			tOrders += o_s.getAmount();
 			if(o_s.getIsSold())
 				tSales += o_s.getAmount();
 		}
 		
-		for(Device device : devicesService.getDevices()){
+		for(DeviceDto device : devicesService.getDevices()){
 			tDevices += device.getAmountInStock();
 		}
 		hm.put("Orders", tOrders);
@@ -87,7 +86,7 @@ public class Charts {
 		HashMap<String, Integer> hm = new LinkedHashMap<String, Integer>();
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		String time;
-		for(Arrival item : arrivalsService.getArrivals()){
+		for(ArrivalDto item : arrivalsService.getArrivals()){
 			
 			time = df.format(item.getTime());
 			if(hm.size() < 30){
@@ -105,6 +104,7 @@ public class Charts {
 		
 	}
 	
+	@SuppressWarnings("serial")
 	public static HashMap<String, Integer> getBarChart(Orders_SalesService o_sService){
 		
 		HashMap<String, Integer> hm = new LinkedHashMap<String, Integer>();
@@ -112,7 +112,7 @@ public class Charts {
 
 		String name;
 		
-		for(Order_Sale item : o_sService.getAllSales()){
+		for(Order_SaleDto item : o_sService.getAllSales()){
 			name = item.getDevice().getBrand().getBrandName() + " " + item.getDevice().getModel();
 			if(hm.containsKey(name)){
 				hm.put(name, hm.get(name) + item.getAmount());
@@ -124,7 +124,6 @@ public class Charts {
 		
 		List<Entry<String,Integer>> sorted = new ArrayList<Map.Entry<String,Integer>>(hm.entrySet()) {
 		};
-		
 		
 		Collections.sort(sorted,new Comparator<Entry<String,Integer>>(){
 			@Override

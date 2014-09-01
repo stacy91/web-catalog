@@ -42,8 +42,9 @@ public class Device {
 		
 	}
 	
-	public Device(Brand brand,String model,float price,
+	public Device(int id,Brand brand,String model,float price,
 			int amountInStock){
+		this.id = id;
 		this.brand = brand;
 		this.setModel(model);
 		this.price = price;

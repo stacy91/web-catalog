@@ -1,5 +1,6 @@
 package com.entities.servicesImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.entities.Brand;
 import com.entities.Dao.BrandsDao;
+import com.entities.dto.BrandDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
 
@@ -19,12 +21,12 @@ public class BrandsService {
 	@Autowired
 	private BrandsDao brandsDao;
 	
-	public void create(Brand brand){
-		brandsDao.create(brand);
+	public void create(BrandDto brand){
+		brandsDao.create(brand.getEntity());
 	}
 	
-	public void update(Brand brand){
-		brandsDao.update(brand);
+	public void update(BrandDto brand){
+		brandsDao.update(brand.getEntity());
 	}
 	
 	public void delete(int id){
@@ -35,13 +37,16 @@ public class BrandsService {
 		return brandsDao.findById(id);
 	}
 	
-	public FilteredCollection<Brand> getBrands(Integer page){
-		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, brandsDao.getAllBrandValues());
+	public FilteredCollection<BrandDto> getFiltered(Integer page){
+		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, getBrands());
 	}
 	
-	public List<Brand> getBrands() {
-
-		return brandsDao.getAllBrandValues();
+	public List<BrandDto> getBrands() {
+		List<BrandDto> brands = new ArrayList<BrandDto>();
+		for(Brand item : brandsDao.getAllBrandValues()){
+			brands.add(new BrandDto(item));
+		}
+		return brands;
 	}
 
 }

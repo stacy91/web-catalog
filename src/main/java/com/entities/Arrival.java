@@ -35,8 +35,9 @@ public class Arrival {
 		
 	}
 	
-	public Arrival(Device device,User user,int amount,float price,
+	public Arrival(int id,Device device,User user,int amount,float price,
 			Date time){
+		this.id = id;
 		this.setDevice(device);
 		this.setUser(user);
 		this.amount = amount;

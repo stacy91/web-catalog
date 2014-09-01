@@ -20,6 +20,7 @@ import com.entities.User;
 import com.entities.Dao.DevicesDao;
 import com.entities.Dao.Orders_SalesDao;
 import com.entities.Dao.UsersDao;
+import com.entities.dto.Order_SaleDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
 
@@ -46,8 +47,8 @@ public class Orders_SalesService {
 		order_salesDao.create(o_s);
 	}
 	
-	public void update(Order_Sale o_s){
-		order_salesDao.update(o_s);
+	public void update(Order_SaleDto o_s){
+		order_salesDao.update(o_s.getEntity());
 	}
 	
 	public void deleteOrder(int id){
@@ -69,8 +70,8 @@ public class Orders_SalesService {
 		order_salesDao.delete(o_s);	
 	}
 	
-	public Order_Sale getOrder(int id){
-		return order_salesDao.initProxy(id);
+	public Order_SaleDto getOrder(int id){
+		return new Order_SaleDto(order_salesDao.initProxy(id));
 	}
 	
 	public boolean buy(int id){
@@ -90,46 +91,55 @@ public class Orders_SalesService {
 		return result;
 	}
 	
-	public List<Order_Sale> getOrders(String login){
+	public List<Order_SaleDto> getOrders(String login){
 		
 		User user = usersDao.initOrders(usersDao.findByLogin(login));
-		return user.getOrders_Sales();
+		return convertToDto(user.getOrders_Sales());
 	}
 	
-	public List<Order_Sale> getSales(String login){
+	public List<Order_SaleDto> getSales(String login){
 		
 		User user = usersDao.initSales(usersDao.findByLogin(login));
-		return user.getOrders_Sales();
+		return convertToDto(user.getOrders_Sales());
 	}
 	
-	public List<Order_Sale> getAllOS(){
-		return order_salesDao.getAll();
+	public List<Order_SaleDto> getAllOS(){
+		return convertToDto(order_salesDao.getAll());
 	}
 	
-	public List<Order_Sale> getAllOrders(){
-		return order_salesDao.getAllOrders();
+	public List<Order_SaleDto> getAllOrders(){
+		return convertToDto(order_salesDao.getAllOrders());
 	}
 	
-	public List<Order_Sale> getAllSales(){
-		return order_salesDao.getAllSales();
+	public List<Order_SaleDto> getAllSales(){
+		return convertToDto(order_salesDao.getAllSales());
 	}
 	
-	public FilteredCollection<Order_Sale> getFilteredCollection(List<Order_Sale> o_s, Integer page){
+	public FilteredCollection<Order_SaleDto> getFilteredCollection(List<Order_SaleDto> o_s, Integer page){
 
 		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, o_s);
 	}
 	
-	public List<Order_Sale> findAvailable(List<Order_Sale> o_s){
+	public List<Order_SaleDto> findAvailable(List<Order_SaleDto> o_s){
 		
-		List<Order_Sale> list = new ArrayList<Order_Sale>();
+		List<Order_SaleDto> list = new ArrayList<Order_SaleDto>();
 		
-		for(Order_Sale item : o_s){
+		for(Order_SaleDto item : o_s){
 			int amount = item.getDevice().getAmountInStock() - item.getAmount();
 			if(amount >= 0){
 				list.add(item);
 			}
 		}
 		return list;
+	}
+	
+	public List<Order_SaleDto> convertToDto(List<Order_Sale> o_s){
+		
+		List<Order_SaleDto> dto = new ArrayList<Order_SaleDto>();
+		for(Order_Sale item : o_s){
+			dto.add(new Order_SaleDto(item));
+		}
+		return dto;
 	}
 	
 }

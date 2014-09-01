@@ -1,5 +1,6 @@
 package com.entities.servicesImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.entities.User;
 import com.entities.Dao.UserRolesDao;
 import com.entities.Dao.UsersDao;
+import com.entities.dto.UserDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
 
@@ -21,13 +23,13 @@ public class UsersService {
 	private UserRolesDao rolesDao;
 	private final int PAGE_SIZE = 10;
 	
-	public User create(User user){
+	public UserDto create(User user){
 		String encodedPas = user.getPassword();
 		encodedPas = new BCryptPasswordEncoder().encode(encodedPas);
 		user.setPassword(encodedPas);
 		user.setRole(rolesDao.findById(4));
 		usersDao.create(user);
-		return user;
+		return new UserDto(user);
 	}
 	
 	public void changeRole(int id, String login){
@@ -46,7 +48,7 @@ public class UsersService {
 		usersDao.delete(id);
 	}
 	
-	public User update(User user,String oldPassword,String newPassword,String repeatPassword){
+	public UserDto update(UserDto user,String oldPassword,String newPassword,String repeatPassword){
 		
 		BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
 		String encodedOldPas = bc.encode(oldPassword);
@@ -54,20 +56,24 @@ public class UsersService {
 			if(encodedOldPas.equals(oldPassword) && newPassword.equals(repeatPassword)){
 				user.setPassword(bc.encode(newPassword));
 			}
-			usersDao.update(user);
+			usersDao.update(user.getEntity());
 		}
 
 		return user;
 	}
 	
-	public User findUser(String login){
+	public UserDto findUser(String login){
 		
-		return usersDao.findByLogin(login);
+		return new UserDto(usersDao.findByLogin(login));
 	}
 	
-	public FilteredCollection<User> getFilteredCollection(Integer page){
+	public FilteredCollection<UserDto> getFilteredCollection(Integer page){
 		
-		List<User> users = usersDao.getAllUserValues();	
+		List<UserDto> users = new ArrayList<UserDto>();
+		
+		for(User item : usersDao.getAllUserValues()){
+			users.add(new UserDto(item));
+		}
 		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, users);
 	}
 }

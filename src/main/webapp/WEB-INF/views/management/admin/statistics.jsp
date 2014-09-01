@@ -82,7 +82,6 @@ Morris.Area({
     xkey: 'y',
     ykeys: ['a', 'b'],
     labels: ['<spring:message code="Orders"/>', '<spring:message code="Purchases"/>'],
-
     parseTime:false,
     behaveLikeLine:true,
     resize: true

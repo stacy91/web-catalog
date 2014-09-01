@@ -9,29 +9,27 @@ import org.springframework.stereotype.Component;
 
 import com.entities.Brand;
 import com.entities.Dao.BrandsDao;
+import com.entities.dto.BrandDto;
 
 
 @Component
-public class BrandFormatter implements Formatter<Brand> {
+public class BrandFormatter implements Formatter<BrandDto> {
 	
 	@Autowired
 	BrandsDao brandsDao;
 	
     @Override
-    public String print(Brand brand, Locale locale) {
+    public String print(BrandDto brand, Locale locale) {
     	int brandId = brand.getId();
         return Integer.toString(brandId);
     }
 
     @Override
-    public Brand parse(String id, Locale locale) throws ParseException {
+    public BrandDto parse(String id, Locale locale) throws ParseException {
 
-        // IMPORTANT: This approach works only if your equals() method doesn't compare fields
-        // beyond the ID. If it does, then you'll need those fields set too. Consider simply
-        // loading the entity from the database.
     	int brandId = Integer.parseInt(id);
     	Brand brand = brandsDao.findById(brandId);
-        return brand;
+        return new BrandDto(brand);
     } 
 
 }

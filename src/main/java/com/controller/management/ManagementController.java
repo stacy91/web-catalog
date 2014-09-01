@@ -4,9 +4,7 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.entities.Arrival;
 import com.entities.Brand;
-import com.entities.Device;
-import com.entities.Order_Sale;
-import com.entities.User;
+import com.entities.dto.ArrivalDto;
+import com.entities.dto.BrandDto;
+import com.entities.dto.DeviceDto;
+import com.entities.dto.Order_SaleDto;
+import com.entities.dto.UserDto;
 import com.entities.servicesImpl.ArrivalsService;
 import com.entities.servicesImpl.BrandsService;
 import com.entities.servicesImpl.DevicesService;
@@ -52,9 +50,9 @@ public class ManagementController{
 	@RequestMapping(value="")
 	public String index(ModelMap model,Principal principal){
 		
-		List<Order_Sale> orders = o_sService.getOrders(principal.getName());
-		List<Order_Sale> available = o_sService.findAvailable(orders);
-		List<Order_Sale> sales = o_sService.getSales(principal.getName());
+		List<Order_SaleDto> orders = o_sService.getOrders(principal.getName());
+		List<Order_SaleDto> available = o_sService.findAvailable(orders);
+		List<Order_SaleDto> sales = o_sService.getSales(principal.getName());
 		
 		model.addAttribute("orders", o_sService.getFilteredCollection(orders, 1).getItems());
 		model.addAttribute("ordersCount", orders.size());
@@ -69,7 +67,7 @@ public class ManagementController{
 	@RequestMapping(value="/brands")  
     public String showBrands(ModelMap model,Integer page) {  
 
-	FilteredCollection<Brand> fBrands = brandsService.getBrands(page);
+	FilteredCollection<BrandDto> fBrands = brandsService.getFiltered(page);
     model.addAttribute("brands", fBrands.getItems());
     
     FilteredCollectionGenerator.fillPagination(model,fBrands);
@@ -80,15 +78,15 @@ public class ManagementController{
 	@RequestMapping(value="/addBrand")  
     public String addBrand(ModelMap model,Integer page) {  
 		
-    model.addAttribute("brand", new Brand());
+    model.addAttribute("brand", new BrandDto());
     model.addAttribute("page", page);
     
     return "adminBrands/add";
     }  
 	@RequestMapping(value="/addBrand", method=RequestMethod.POST)  
-    public String addBrand(@RequestParam String action, @Valid Brand brand,BindingResult result,
+    public String addBrand(@RequestParam String action, @Valid BrandDto brand,BindingResult result,
     		Integer page) {  
-		
+	
 	String redirect = "redirect:/management/brands"; 	
 	if(!action.equals("cancel"))
 	{
@@ -113,7 +111,7 @@ public class ManagementController{
 		return "adminBrands/update";
 	}
 	@RequestMapping(value="/updateBrand",method=RequestMethod.POST)
-	public String updateBrand(@RequestParam String action,@Valid Brand brand, BindingResult result,
+	public String updateBrand(@RequestParam String action,@Valid BrandDto brand, BindingResult result,
 			Integer page){
 		
 		String redirect = "redirect:/management/brands"; 
@@ -151,8 +149,8 @@ public class ManagementController{
 	@RequestMapping(value="/devices")  
     public String showDevices(ModelMap model,Integer page) {  
 	
-	FilteredCollection<Device> fDevices = devicesService.getFiltered(devicesService.getDevices(null,null), page);
-	List<Device> devices = fDevices.getItems();
+	FilteredCollection<DeviceDto> fDevices = devicesService.getFiltered(devicesService.getDevices(null,null), page);
+	List<DeviceDto> devices = fDevices.getItems();
     model.addAttribute("devices", devices);
     model.addAttribute("brands", brandsService.getBrands());
     
@@ -164,14 +162,14 @@ public class ManagementController{
 	@RequestMapping(value="/addDevice")
 	public String addDevice(ModelMap model,Integer page){
 		
-		model.addAttribute("device", new Device());
+		model.addAttribute("device", new DeviceDto());
 		model.addAttribute("brands", brandsService.getBrands());
 		model.addAttribute("page", page);
 		
 		return "adminDevices/add";
 	}
 	@RequestMapping(value="/addDevice", method=RequestMethod.POST)
-	public String addDevice(@Valid Device device,MultipartFile image,
+	public String addDevice(@Valid DeviceDto device,MultipartFile image,
 			String action, BindingResult result,Integer page){
 		
 		String redirect = "redirect:/management/devices";
@@ -192,7 +190,7 @@ public class ManagementController{
 	@RequestMapping(value="/updateDevice")
 	public String updateDevice(int id,ModelMap model,Integer page){
 		
-		Device device = devicesService.getDeviceWithBrand(id);
+		DeviceDto device = devicesService.getDevice(id);
 		model.addAttribute("device", device);
 		model.addAttribute("brands", brandsService.getBrands());
 		model.addAttribute("page", page);
@@ -202,7 +200,7 @@ public class ManagementController{
 	
 	
 	@RequestMapping(value="/updateDevice", method=RequestMethod.POST)
-	public String updateDevice(@Valid Device device,MultipartFile image,
+	public String updateDevice(@Valid DeviceDto device,MultipartFile image,
 			String action, BindingResult result,Integer page){
 		
 		String redirect = "redirect:/management/devices";
@@ -239,22 +237,22 @@ public class ManagementController{
 	@RequestMapping(value="/arrivals")  
     public String showArrivals(ModelMap model,Integer page) {  
 		
-		FilteredCollection<Arrival> fArrivals = arrivalsService.getArrivals(page);
+		FilteredCollection<ArrivalDto> fArrivals = arrivalsService.getArrivals(page);
 		model.addAttribute("arrivals", fArrivals.getItems());
 		FilteredCollectionGenerator.fillPagination(model, fArrivals);
 		return  "adminArrivals";
     }   
 	
 	@RequestMapping(value="/addArrival", method=RequestMethod.GET)
-	public String addArrival(ModelMap model,int deviceId,Principal pricipal,Integer page){
+	public String addArrival(ModelMap model,int deviceId,Principal principal,Integer page){
 		
 		
-		model.addAttribute("arrival",arrivalsService.getArrivalToCreate(deviceId,pricipal.getName()));
+		model.addAttribute("arrival",arrivalsService.getArrivalToCreate(deviceId,principal.getName()));
 		model.addAttribute("page", page);
 		return "adminArrivals/add";
 	}
 	@RequestMapping(value="/addArrival", method=RequestMethod.POST)
-	public String addArrival(@Valid Arrival arrival,Principal principal,
+	public String addArrival(@Valid ArrivalDto arrival,Principal principal,
 			String action, BindingResult result,Integer page){
 		
 		String redirect = "redirect:/management/devices";
@@ -277,7 +275,7 @@ public class ManagementController{
 		return "adminArrivals/update";
 	}
 	@RequestMapping(value="/updateArrival", method=RequestMethod.POST)
-	public String updateArrival(@Valid Arrival arrival,Principal principal,
+	public String updateArrival(@Valid ArrivalDto arrival,Principal principal,
 			String action, BindingResult result,Integer page){
 		
 		String redirect = "redirect:/management/arrivals";
@@ -313,7 +311,7 @@ public class ManagementController{
 	
 	@RequestMapping(value="/allOS")
 	public String showOS(ModelMap model,Integer page, String show){
-		List<Order_Sale> o_s = null;	
+		List<Order_SaleDto> o_s = null;	
 		if(show != null && !show.isEmpty())
 		{
 			switch (show) {
@@ -328,7 +326,7 @@ public class ManagementController{
 		else {
 			o_s = o_sService.getAllOS();
 		}		
-		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(o_s, page);
+		FilteredCollection<Order_SaleDto> fO_S = o_sService.getFilteredCollection(o_s, page);
 		model.addAttribute("o_s", fO_S.getItems());	
 		model.addAttribute("show", show);
 		
@@ -351,14 +349,14 @@ public class ManagementController{
 	@RequestMapping(value="/orders")
 	public String showOrders(ModelMap model,Principal principal,Integer page,String show){
 		
-		List<Order_Sale> o_s = o_sService.getOrders(principal.getName());
+		List<Order_SaleDto> o_s = o_sService.getOrders(principal.getName());
 		if(show != null && show.equals("available")){
 			o_s = o_sService.findAvailable(o_s);
 		}
 		else{
 			show = "all";
 		}
-		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(o_s,page);
+		FilteredCollection<Order_SaleDto> fO_S = o_sService.getFilteredCollection(o_s,page);
 		model.addAttribute("show", show);
 		model.addAttribute("orders", fO_S.getItems());
 		model.addAttribute("page", page);
@@ -382,7 +380,7 @@ public class ManagementController{
 	@RequestMapping(value="/order")
 	public String order(ModelMap model, int id,String error, Integer page){
 		
-		Order_Sale o_s = o_sService.getOrder(id);
+		Order_SaleDto o_s = o_sService.getOrder(id);
 		model.addAttribute("order", o_s);		
 		model.addAttribute("page", page);
 		
@@ -395,12 +393,12 @@ public class ManagementController{
 	}
 	
 	@RequestMapping(value="/order",method=RequestMethod.POST)
-	public String order(ModelMap model, Order_Sale o_s, String action, Integer page){
+	public String order(ModelMap model, Order_SaleDto o_s, String action, Integer page){
 
 		String redirect = "redirect:/management/orders";
 		if(!action.equals("cancel")){
 			if(!o_sService.buy(o_s.getId()))
-				return "redirect:/management/order?id=" + o_s.getId() + "&error=true" + "&page=" + page;
+				redirect = "redirect:/management/order?id=" + o_s.getId() + "&error=true";	
 		}
 		
 		if(page != null)
@@ -412,7 +410,7 @@ public class ManagementController{
 	@RequestMapping(value="/sales")
 	public String showSales(ModelMap model, Principal principal, Integer page){
 		
-		FilteredCollection<Order_Sale> fO_S = o_sService.getFilteredCollection(
+		FilteredCollection<Order_SaleDto> fO_S = o_sService.getFilteredCollection(
 				o_sService.getSales(principal.getName()), page);		
 		model.addAttribute("sales", fO_S.getItems());
 		
@@ -430,7 +428,7 @@ public class ManagementController{
 	@RequestMapping(value="users")
 	public String showUsers(ModelMap model, Integer page){
 		
-		FilteredCollection<User> fUsers = usersService.getFilteredCollection(page);
+		FilteredCollection<UserDto> fUsers = usersService.getFilteredCollection(page);
 		model.addAttribute("users", fUsers.getItems());
 	
 		FilteredCollectionGenerator.fillPagination(model, fUsers);
@@ -466,10 +464,10 @@ public class ManagementController{
 	}
 	
 	@RequestMapping(value="user",method=RequestMethod.POST)
-	public String updateUser(ModelMap model, User user,
+	public String updateUser(ModelMap model, UserDto user,
 			String oldPassword,String newPassword,String repeatPassword,String action){
 		
-		User updatedUser = usersService.update(user,oldPassword, newPassword, repeatPassword);
+		UserDto updatedUser = usersService.update(user,oldPassword, newPassword, repeatPassword);
 		
 		Authentication authentication = new UsernamePasswordAuthenticationToken(updatedUser.getLogin(),
 				 updatedUser.getPassword()); 

@@ -1,10 +1,8 @@
 package com.controller;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,26 +15,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.entities.Device;
 import com.entities.User;
 import com.helpers.FilteredCollection;
+import com.entities.dto.DeviceDto;
 import com.entities.servicesImpl.BrandsService;
 import com.entities.servicesImpl.DevicesService;
 import com.entities.servicesImpl.Orders_SalesService;
 import com.entities.servicesImpl.UsersService;
 import com.helpers.DeviceHelper;
-
-
-
-
-
-
-
-
-
 import com.helpers.FilteredCollectionGenerator;
-
 import java.security.Principal;
 
 @Controller
@@ -63,7 +50,7 @@ public class Home {
 	@RequestMapping("*")
 	public String welcome(ModelMap model, Integer page, Integer brandId, String search){
 		
-		FilteredCollection<Device> fDevices = devicesService.getFiltered(devicesService.getDevices(brandId,search), page);
+		FilteredCollection<DeviceDto> fDevices = devicesService.getFiltered(devicesService.getDevices(brandId,search), page);
 
 	    FilteredCollectionGenerator.fillPagination(model, fDevices);
 	    
