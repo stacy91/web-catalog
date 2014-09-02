@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.entities.User;
+import com.entities.UserRole;
 import com.entities.Dao.UserRolesDao;
 import com.entities.Dao.UsersDao;
 import com.entities.dto.UserDto;
@@ -27,19 +28,19 @@ public class UsersService {
 		String encodedPas = user.getPassword();
 		encodedPas = new BCryptPasswordEncoder().encode(encodedPas);
 		user.setPassword(encodedPas);
-		user.setRole(rolesDao.findById(4));
+		user.setRole(rolesDao.find(4));
 		usersDao.create(user);
 		return new UserDto(user);
 	}
 	
 	public void changeRole(int id, String login){
 		
-		User user = usersDao.initRole(id);
+		User user = usersDao.find(id);
 		if(!user.getLogin().equals(login)){
 			if(user.getRole().getId() == 3)
-				user.setRole(rolesDao.findById(4));
+				user.setRole(rolesDao.find(4));
 			else
-				user.setRole(rolesDao.findById(3));
+				user.setRole(rolesDao.find(3));
 			usersDao.update(user);
 		}
 	}
@@ -71,7 +72,7 @@ public class UsersService {
 		
 		List<UserDto> users = new ArrayList<UserDto>();
 		
-		for(User item : usersDao.getAllUserValues()){
+		for(User item : usersDao.getAll()){
 			users.add(new UserDto(item));
 		}
 		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, users);

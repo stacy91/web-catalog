@@ -1,19 +1,11 @@
 package com.entities.servicesImpl;
 
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-
-import javassist.expr.NewArray;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.joda.time.DateTime;
-
 import com.entities.Device;
 import com.entities.Order_Sale;
 import com.entities.User;
@@ -40,7 +32,7 @@ public class Orders_SalesService {
 	public void create(Integer deviceId,String login,Integer amount){
 		
 		Order_Sale o_s = new Order_Sale();
-		o_s.setDevice(devicesDao.findById(deviceId));
+		o_s.setDevice(devicesDao.find(deviceId));
 		o_s.setUser(usersDao.findByLogin(login));
 		o_s.setAmount(amount);
 		o_s.setTimeOrdered((new DateTime().toDate()));
@@ -52,32 +44,32 @@ public class Orders_SalesService {
 	}
 	
 	public void deleteOrder(int id){
-		Order_Sale o_s = order_salesDao.initProxy(id);
+		Order_Sale o_s = order_salesDao.find(id);
 		if(!o_s.getIsSold()){
-			order_salesDao.delete(o_s);
+			order_salesDao.delete(id);
 		}
 	}
 	
 	public void deleteOS(int id){
 		
-		Order_Sale o_s = order_salesDao.initProxy(id);
+		Order_Sale o_s = order_salesDao.find(id);
 		if(o_s.getIsSold()){
 			Device device = o_s.getDevice();
 			device.setAmountInStock(device.getAmountInStock() + o_s.getAmount());
 			devicesDao.update(device);		
 		}	
 		
-		order_salesDao.delete(o_s);	
+		order_salesDao.delete(id);	
 	}
 	
 	public Order_SaleDto getOrder(int id){
-		return new Order_SaleDto(order_salesDao.initProxy(id));
+		return new Order_SaleDto(order_salesDao.find(id));
 	}
 	
 	public boolean buy(int id){
 		
 		boolean result = false;
-		Order_Sale o_s = order_salesDao.initProxy(id);
+		Order_Sale o_s = order_salesDao.find(id);
 		Device device = o_s.getDevice();
 		int totalAmount = device.getAmountInStock() - o_s.getAmount();
 		if(totalAmount >= 0){
@@ -93,13 +85,13 @@ public class Orders_SalesService {
 	
 	public List<Order_SaleDto> getOrders(String login){
 		
-		User user = usersDao.initOrders(usersDao.findByLogin(login));
+		User user = usersDao.initOS(usersDao.findByLogin(login).getId());
 		return convertToDto(user.getOrders_Sales());
 	}
 	
 	public List<Order_SaleDto> getSales(String login){
 		
-		User user = usersDao.initSales(usersDao.findByLogin(login));
+		User user = usersDao.initOS(usersDao.findByLogin(login).getId());
 		return convertToDto(user.getOrders_Sales());
 	}
 	
@@ -108,11 +100,11 @@ public class Orders_SalesService {
 	}
 	
 	public List<Order_SaleDto> getAllOrders(){
-		return convertToDto(order_salesDao.getAllOrders());
+		return convertToDto(order_salesDao.getAll());
 	}
 	
 	public List<Order_SaleDto> getAllSales(){
-		return convertToDto(order_salesDao.getAllSales());
+		return convertToDto(order_salesDao.getAll());
 	}
 	
 	public FilteredCollection<Order_SaleDto> getFilteredCollection(List<Order_SaleDto> o_s, Integer page){

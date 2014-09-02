@@ -30,7 +30,7 @@ public class UserFormatter implements Formatter<User> {
         // beyond the ID. If it does, then you'll need those fields set too. Consider simply
         // loading the entity from the database.
     	int userId = Integer.parseInt(id);
-    	User user = userDao.initRole(userId);
+    	User user = userDao.find(userId);
         return user;
     } 
 

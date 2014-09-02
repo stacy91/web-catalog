@@ -4,19 +4,11 @@ import java.util.List;
 import com.entities.Device;
 
 
-public interface DevicesDao {
+public interface DevicesDao extends RootDao<Device> {
 	
-	public void create(Device device);
-	public void update(Device newDevice);
-	public void delete(int id);
-	public void delete(Device device);
-	
-	public Device findById(int id);
-
-	public Device initBrand(int id);
 	public Device initArrivals(int id);
 	public Device initOrders_Sales(int id);
 	
-	public List<Device> getAllDeviceValues(int brandId, String search);
-	public List<Device> getAllDeviceValues();	
+	public List<Device> getAll(int brandId, String search);
+
 }

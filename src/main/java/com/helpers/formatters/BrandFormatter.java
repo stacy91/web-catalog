@@ -28,7 +28,7 @@ public class BrandFormatter implements Formatter<BrandDto> {
     public BrandDto parse(String id, Locale locale) throws ParseException {
 
     	int brandId = Integer.parseInt(id);
-    	Brand brand = brandsDao.findById(brandId);
+    	Brand brand = brandsDao.find(brandId);
         return new BrandDto(brand);
     } 
 

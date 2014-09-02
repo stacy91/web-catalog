@@ -18,7 +18,7 @@
   <div class="form-group">
     <div class="row" style="margin:20px 0 0 0; width:240px;float:right;">
       <input type="submit" class="btn btn-default myButtons" name="action" value="<spring:message code="Update" />"/>
-      <input class="btn btn-default myButtons" name="action" value="cancel" value="<spring:message code="Cancel" />"/>
+      <input type="submit" class="btn btn-default myButtons" name="action" value="cancel" value="<spring:message code="Cancel" />"/>
       <input type="hidden" name="page" value="page"/>
     </div>
   </div>

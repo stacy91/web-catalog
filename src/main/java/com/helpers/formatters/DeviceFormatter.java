@@ -25,7 +25,7 @@ public class DeviceFormatter implements Formatter<DeviceDto> {
     public DeviceDto parse(String id, Locale locale) throws ParseException {
 
     	int deviceId = Integer.parseInt(id);
-    	DeviceDto device = new DeviceDto(devicesDao.initBrand(deviceId));
+    	DeviceDto device = new DeviceDto(devicesDao.find(deviceId));
         return device;
     } 
 

@@ -1,27 +1,11 @@
 package com.entities.Dao;
 
-import java.util.List;
 import com.entities.User;
 
-public interface UsersDao {
-	public void create(User user);
-	public void update(User user);
-	public void delete(int id);
-	public void delete(User user);
-	
-	public User findById(int id);
+public interface UsersDao extends RootDao<User>{
+
 	public User findByLogin(String login);
-	public User initRole(User user);
-	public User initRole(int id);
-	
-	public User initArrivals(User user);
 	public User initArrivals(int id);
-	
-	public User initSales(User user);
-	public User initOrders(User user);
-	
-	public User initSales(int id);
-	public User initOrders(int id);
-	
-	public List<User> getAllUserValues();
+	public User initOS(int id);
+
 }

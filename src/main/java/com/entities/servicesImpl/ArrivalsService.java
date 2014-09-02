@@ -3,6 +3,7 @@ package com.entities.servicesImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +32,14 @@ public class ArrivalsService {
 	
 	public void create(ArrivalDto arrival,String login){
 		Arrival entity = arrival.getEntity();
-		entity.setUser(usersDao.initRole(usersDao.findByLogin(login)));
+		entity.setUser(usersDao.findByLogin(login));
+		entity.setTime(new DateTime().toDate());
 		arrivalsDao.create(entity);
 	}
 	
 	public void update(ArrivalDto arrival,String login){
 		Arrival entity = arrival.getEntity();
-		entity.setUser(usersDao.initRole(usersDao.findByLogin(login)));
+		entity.setUser(usersDao.findByLogin(login));
 		arrivalsDao.update(entity);
 	}
 	
@@ -46,8 +48,8 @@ public class ArrivalsService {
 	}
 	
 	public ArrivalDto getArrivalToCreate(int deviceId, String login){
-		Device device = devicesDao.initBrand(deviceId);
-		User user = usersDao.initRole(usersDao.findByLogin(login));
+		Device device = devicesDao.find(deviceId);
+		User user = usersDao.findByLogin(login);
 		Arrival arrival = new Arrival();
 		arrival.setDevice(device);
 		arrival.setUser(user);
@@ -56,13 +58,13 @@ public class ArrivalsService {
 	
 	
 	public ArrivalDto getArrival(int id){
-		return new ArrivalDto(arrivalsDao.initProxy(id));
+		return new ArrivalDto(arrivalsDao.find(id));
 	}
 	
 	public List<ArrivalDto> getArrivals(){
 		List<ArrivalDto> arrivals = new ArrayList<ArrivalDto>();
 		
-		for(Arrival item : arrivalsDao.getAllArrivalValues()){
+		for(Arrival item : arrivalsDao.getAll()){
 			arrivals.add(new ArrivalDto(item));
 		}
 		return arrivals;

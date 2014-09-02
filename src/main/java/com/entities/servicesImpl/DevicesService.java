@@ -69,16 +69,16 @@ public class DevicesService {
 	public List<DeviceDto> getDevices(Integer brandId, String search){
 		
 		int brandIdInt = brandId != null ? brandId : 0;
-		return convertToDto(devicesDao.getAllDeviceValues(brandIdInt,search));
+		return convertToDto(devicesDao.getAll(brandIdInt,search));
 		
 	}
 	
 	public List<DeviceDto> getDevices(){
-		return convertToDto(devicesDao.getAllDeviceValues());
+		return convertToDto(devicesDao.getAll());
 	}
 	
 	public DeviceDto getDevice(int id) {
-		return new DeviceDto(devicesDao.initBrand(id));
+		return new DeviceDto(devicesDao.find(id));
 	}
 		
 }

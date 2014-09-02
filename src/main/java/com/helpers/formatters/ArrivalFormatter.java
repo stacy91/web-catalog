@@ -24,7 +24,7 @@ public class ArrivalFormatter implements Formatter<Arrival> {
     public Arrival parse(String id, Locale locale) throws ParseException {
     	
     	int arrivalId = Integer.parseInt(id);
-    	Arrival arrival = arrivalsDao.initProxy(arrivalId);
+    	Arrival arrival = arrivalsDao.find(arrivalId);
         return arrival;
     } 
 

@@ -34,7 +34,7 @@ public class BrandsService {
 	}
 	
 	public Brand findById(int id){
-		return brandsDao.findById(id);
+		return brandsDao.find(id);
 	}
 	
 	public FilteredCollection<BrandDto> getFiltered(Integer page){
@@ -43,7 +43,7 @@ public class BrandsService {
 	
 	public List<BrandDto> getBrands() {
 		List<BrandDto> brands = new ArrayList<BrandDto>();
-		for(Brand item : brandsDao.getAllBrandValues()){
+		for(Brand item : brandsDao.getAll()){
 			brands.add(new BrandDto(item));
 		}
 		return brands;

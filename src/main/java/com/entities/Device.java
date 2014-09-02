@@ -21,7 +21,7 @@ public class Device {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="BrandId")
 	private Brand brand;
 	@Column(name="Model",nullable=false,unique=true)
