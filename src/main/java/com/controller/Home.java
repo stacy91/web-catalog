@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,7 +23,9 @@ import com.entities.servicesImpl.Orders_SalesService;
 import com.entities.servicesImpl.UsersService;
 import com.helpers.DeviceHelper;
 import com.helpers.FilteredCollectionGenerator;
+import com.helpers.MyUserDetails;
 import java.security.Principal;
+
 
 @Controller
 @RequestMapping("/")
@@ -73,12 +74,10 @@ public class Home {
 	public String register(@Valid UserDto user,String confirmPas, BindingResult result,HttpServletRequest request){
 		
 		if(!result.hasErrors() && user.getPassword().equals(confirmPas)){
-			if(usersService.create(user) != null){
-				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-			            user.getLogin(), user.getPassword());
-				token.setDetails(new WebAuthenticationDetails(request));
-				Authentication authenticatedUser = authenticationManager.authenticate(token);
-				SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+			if(usersService.create(user) != null){	
+				
+				Authentication auth = new UsernamePasswordAuthenticationToken(new MyUserDetails(user),user.getPassword());
+				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 				
 		}
