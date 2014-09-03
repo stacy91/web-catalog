@@ -31,10 +31,10 @@ public class Device {
 	@Column(name="AmountInStock",nullable=false)
 	private int amountInStock;
 	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="GoodsId")
+	@JoinColumn(name="GoodsId",updatable=false)
 	private List<Arrival> arrivals;
 	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="GoodsId")
+	@JoinColumn(name="GoodsId",updatable=false)
 	private List<Order_Sale> orders_sales;
 	
 	

@@ -6,16 +6,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.entities.User;
-import com.entities.UserRole;
 import com.entities.Dao.UserRolesDao;
 import com.entities.Dao.UsersDao;
 import com.entities.dto.UserDto;
+import com.entities.dto.UserRoleDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
 
 @Service
+@Transactional
 public class UsersService {
 	
 	@Autowired 
@@ -24,13 +26,15 @@ public class UsersService {
 	private UserRolesDao rolesDao;
 	private final int PAGE_SIZE = 10;
 	
-	public UserDto create(User user){
+	public UserDto create(UserDto user){
+
 		String encodedPas = user.getPassword();
 		encodedPas = new BCryptPasswordEncoder().encode(encodedPas);
 		user.setPassword(encodedPas);
-		user.setRole(rolesDao.find(4));
-		usersDao.create(user);
-		return new UserDto(user);
+		user.setRole(new UserRoleDto(rolesDao.find(4)));
+		User entity = user.getEntity();
+		usersDao.create(entity); 
+		return user;
 	}
 	
 	public void changeRole(int id, String login){

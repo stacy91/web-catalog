@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.entities.Brand;
 import com.entities.Dao.BrandsDao;
@@ -14,6 +15,7 @@ import com.helpers.FilteredCollectionGenerator;
 
 
 @Service
+@Transactional
 public class BrandsService {
 	
 	private final int PAGE_SIZE=5;

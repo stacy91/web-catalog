@@ -1,8 +1,11 @@
 package com.entities.ImplDao;
 
 import java.util.List;
+
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Component;
+
 import com.entities.Brand;
 import com.entities.Dao.BrandsDao;
 
@@ -15,11 +18,10 @@ public class BrandsImplDao 	extends RootDaoImpl<Brand>
 	@Override
 	public Brand initDevices(int id) {
 		Brand br = find(id);
-		/*Hibernate.initialize(br);*/
+		Hibernate.initialize(br);
 		br.getDevices().size();
 		return br;
 	}
-	
 	
 	@SuppressWarnings("unchecked")
 	@Override 

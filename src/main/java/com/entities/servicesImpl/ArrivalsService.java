@@ -6,6 +6,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.entities.Arrival;
 import com.entities.Device;
@@ -19,6 +20,7 @@ import com.helpers.FilteredCollectionGenerator;
 
 
 @Service
+@Transactional
 public class ArrivalsService {
 	
 	@Autowired
@@ -32,20 +34,41 @@ public class ArrivalsService {
 	
 	public void create(ArrivalDto arrival,String login){
 		Arrival entity = arrival.getEntity();
-		entity.setUser(usersDao.findByLogin(login));
+		Device device = entity.getDevice();
+		device.setAmountInStock(device.getAmountInStock() + arrival.getAmount());
 		entity.setTime(new DateTime().toDate());
 		arrivalsDao.create(entity);
+		devicesDao.update(device);
+		
 	}
 	
 	public void update(ArrivalDto arrival,String login){
 		Arrival entity = arrival.getEntity();
-		entity.setUser(usersDao.findByLogin(login));
-		arrivalsDao.update(entity);
+		Arrival oldArrival = arrivalsDao.find(entity.getId());
+		Device device = oldArrival.getDevice();
+		int updatedAmount = device.getAmountInStock() - oldArrival.getAmount()
+				+ entity.getAmount();
+		
+		if (updatedAmount >= 0) {
+			oldArrival.setUser(usersDao.findByLogin(login));
+			oldArrival.setAmount(entity.getAmount());
+			device.setAmountInStock(updatedAmount);	
+			arrivalsDao.update(oldArrival);
+			devicesDao.update(device);
+		}
 	}
 	
 	public void delete(int id){
-		arrivalsDao.delete(id);
+		Arrival arrival = arrivalsDao.find(id);
+		Device device = arrival.getDevice();
+		int updatedAmount = device.getAmountInStock() - arrival.getAmount();
+		if (updatedAmount >= 0) {
+			device.setAmountInStock(updatedAmount);
+			arrivalsDao.delete(id);
+			devicesDao.update(device);
+		}
 	}
+		
 	
 	public ArrivalDto getArrivalToCreate(int deviceId, String login){
 		Device device = devicesDao.find(deviceId);

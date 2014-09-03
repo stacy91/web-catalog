@@ -270,7 +270,8 @@ public class ManagementController{
 	@RequestMapping(value="/updateArrival")
 	public String updateArrival(int id,ModelMap model,Integer page){
 		
-		model.addAttribute("arrival", arrivalsService.getArrival(id));
+		ArrivalDto arrival = arrivalsService.getArrival(id);
+		model.addAttribute("arrival", arrival);
 		model.addAttribute("page", page);
 		return "adminArrivals/update";
 	}
@@ -337,12 +338,12 @@ public class ManagementController{
 	
 	@RequestMapping(value="/deleteOS",method=RequestMethod.POST)
 	public String deleteOS(int id,Integer page, String show){
-		String redirect = "redirect:/management/allOS";
+		String redirect = "redirect:/management/allOS?";
 		o_sService.deleteOS(id);
 		if(show != null)
-			redirect += "?show=" + show;
+			redirect += "show=" + show + "&";
 		if(page != null)
-			redirect += "&page=" + page;
+			redirect += "page=" + page + "&";
 		return redirect;
 	}
 	
@@ -367,22 +368,26 @@ public class ManagementController{
 	}
 	
 	@RequestMapping(value="/deleteOrder",method=RequestMethod.POST)
-	public String deleteOrder(int id,Integer page){
+	public String deleteOrder(int id,Integer page,String show){
 		
-		String redirect = "redirect:/management/orders";
+		String redirect = "redirect:/management/orders?";
 		o_sService.deleteOrder(id);
 		
+		if(show != null){
+			redirect += "show=" + show + "&";
+		}
 		if(page != null)
-			redirect += "?page=" + page;
+			redirect += "page=" + page;
 		return redirect;
 	}
 	
 	@RequestMapping(value="/order")
-	public String order(ModelMap model, int id,String error, Integer page){
+	public String order(ModelMap model, int id,String error,String show, Integer page){
 		
 		Order_SaleDto o_s = o_sService.getOrder(id);
 		model.addAttribute("order", o_s);		
 		model.addAttribute("page", page);
+		model.addAttribute("show", show);
 		
 		if(error != null && error.equals("true")){
 			
@@ -392,18 +397,29 @@ public class ManagementController{
 		return "order";
 	}
 	
-	@RequestMapping(value="/order",method=RequestMethod.POST)
-	public String order(ModelMap model, Order_SaleDto o_s, String action, Integer page){
+	@RequestMapping(value = "/order", method = RequestMethod.POST)
+	public String order(ModelMap model, Order_SaleDto o_s, String action,
+			String show, Integer page) {
 
-		String redirect = "redirect:/management/orders";
-		if(!action.equals("cancel")){
-			if(!o_sService.buy(o_s.getId()))
-				redirect = "redirect:/management/order?id=" + o_s.getId() + "&error=true";	
+		String redirect = "redirect:/management/orders?";
+		if (show != null) {
+			redirect += "show=" + show + "&page=";
 		}
-		
-		if(page != null)
-			redirect += "?page=" + page;
-		
+		if (!action.equals("cancel")) {
+			if (!o_sService.buy(o_s.getId())) {
+				redirect = "redirect:/management/order?";
+
+				redirect+= "id=" + o_s.getId() + "&error=true&";
+				if (page != null)
+					redirect += "page=" + page;
+				
+				return redirect;
+			}
+		}
+
+		if (page != null)
+			redirect += page;
+
 		return redirect;
 	}
 	

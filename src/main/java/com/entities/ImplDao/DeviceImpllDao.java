@@ -6,28 +6,20 @@ import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import com.entities.Arrival;
 import com.entities.Device;
 import com.entities.Dao.DevicesDao;
 
 
 
 @Component
-@Transactional
 public class DeviceImpllDao 	extends RootDaoImpl<Device>
 								implements DevicesDao {
 	
 	@Override
 	public Device initArrivals(int id) {
 		Device attchDevice = find(id);
-
-		attchDevice.getArrivals().size();
-		for(Arrival item : attchDevice.getArrivals())
-		{
-			Hibernate.initialize(item.getUser());
-			Hibernate.initialize(item.getUser().getRole());
-		}	
+		Hibernate.initialize(attchDevice);	
+		attchDevice.getArrivals().size();	
 		return attchDevice;
 	}
 	

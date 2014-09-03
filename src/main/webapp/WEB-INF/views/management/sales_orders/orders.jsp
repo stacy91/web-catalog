@@ -44,16 +44,22 @@
 									<td><form:form
 											action="${pageContext.request.contextPath}/management/deleteOrder"
 											method="POST">
+											<input type="hidden" name="show" value="${show }"/>
 											<button value="${order.id}" name="id"
 												class="btn btn-default myButtons col-lg-5"><spring:message code="Cancel"/></button>
+												
+												
 												<input type="hidden" name="page" value="${page }" />
 										</form:form> <form:form
 											action="${pageContext.request.contextPath}/management/order"
 											method="GET">
+											<input type="hidden" name="show" value="${show }"/>
+											
 											<button value="${order.id}" name="id"
 												class="btn btn-default myButtons col-lg-5"
 												style="margin-left: 20px"><spring:message code="Buy"/></button>
 												<input type="hidden" name="page" value="${page }" />
+												
 										</form:form></td>
 								</tr>
 							</c:forEach>

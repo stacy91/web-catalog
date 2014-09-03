@@ -12,6 +12,8 @@
 			<label for="userTXT"><spring:message code="Tables.user/role" /></label>
 			<input	class="form-control" disabled value="${arrival.user.login} / ${arrival.user.role.name}"/>
 			<form:input path="id" type="hidden"/>
+			<form:input path="device" type="hidden"/>
+			<form:input path="user" type="hidden"/>
 		</div>
 		
 		<div class="form-group">

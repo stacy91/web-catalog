@@ -3,9 +3,12 @@ package com.entities.servicesImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.joda.time.DateTime;
+
 import com.entities.Device;
 import com.entities.Order_Sale;
 import com.entities.User;
@@ -15,8 +18,10 @@ import com.entities.Dao.UsersDao;
 import com.entities.dto.Order_SaleDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
+import com.helpers.Order_SalesHelper;
 
 @Service
+@Transactional
 public class Orders_SalesService {
 	
 	@Autowired
@@ -40,6 +45,9 @@ public class Orders_SalesService {
 	}
 	
 	public void update(Order_SaleDto o_s){
+		
+		if(o_s.getIsSold())
+			o_s.setTimeSold(new DateTime().toDate());
 		order_salesDao.update(o_s.getEntity());
 	}
 	
@@ -73,6 +81,7 @@ public class Orders_SalesService {
 		Device device = o_s.getDevice();
 		int totalAmount = device.getAmountInStock() - o_s.getAmount();
 		if(totalAmount >= 0){
+			o_s.setTimeSold(new DateTime().toDate());
 			device.setAmountInStock(totalAmount);
 			o_s.setIsSold(true);
 			devicesDao.update(device);
@@ -86,13 +95,13 @@ public class Orders_SalesService {
 	public List<Order_SaleDto> getOrders(String login){
 		
 		User user = usersDao.initOS(usersDao.findByLogin(login).getId());
-		return convertToDto(user.getOrders_Sales());
+		return convertToDto(Order_SalesHelper.getOrders(user.getOrders_Sales()));
 	}
 	
 	public List<Order_SaleDto> getSales(String login){
 		
 		User user = usersDao.initOS(usersDao.findByLogin(login).getId());
-		return convertToDto(user.getOrders_Sales());
+		return convertToDto(Order_SalesHelper.getSales(user.getOrders_Sales()));
 	}
 	
 	public List<Order_SaleDto> getAllOS(){
@@ -100,11 +109,11 @@ public class Orders_SalesService {
 	}
 	
 	public List<Order_SaleDto> getAllOrders(){
-		return convertToDto(order_salesDao.getAll());
+		return convertToDto(Order_SalesHelper.getOrders(order_salesDao.getAll()));
 	}
 	
 	public List<Order_SaleDto> getAllSales(){
-		return convertToDto(order_salesDao.getAll());
+		return convertToDto(Order_SalesHelper.getSales(order_salesDao.getAll()));
 	}
 	
 	public FilteredCollection<Order_SaleDto> getFilteredCollection(List<Order_SaleDto> o_s, Integer page){

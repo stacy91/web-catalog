@@ -29,10 +29,10 @@ public class User {
 	@Column(name="Password",nullable=false)
 	private String password;
 	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="UserId")
+	@JoinColumn(name="UserId",updatable=false)
 	private List<Arrival> arrivals;
 	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="UserId")
+	@JoinColumn(name="UserId",updatable=false)
 	private List<Order_Sale> orders_sales;
 	
 	public User(){

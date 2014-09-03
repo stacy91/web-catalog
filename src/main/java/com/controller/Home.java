@@ -15,9 +15,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.entities.User;
 import com.helpers.FilteredCollection;
 import com.entities.dto.DeviceDto;
+import com.entities.dto.UserDto;
 import com.entities.servicesImpl.BrandsService;
 import com.entities.servicesImpl.DevicesService;
 import com.entities.servicesImpl.Orders_SalesService;
@@ -65,12 +65,12 @@ public class Home {
 	@RequestMapping("/register")
 	public String register(ModelMap model){
 		
-		model.addAttribute("user", new User());
+		model.addAttribute("user", new UserDto());
 		return "register";
 	}
 	
 	@RequestMapping(value="/register",method=RequestMethod.POST)
-	public String register(@Valid User user,String confirmPas, BindingResult result,HttpServletRequest request){
+	public String register(@Valid UserDto user,String confirmPas, BindingResult result,HttpServletRequest request){
 		
 		if(!result.hasErrors() && user.getPassword().equals(confirmPas)){
 			if(usersService.create(user) != null){
