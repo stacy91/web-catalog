@@ -13,9 +13,10 @@ import java.util.Map.Entry;
 import com.entities.dto.ArrivalDto;
 import com.entities.dto.DeviceDto;
 import com.entities.dto.Order_SaleDto;
-import com.entities.servicesImpl.ArrivalsService;
-import com.entities.servicesImpl.DevicesService;
-import com.entities.servicesImpl.Orders_SalesService;
+import com.entities.services.ArrivalsService;
+import com.entities.services.DevicesService;
+import com.entities.services.Orders_SalesService;
+
 
 public class Charts {
 	
@@ -25,7 +26,7 @@ public class Charts {
 		HashMap<String, AreaChartPoint> hmOs = new LinkedHashMap<String, AreaChartPoint>();	
 		
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-		List<Order_SaleDto> o_s = o_sService.getAllOS();
+		List<Order_SaleDto> o_s = o_sService.getAll();
 		String time = null;
 		AreaChartPoint point = null;
 
@@ -65,13 +66,13 @@ public class Charts {
 		int tSales = 0;
 		int tDevices = 0;
 		
-		for(Order_SaleDto o_s : o_sService.getAllOS()){
+		for(Order_SaleDto o_s : o_sService.getAll()){
 			tOrders += o_s.getAmount();
 			if(o_s.getIsSold())
 				tSales += o_s.getAmount();
 		}
 		
-		for(DeviceDto device : devicesService.getDevices()){
+		for(DeviceDto device : devicesService.getAll()){
 			tDevices += device.getAmountInStock();
 		}
 		hm.put("Orders", tOrders);
@@ -86,7 +87,7 @@ public class Charts {
 		HashMap<String, Integer> hm = new LinkedHashMap<String, Integer>();
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		String time;
-		for(ArrivalDto item : arrivalsService.getArrivals()){
+		for(ArrivalDto item : arrivalsService.getAll()){
 			
 			time = df.format(item.getTime());
 			if(hm.size() < 30){
@@ -112,7 +113,7 @@ public class Charts {
 
 		String name;
 		
-		for(Order_SaleDto item : o_sService.getAllSales()){
+		for(Order_SaleDto item : o_sService.getSales()){
 			name = item.getDevice().getBrand().getBrandName() + " " + item.getDevice().getModel();
 			if(hm.containsKey(name)){
 				hm.put(name, hm.get(name) + item.getAmount());

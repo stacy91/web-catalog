@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.helpers.FilteredCollection;
 import com.entities.dto.DeviceDto;
 import com.entities.dto.UserDto;
-import com.entities.servicesImpl.BrandsService;
-import com.entities.servicesImpl.DevicesService;
-import com.entities.servicesImpl.Orders_SalesService;
-import com.entities.servicesImpl.UsersService;
+import com.entities.services.BrandsService;
+import com.entities.services.DevicesService;
+import com.entities.services.Orders_SalesService;
+import com.entities.services.UsersService;
 import com.helpers.DeviceHelper;
 import com.helpers.FilteredCollectionGenerator;
 import com.helpers.MyUserDetails;
@@ -51,11 +51,11 @@ public class Home {
 	@RequestMapping("*")
 	public String welcome(ModelMap model, Integer page, Integer brandId, String search){
 		
-		FilteredCollection<DeviceDto> fDevices = devicesService.getFiltered(devicesService.getDevices(brandId,search), page);
+		FilteredCollection<DeviceDto> fDevices = devicesService.getFiltered(devicesService.getAll(brandId,search), page);
 
 	    FilteredCollectionGenerator.fillPagination(model, fDevices);
 	    
-		model.addAttribute("brands", brandsService.getBrands());
+		model.addAttribute("brands", brandsService.getAll());
 		model.addAttribute("devices", fDevices.getItems());
 		model.addAttribute("brandId",brandId);
 		model.addAttribute("search",search);
@@ -95,7 +95,7 @@ public class Home {
 	public String Order(Integer deviceId,Integer brandId,String search,Principal principal,
 			Integer amount,Integer page){
 		
-		o_sService.create(deviceId, principal.getName(), amount);
+		o_sService.create(o_sService.initOrder_Sale(deviceId, principal.getName(), amount));
 		String redirect = "redirect:?";
 		
 		

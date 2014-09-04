@@ -21,11 +21,11 @@ public class Order_Sale {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="GoodsId")
 	private Device device;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="UserId")
 	private User user;
 	

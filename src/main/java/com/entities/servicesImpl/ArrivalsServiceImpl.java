@@ -2,26 +2,25 @@ package com.entities.servicesImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.entities.Arrival;
 import com.entities.Device;
-import com.entities.User;
 import com.entities.Dao.ArrivalsDao;
 import com.entities.Dao.DevicesDao;
 import com.entities.Dao.UsersDao;
 import com.entities.dto.ArrivalDto;
+import com.entities.services.ArrivalsService;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
 
 
 @Service
 @Transactional
-public class ArrivalsService {
+public class ArrivalsServiceImpl implements ArrivalsService{
 	
 	@Autowired
 	ArrivalsDao arrivalsDao;
@@ -32,32 +31,48 @@ public class ArrivalsService {
 	
 	private final int PAGE_SIZE = 10;
 	
-	public void create(ArrivalDto arrival,String login){
-		Arrival entity = arrival.getEntity();
-		Device device = entity.getDevice();
-		device.setAmountInStock(device.getAmountInStock() + arrival.getAmount());
-		entity.setTime(new DateTime().toDate());
-		arrivalsDao.create(entity);
-		devicesDao.update(device);
-		
+	@Override
+	public ArrivalDto create(ArrivalDto item)
+			throws DataIntegrityViolationException {
+		Arrival entity = null;
+		try{
+			
+			entity = item.getEntity();
+			Device device = entity.getDevice();
+			device.setAmountInStock(device.getAmountInStock() + item.getAmount());
+			entity.setTime(new DateTime().toDate());
+			arrivalsDao.create(entity);
+			devicesDao.update(device);
+		}
+		catch (DataIntegrityViolationException e){
+			
+		}
+		return new ArrivalDto(entity);
 	}
 	
-	public void update(ArrivalDto arrival,String login){
-		Arrival entity = arrival.getEntity();
-		Arrival oldArrival = arrivalsDao.find(entity.getId());
+	@Override
+	public ArrivalDto update(ArrivalDto arrival) 
+			throws DataIntegrityViolationException{
+
+		Arrival oldArrival = arrivalsDao.find(arrival.getId());
 		Device device = oldArrival.getDevice();
 		int updatedAmount = device.getAmountInStock() - oldArrival.getAmount()
-				+ entity.getAmount();
+				+ arrival.getAmount();
 		
 		if (updatedAmount >= 0) {
-			oldArrival.setUser(usersDao.findByLogin(login));
-			oldArrival.setAmount(entity.getAmount());
+			oldArrival.setAmount(arrival.getAmount());
+			oldArrival.setPrice(arrival.getPrice());
+			oldArrival.setTime(new DateTime().toDate());
+			oldArrival.setUser(arrival.getUser().getEntity());
 			device.setAmountInStock(updatedAmount);	
 			arrivalsDao.update(oldArrival);
 			devicesDao.update(device);
+			return new ArrivalDto(oldArrival);
 		}
+		return null;
 	}
 	
+	@Override
 	public void delete(int id){
 		Arrival arrival = arrivalsDao.find(id);
 		Device device = arrival.getDevice();
@@ -70,30 +85,39 @@ public class ArrivalsService {
 	}
 		
 	
-	public ArrivalDto getArrivalToCreate(int deviceId, String login){
-		Device device = devicesDao.find(deviceId);
-		User user = usersDao.findByLogin(login);
+	@Override
+	public ArrivalDto initArrival(int deviceId, String login) {
 		Arrival arrival = new Arrival();
-		arrival.setDevice(device);
-		arrival.setUser(user);
+
+		arrival.setDevice(devicesDao.find(deviceId));
+		arrival.setUser(usersDao.findByLogin(login));
+		
 		return new ArrivalDto(arrival);
 	}
 	
 	
-	public ArrivalDto getArrival(int id){
+	@Override
+	public ArrivalDto find(int id) {
+		
 		return new ArrivalDto(arrivalsDao.find(id));
 	}
-	
-	public List<ArrivalDto> getArrivals(){
-		List<ArrivalDto> arrivals = new ArrayList<ArrivalDto>();
+
+	@Override
+	public FilteredCollection<ArrivalDto> getFiltered(List<ArrivalDto> items, Integer page) {
 		
-		for(Arrival item : arrivalsDao.getAll()){
+		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, items);
+	}
+
+	
+	public List<ArrivalDto> getAll() {
+		List<ArrivalDto> arrivals = new ArrayList<ArrivalDto>();
+
+		for (Arrival item : arrivalsDao.getAll()) {
 			arrivals.add(new ArrivalDto(item));
 		}
 		return arrivals;
 	}
+
 	
-	public FilteredCollection<ArrivalDto> getArrivals(Integer page){
-		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, getArrivals());
-	}
+
 }

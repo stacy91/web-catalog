@@ -25,7 +25,7 @@ public class Brand {
 	@Column(name="BrandName",nullable=false)
 	private String brandName;
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name="BrandId")
+	@JoinColumn(name="BrandId",updatable=false)
 	private List<Device> devices;
 	
 	

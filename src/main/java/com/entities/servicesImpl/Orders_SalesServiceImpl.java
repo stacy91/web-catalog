@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.joda.time.DateTime;
@@ -16,13 +17,14 @@ import com.entities.Dao.DevicesDao;
 import com.entities.Dao.Orders_SalesDao;
 import com.entities.Dao.UsersDao;
 import com.entities.dto.Order_SaleDto;
+import com.entities.services.Orders_SalesService;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
 import com.helpers.Order_SalesHelper;
 
 @Service
 @Transactional
-public class Orders_SalesService {
+public class Orders_SalesServiceImpl implements Orders_SalesService{
 	
 	@Autowired
 	private Orders_SalesDao order_salesDao;
@@ -31,33 +33,52 @@ public class Orders_SalesService {
 	@Autowired
 	private DevicesDao devicesDao;
 	
-	private final int PAGE_SIZE = 10;
+	private List<Order_SaleDto> convertToDto(List<Order_Sale> o_s) {
 
+		List<Order_SaleDto> dto = new ArrayList<Order_SaleDto>();
+		for (Order_Sale item : o_s) {
+			dto.add(new Order_SaleDto(item));
+		}
+		return dto;
+	}
 	
-	public void create(Integer deviceId,String login,Integer amount){
+	@Override
+	public Order_SaleDto create(Order_SaleDto item)
+			throws DataIntegrityViolationException {
+		
+		return new Order_SaleDto(order_salesDao.create(item.getEntity()));
+	}
+
+	@Override
+	public Order_SaleDto update(Order_SaleDto item)
+			throws DataIntegrityViolationException {
+		if(item.getIsSold())
+			item.setTimeSold(new DateTime().toDate());
+		
+		return new Order_SaleDto(order_salesDao.update(item.getEntity()));
+	}
+	
+	@Override
+	public Order_SaleDto initOrder_Sale(Integer deviceId,String login,Integer amount){
 		
 		Order_Sale o_s = new Order_Sale();
 		o_s.setDevice(devicesDao.find(deviceId));
 		o_s.setUser(usersDao.findByLogin(login));
 		o_s.setAmount(amount);
 		o_s.setTimeOrdered((new DateTime().toDate()));
-		order_salesDao.create(o_s);
+		return new Order_SaleDto(o_s);
 	}
+
 	
-	public void update(Order_SaleDto o_s){
-		
-		if(o_s.getIsSold())
-			o_s.setTimeSold(new DateTime().toDate());
-		order_salesDao.update(o_s.getEntity());
-	}
-	
-	public void deleteOrder(int id){
+	@Override
+	public void delete(int id) throws DataIntegrityViolationException {
 		Order_Sale o_s = order_salesDao.find(id);
 		if(!o_s.getIsSold()){
 			order_salesDao.delete(id);
-		}
+		}	
 	}
 	
+	@Override
 	public void deleteOS(int id){
 		
 		Order_Sale o_s = order_salesDao.find(id);
@@ -68,12 +89,15 @@ public class Orders_SalesService {
 		}	
 		
 		order_salesDao.delete(id);	
-	}
+	}	
 	
-	public Order_SaleDto getOrder(int id){
+	
+	@Override
+	public Order_SaleDto find(int id) {
 		return new Order_SaleDto(order_salesDao.find(id));
 	}
 	
+	@Override
 	public boolean buy(int id){
 		
 		boolean result = false;
@@ -92,35 +116,43 @@ public class Orders_SalesService {
 		return result;
 	}
 	
+	@Override
+	public List<Order_SaleDto> getAll() {
+		return convertToDto(order_salesDao.getAll());
+	}
+	
+	@Override
 	public List<Order_SaleDto> getOrders(String login){
 		
 		User user = usersDao.initOS(usersDao.findByLogin(login).getId());
 		return convertToDto(Order_SalesHelper.getOrders(user.getOrders_Sales()));
 	}
 	
+	@Override
 	public List<Order_SaleDto> getSales(String login){
 		
 		User user = usersDao.initOS(usersDao.findByLogin(login).getId());
 		return convertToDto(Order_SalesHelper.getSales(user.getOrders_Sales()));
 	}
 	
-	public List<Order_SaleDto> getAllOS(){
-		return convertToDto(order_salesDao.getAll());
-	}
 	
-	public List<Order_SaleDto> getAllOrders(){
+	@Override
+	public List<Order_SaleDto> getOrders(){
 		return convertToDto(Order_SalesHelper.getOrders(order_salesDao.getAll()));
 	}
 	
-	public List<Order_SaleDto> getAllSales(){
+	public List<Order_SaleDto> getSales(){
 		return convertToDto(Order_SalesHelper.getSales(order_salesDao.getAll()));
 	}
 	
-	public FilteredCollection<Order_SaleDto> getFilteredCollection(List<Order_SaleDto> o_s, Integer page){
-
-		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, o_s);
+	@Override
+	public FilteredCollection<Order_SaleDto> getFiltered(
+			List<Order_SaleDto> items, Integer page) {
+		
+		return FilteredCollectionGenerator.getFilteredCollection(page, PAGE_SIZE, items);
 	}
 	
+	@Override
 	public List<Order_SaleDto> findAvailable(List<Order_SaleDto> o_s){
 		
 		List<Order_SaleDto> list = new ArrayList<Order_SaleDto>();
@@ -133,14 +165,5 @@ public class Orders_SalesService {
 		}
 		return list;
 	}
-	
-	public List<Order_SaleDto> convertToDto(List<Order_Sale> o_s){
 		
-		List<Order_SaleDto> dto = new ArrayList<Order_SaleDto>();
-		for(Order_Sale item : o_s){
-			dto.add(new Order_SaleDto(item));
-		}
-		return dto;
-	}
-	
 }
