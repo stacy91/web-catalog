@@ -33,14 +33,19 @@
 		<put-attribute name="body" value="/WEB-INF/views/management/index.jsp"/>
 	</definition>
 	
+	<!--  Errors -->
+	
+	<definition name="error" extends="base" >
+		<put-attribute name="pageTitle" value="Unique name error"/>
+		<put-attribute name="content" value="/WEB-INF/views/errors/error.jsp"/>
+		<put-attribute name="rightCatalog" value=""/>
+		<put-attribute name="footer" value=""/>
+	</definition>
+	
+	<!--  End Errors -->
+	
 	<!-- Admin Pages -->
 	
-	<definition name="adminErrors/un" extends="management" >
-		<put-attribute name="pageTitle" value="Unique name error"/>
-		<put-attribute name="wrapperTitle" value="Unique name error"/>
-		<put-attribute name="left" value="/WEB-INF/views/shared/leftAdmin.jsp"/>
-		<put-attribute name="body" value="/WEB-INF/views/errors/UniqueName.jsp"/>
-	</definition>
 	
 		<!-- Brands -->
 	

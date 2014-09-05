@@ -13,7 +13,7 @@
   <div class="form-group">
     <div class="row" style="margin:20px 0 0 16px; width:240px;float:right;">
       <input  type="submit" class="btn btn-default myButtons" name="action" value="<spring:message code="Add" />"/>
-      <input  type="submit" class="btn btn-default myButtons" name="action" value="<spring:message code="Add" />"/>
+      <button  type="submit" class="btn btn-default myButtons" name="action" value="cancel"><spring:message code="Cancel" /></button>
       <input type="hidden" name="page" value="page"/>
     </div>
   </div>

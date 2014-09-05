@@ -17,6 +17,7 @@ public class BrandDto {
 		
 	}
 	
+	
 	public BrandDto(Brand brand) {
 		if (brand != null) {
 			this.id = brand.getId();

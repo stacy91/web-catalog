@@ -3,14 +3,12 @@ package com.controller.management;
 import java.util.List;
 
 import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.entities.dto.DeviceDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
