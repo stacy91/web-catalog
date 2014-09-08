@@ -2,12 +2,10 @@ package com.controller.management;
 
 import java.security.Principal;
 import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.entities.dto.Order_SaleDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
@@ -76,7 +74,8 @@ public class Orders_SalesController extends RootController {
 	}
 
 	@RequestMapping(value = "/deleteOrder", method = RequestMethod.POST)
-	public String deleteOrder(int id, Integer page, String show) {
+	public String deleteOrder(int id, Integer page, String show) 
+			{
 
 		String redirect = "redirect:/management/orders?";
 		o_sService.delete(id);

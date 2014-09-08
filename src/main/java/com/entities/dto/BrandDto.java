@@ -1,15 +1,18 @@
 package com.entities.dto;
 
-import org.hibernate.validator.constraints.Length;
-import com.entities.Brand;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import com.entities.Brand;
 
 
 public class BrandDto {
 	
 
 	private int id;
-	@Length(min=2,max=10)
+	
+	@Pattern(regexp = "^[A-Za-z0-9]+$")
+	@Size(min=2,max=10)
 	private String brandName;
 	
 	
@@ -23,6 +26,10 @@ public class BrandDto {
 			this.id = brand.getId();
 			this.brandName = brand.getBrandName();
 		}
+	}
+	
+	public BrandDto(String name){
+		this.brandName = name;
 	}
 	
 	public Brand getEntity(){

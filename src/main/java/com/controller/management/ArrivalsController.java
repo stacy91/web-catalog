@@ -1,15 +1,12 @@
 package com.controller.management;
 
 import java.security.Principal;
-
 import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.entities.dto.ArrivalDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
@@ -40,7 +37,8 @@ public class ArrivalsController extends RootController{
 
 	@RequestMapping(value = "/addArrival", method = RequestMethod.POST)
 	public String addArrival(@Valid ArrivalDto arrival, Principal principal,
-			String action, BindingResult result, Integer page) {
+			String action, BindingResult result, Integer page) 
+					{
 
 		String redirect = "redirect:/management/devices";
 		if (!action.equals("cancel") && !result.hasErrors()) {
@@ -65,7 +63,8 @@ public class ArrivalsController extends RootController{
 
 	@RequestMapping(value = "/updateArrival", method = RequestMethod.POST)
 	public String updateArrival(@Valid ArrivalDto arrival, Principal principal,
-			String action, BindingResult result, Integer page) {
+			String action, BindingResult result, Integer page) 
+					{
 
 		String redirect = "redirect:/management/arrivals";
 		if (!action.equals("cancel") && !result.hasErrors()) {
@@ -81,7 +80,8 @@ public class ArrivalsController extends RootController{
 	}
 
 	@RequestMapping(value = "/deleteArrival", method = RequestMethod.POST)
-	public String deleteArrival(int id, Integer page) {
+	public String deleteArrival(int id, Integer page) 
+			{
 
 		String redirect = "redirect:/management/arrivals";
 		arrivalsService.delete(id);

@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div class="managementContentWrapperWH">
 	<form:form modelAttribute="device" enctype="multipart/form-data">
-
+		<form:errors path="*" cssClass="bg-danger errorblock" element="div"></form:errors>
 		<label for="brandDD"><spring:message code="SelectBrand"/></label>
 		<form:select path="brand" class="form-control">
 			<form:option value="" class="form-control"> -- <spring:message code="SelectBrand"/></form:option>

@@ -8,6 +8,7 @@
 <html>  
 
 <head>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title><tiles:insertAttribute name="pageTitle"></tiles:insertAttribute></title>  
 <link
 	href="<c:url value="/resources/css/management/bootstrap.min.css"/>"

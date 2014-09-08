@@ -1,13 +1,12 @@
 <!DOCTYPE HTML>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <c:set var="pageTitle"><tiles:getAsString name="pageTitle"/></c:set>
 <title><spring:message code="${pageTitle}"></spring:message></title>
 
@@ -24,7 +23,6 @@
 	rel="stylesheet" type="text/css">	
 
 <script src="<c:url value="/resources/js/jquery/jquery-1.11.0.js" />"></script>
-<script src="<c:url value="/resources/js/jquery/jquery-ui.js" />"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="<c:url value="/resources/js/bootstrap/bootstrap.min.js"/>"></script>

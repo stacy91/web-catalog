@@ -16,11 +16,11 @@
 
 .error{
 	color:red;
-	font-size:9px;
+	font-size:11px;
 }
 
 .errorblock {
-	padding: 8px 0 8px 0;
+	padding: 8px 0 8px 8px;
 	margin:0 0 20px 0;
 }
 

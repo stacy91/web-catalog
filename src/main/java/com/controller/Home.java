@@ -1,8 +1,10 @@
 package com.controller;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.helpers.FilteredCollection;
 import com.entities.dto.DeviceDto;
 import com.entities.dto.UserDto;
@@ -21,9 +24,11 @@ import com.entities.services.BrandsService;
 import com.entities.services.DevicesService;
 import com.entities.services.Orders_SalesService;
 import com.entities.services.UsersService;
+import com.exceptions.DuplicateNameException;
 import com.helpers.DeviceHelper;
 import com.helpers.FilteredCollectionGenerator;
 import com.helpers.MyUserDetails;
+
 import java.security.Principal;
 
 
@@ -49,7 +54,8 @@ public class Home {
 
 	
 	@RequestMapping("*")
-	public String welcome(ModelMap model, Integer page, Integer brandId, String search){
+	public String welcome(ModelMap model, Integer page,
+			Integer brandId, String search, String login_error){
 		
 		FilteredCollection<DeviceDto> fDevices = devicesService.getFiltered(devicesService.getAll(brandId,search), page);
 
@@ -60,6 +66,8 @@ public class Home {
 		model.addAttribute("brandId",brandId);
 		model.addAttribute("search",search);
 		model.addAttribute("page", page);
+		if(login_error != null && login_error.equals("t"))
+			model.addAttribute("errorMsg", "Error.badCreditentials");
 		return "home";
 	}
 	
@@ -71,7 +79,8 @@ public class Home {
 	}
 	
 	@RequestMapping(value="/register",method=RequestMethod.POST)
-	public String register(@Valid UserDto user,String confirmPas, BindingResult result,HttpServletRequest request){
+	public String register(@Valid UserDto user,String confirmPas, BindingResult result,HttpServletRequest request)
+			throws DuplicateNameException{
 		
 		if(!result.hasErrors() && user.getPassword().equals(confirmPas)){
 			if(usersService.create(user) != null){	
@@ -93,7 +102,8 @@ public class Home {
 	
 	@RequestMapping(value="/order", method=RequestMethod.POST)
 	public String Order(Integer deviceId,Integer brandId,String search,Principal principal,
-			Integer amount,Integer page){
+			Integer amount,Integer page)
+					throws DuplicateNameException{
 		
 		o_sService.create(o_sService.initOrder_Sale(deviceId, principal.getName(), amount));
 		String redirect = "redirect:?";

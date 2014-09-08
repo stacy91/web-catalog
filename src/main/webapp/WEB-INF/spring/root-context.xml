@@ -11,14 +11,20 @@
 	
 	<import resource="appServlet/servlet-context.xml"/>
 	
-	
-	
+
 	<sec:http auto-config="true" use-expressions="true" >
-	<sec:form-login login-page="/" default-target-url="/" 
+	
+	
+	<sec:form-login login-page="/" 
+						always-use-default-target="true"
                         username-parameter="Login" password-parameter="Password" 
-                        login-processing-url="/j_spring_security_check" authentication-failure-url="/home?login_error=t" 
-                        always-use-default-target="true" authentication-failure-handler-ref="customAuthenticationFailureHandler"/>
-			
+                        login-processing-url="/j_spring_security_check" 
+                       	authentication-failure-handler-ref="customAuthenticationFailureHandler"
+                       	authentication-failure-url="/home?login_error=t"
+                        />
+                        
+	<sec:access-denied-handler error-page="/403"/>
+		
 	<sec:logout logout-url="/j_spring_security_logout" logout-success-url="/" />
 	<sec:intercept-url pattern="/management/brands" access="hasRole('ROLE_ADMIN')" />
 	<sec:intercept-url pattern="/management/addBrand" access="hasRole('ROLE_ADMIN')" />
@@ -43,14 +49,15 @@
 	
 	<sec:intercept-url pattern="/management/**" access="isAuthenticated()" />
 	</sec:http>											
-	<sec:authentication-manager alias="authenticationManager">
-	<sec:authentication-provider>
+	<sec:authentication-manager alias="authenticationManager" >
+	<sec:authentication-provider >
 	    <sec:password-encoder ref="encoder" />
 		<sec:jdbc-user-service data-source-ref="dataSource"
 			users-by-username-query="select Login, Password, 'true' as enabled from users where Login = ?"
 			authorities-by-username-query="select Login, Role from users inner join userroles on
 			users.RoleId = userroles.Id where Login = ?" />
 	</sec:authentication-provider>
+	
 	</sec:authentication-manager>	
 	
 	<bean id="encoder" 

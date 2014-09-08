@@ -3,7 +3,6 @@ package com.entities.servicesImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.entities.Brand;
@@ -23,22 +22,21 @@ public class BrandsServiceImpl implements BrandsService {
 	private final int PAGE_SIZE = 5;
 
 	@Override
-	public BrandDto create(BrandDto item) {
-
+	public BrandDto create(BrandDto item){
+		
 		Brand brand = brandsDao.create(item.getEntity());
-
 		return new BrandDto(brand);
 	}
 
 	@Override
-	public BrandDto update(BrandDto item)
-			throws DataIntegrityViolationException {
+	public BrandDto update(BrandDto item){
 
-		return new BrandDto(brandsDao.update(item.getEntity()));
+		Brand brand = brandsDao.update(item.getEntity());
+		return new BrandDto(brand);
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id){
 		brandsDao.delete(id);
 	}
 

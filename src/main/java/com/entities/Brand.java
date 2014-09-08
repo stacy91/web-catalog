@@ -1,6 +1,6 @@
 package com.entities;
-import java.util.List;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.validator.constraints.Length;
+
 
 
 @Entity
@@ -21,7 +21,7 @@ public class Brand {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@Length(min=2,max=10)
+
 	@Column(name="BrandName",nullable=false)
 	private String brandName;
 	@OneToMany(fetch = FetchType.LAZY)

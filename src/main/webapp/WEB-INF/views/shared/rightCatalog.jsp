@@ -13,17 +13,16 @@
 			 class="login" >
   			<div class="form-group">
   			<p><spring:message code="RegisterToOrder"/></p>
+  			<c:if test="${ not empty errorMsg}">
+  				<p class="error" ><spring:message code="${errorMsg}"/></p>
+  			</c:if>
     			<input class="form-control" id="username" name="Login"  type="text" placeholder="<spring:message code="Login"/>...">
   			</div>
   			<div class="form-group">
     			<input class="form-control" id="password" name="Password"  type="password" placeholder="<spring:message code="Password"/>...">
   			</div>
   			
-  <!-- <div class="checkbox">
-    <label>
-      <input type="checkbox"> Remember me
-    </label>
-  </div> -->
+
   			<button type="submit" class="btn btn-default" style="color:#333" ><spring:message code="SignIn"/></button>
   			<a href="${pageContext.request.contextPath}/register" style="margin: 0 10px 0 5px;"><spring:message code="SignUp"/></a>
 			</form>

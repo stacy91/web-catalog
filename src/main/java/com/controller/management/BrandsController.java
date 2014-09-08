@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ public class BrandsController extends RootController {
 		return "adminBrands";
 	}
 
-	@RequestMapping(value = "/addBrand")
+	@RequestMapping(value = "/addBrand", method = RequestMethod.GET)
 	public String addBrand(ModelMap model, Integer page) {
 
 		model.addAttribute("brand", new BrandDto());
@@ -40,13 +41,16 @@ public class BrandsController extends RootController {
 	}
 
 	@RequestMapping(value = "/addBrand", method = RequestMethod.POST)
-	public String addBrand(@RequestParam String action, @Valid BrandDto brand,
-			BindingResult result, Integer page) {
-
+	public String addBrand(@RequestParam String action, @ModelAttribute("brand") @Valid BrandDto brand,
+			BindingResult result, Integer page) 
+					{
+		
 		String redirect = "redirect:/management/brands";
 		if (!action.equals("cancel")) {
-			if (result.hasErrors())
+			if (result.hasErrors()){
+
 				return "adminBrands/add";
+			}
 			brandsService.create(brand);
 		}
 
@@ -68,7 +72,8 @@ public class BrandsController extends RootController {
 
 	@RequestMapping(value = "/updateBrand", method = RequestMethod.POST)
 	public String updateBrand(@RequestParam String action,
-			@Valid BrandDto brand, BindingResult result, Integer page) {
+			@ModelAttribute("brand") @Valid BrandDto brand, BindingResult result, Integer page) 
+					{
 
 		String redirect = "redirect:/management/brands";
 		if (!action.equals("cancel")) {
@@ -85,7 +90,8 @@ public class BrandsController extends RootController {
 	}
 
 	@RequestMapping(value = "/deleteBrand", method = RequestMethod.POST)
-	public String deleteBrand(int id, Integer page) {
+	public String deleteBrand(int id, Integer page) 
+			{
 		String redirect = "redirect:/management/brands";
 		brandsService.delete(id);
 

@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div class="managementContentWrapperWH">
 	<form:form modelAttribute="device" enctype="multipart/form-data">
-
+		<form:errors path="*" cssClass="bg-danger errorblock" element="div"></form:errors>
 		<label for="brandDD"><spring:message code="SelectBrand"/></label>
 		<form:select path="brand" id="brandDD" class="form-control">
 			<form:option value="" class="form-control">-- <spring:message code="SelectBrand"/></form:option>
@@ -35,7 +34,7 @@
 				style="margin: 20px 0 0 16px; width: 240px; float: right;">
 				<form:button type="submit" class="btn btn-default myButtons"
 					name="action"><spring:message code="Add"/></form:button>
-				<form:button class="btn btn-default myButtons" name="action" translate="no"
+				<form:button class="btn btn-default myButtons" name="action"
 					value="cancel"><spring:message code="Cancel"/></form:button>
 				<input type="hidden" name="page" value="${page}" />
 			</div>

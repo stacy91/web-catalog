@@ -1,7 +1,6 @@
 package com.controller.management;
 
 import java.security.Principal;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.entities.dto.UserDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
@@ -32,7 +30,8 @@ public class UsersController extends RootController {
 
 	@RequestMapping(value = "deleteUser", method = RequestMethod.POST)
 	public String deleteUser(ModelMap model, Integer page, int id,
-			Principal principal) {
+			Principal principal) 
+					{
 
 		String redirect = "redirect:/management/users";
 		UserDto authUser = usersService.find(principal.getName());
@@ -64,7 +63,8 @@ public class UsersController extends RootController {
 
 	@RequestMapping(value = "user", method = RequestMethod.POST)
 	public String updateUser(ModelMap model, UserDto user, String oldPassword,
-			String newPassword, String repeatPassword, String action) {
+			String newPassword, String repeatPassword, String action) 
+					{
 
 		UserDto updatedUser = usersService.validate(user, oldPassword,
 				newPassword, repeatPassword);
