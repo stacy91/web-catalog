@@ -15,6 +15,7 @@ public interface Orders_SalesService extends RootService<Order_SaleDto>{
 	
 	public List<Order_SaleDto> getOrders();
 	public List<Order_SaleDto> getSales();
+	public List<Order_SaleDto> getAll(String show);
 	
 	public List<Order_SaleDto> getOrders(String login);
 	public List<Order_SaleDto> getSales(String login);

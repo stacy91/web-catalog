@@ -21,7 +21,10 @@ public class UsersImplDao 	extends RootDaoImpl<User>
 	public User findByLogin(String login){
 		Criteria criteria = currentSession().createCriteria(User.class);
 		List<User> users = criteria.add(Restrictions.eq("login", login)).list();
-		return users.get(0);
+		if(users.size() > 0)
+			return users.get(0);
+		else 
+			return null;
 	}
 	
 	@Override

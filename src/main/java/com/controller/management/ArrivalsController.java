@@ -1,12 +1,16 @@
 package com.controller.management;
 
 import java.security.Principal;
+
 import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.entities.dto.ArrivalDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
@@ -36,12 +40,14 @@ public class ArrivalsController extends RootController{
 	}
 
 	@RequestMapping(value = "/addArrival", method = RequestMethod.POST)
-	public String addArrival(@Valid ArrivalDto arrival, Principal principal,
-			String action, BindingResult result, Integer page) 
+	public String addArrival(@ModelAttribute("arrival") @Valid ArrivalDto arrival, BindingResult result, Principal principal,
+			String action, Integer page) 
 					{
 
 		String redirect = "redirect:/management/devices";
-		if (!action.equals("cancel") && !result.hasErrors()) {
+		if (!action.equals("cancel")) {
+			if(result.hasErrors())
+				return "adminArrivals/add";
 			arrivalsService.create(arrival);
 		}
 
@@ -62,12 +68,14 @@ public class ArrivalsController extends RootController{
 	}
 
 	@RequestMapping(value = "/updateArrival", method = RequestMethod.POST)
-	public String updateArrival(@Valid ArrivalDto arrival, Principal principal,
-			String action, BindingResult result, Integer page) 
+	public String updateArrival(@ModelAttribute("arrival") @Valid ArrivalDto arrival,BindingResult result, Principal principal,
+			String action, Integer page) 
 					{
 
 		String redirect = "redirect:/management/arrivals";
-		if (!action.equals("cancel") && !result.hasErrors()) {
+		if (!action.equals("cancel")) {
+			if(result.hasErrors())
+				return "adminArrivals/update";
 			arrival.setUser(usersService.find(principal.getName()));
 			arrivalsService.update(arrival);
 		}

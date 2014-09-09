@@ -1,7 +1,7 @@
 package com.entities.dto;
 
 
-import javax.validation.constraints.Pattern;
+
 import javax.validation.constraints.Size;
 import com.entities.Brand;
 
@@ -11,7 +11,7 @@ public class BrandDto {
 
 	private int id;
 	
-	@Pattern(regexp = "^[A-Za-z0-9]+$")
+
 	@Size(min=2,max=10)
 	private String brandName;
 	

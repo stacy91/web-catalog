@@ -1,7 +1,9 @@
 package com.helpers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 import com.entities.Order_Sale;
 
 public class Order_SalesHelper {
@@ -24,6 +26,7 @@ public class Order_SalesHelper {
 				newList.add(item);
 		}
 		
+		Collections.reverse(newList);
 		return newList;
 	}
 }

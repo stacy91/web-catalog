@@ -1,10 +1,8 @@
 package com.controller;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,22 +11,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.helpers.FilteredCollection;
 import com.entities.dto.DeviceDto;
+import com.entities.dto.Order_SaleDto;
 import com.entities.dto.UserDto;
 import com.entities.services.BrandsService;
 import com.entities.services.DevicesService;
 import com.entities.services.Orders_SalesService;
 import com.entities.services.UsersService;
-import com.exceptions.DuplicateNameException;
 import com.helpers.DeviceHelper;
 import com.helpers.FilteredCollectionGenerator;
 import com.helpers.MyUserDetails;
-
 import java.security.Principal;
 
 
@@ -52,7 +49,6 @@ public class Home {
 	
 	
 
-	
 	@RequestMapping("*")
 	public String welcome(ModelMap model, Integer page,
 			Integer brandId, String search, String login_error){
@@ -78,18 +74,27 @@ public class Home {
 		return "register";
 	}
 	
-	@RequestMapping(value="/register",method=RequestMethod.POST)
-	public String register(@Valid UserDto user,String confirmPas, BindingResult result,HttpServletRequest request)
-			throws DuplicateNameException{
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String register(@ModelAttribute("user") @Valid UserDto user,
+			BindingResult result,HttpServletRequest request, String action)
+			{
 		
-		if(!result.hasErrors() && user.getPassword().equals(confirmPas)){
-			if(usersService.create(user) != null){	
-				
-				Authentication auth = new UsernamePasswordAuthenticationToken(new MyUserDetails(user),user.getPassword());
+		if (!action.equals("cancel")) {
+			UserDto test = usersService.find(user.getLogin());
+			if (test != null)
+				result.reject("Unique.user.login");
+
+			if (result.hasErrors())
+				return "register";
+
+			if (usersService.create(user) != null) {
+
+				Authentication auth = new UsernamePasswordAuthenticationToken(
+						new MyUserDetails(user), user.getPassword());
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
-				
 		}
+
 		return "redirect:/home";
 	}
 	
@@ -103,9 +108,11 @@ public class Home {
 	@RequestMapping(value="/order", method=RequestMethod.POST)
 	public String Order(Integer deviceId,Integer brandId,String search,Principal principal,
 			Integer amount,Integer page)
-					throws DuplicateNameException{
+					{
 		
-		o_sService.create(o_sService.initOrder_Sale(deviceId, principal.getName(), amount));
+		Order_SaleDto o_s = o_sService.initOrder_Sale(deviceId, principal.getName(), amount);
+		if(o_s != null)
+			o_sService.create(o_s);
 		String redirect = "redirect:?";
 		
 		

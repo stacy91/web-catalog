@@ -1,24 +1,25 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<br/> <br/>
 <div class="container">
 <div class="managementContentWrapperWH">
 	<form:form modelAttribute="user">
-
+		
+		<form:errors path="*" cssClass="bg-danger errorblock" element="div"></form:errors>
 		<div class="form-group">
 			<label for="priceTXT">Login</label>
 			<form:input path="login" class="form-control" id="priceTXT"
-				placeholder="Enter login..." />
+				/>
 		</div>
 		<div class="form-group">
 			<label for="amountTXT">Password</label> <form:input path="password" type="password"
-				class="form-control" id="amountTXT" placeholder="Enter password..."/>
+				class="form-control" id="amountTXT" />
 		</div>
 		<div class="form-group">
 			<label for="amountTXT">Confirm password</label>
-		<input type="password"
-				class="form-control"  placeholder="Confirm password..."name="confirmPas">
+		<form:input type="password"
+				class="form-control"  path="confirmPass"/>
 		</div>
 		<div class="form-group">
 			<div class="row"

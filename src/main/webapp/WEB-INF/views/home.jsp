@@ -52,7 +52,7 @@
                             <security:authorize access="isAuthenticated()">
                             <div class="order">
                                 <form class="form-inline" action="order" method="post">
-                                <input class="form-control" type="text" name="amount" value="1"/>
+                                <input class="form-control numbersOnly" type="text" name="amount" value="1" />
                                 <input class="btn btn-danger" type="submit" value="<spring:message code="Order"/>"/>
                                 <input type="hidden" value="${itemDevice.id}" name="deviceId"/>
                                 <input type="hidden" value="${brandId }" name="brandId"/>
@@ -84,7 +84,19 @@
     		
         </div>
     </div>
+    <script>
+    $('.numbersOnly').keyup(function () {
+        if (this.value != this.value.replace(/[^0-9]/g, '')) {
+           this.value = 1;
+        }
+    });
     
+    $('.numbersOnly').focusout(function (){
+    	if (this.value == '') {
+            this.value = 1;
+         }
+    });
+    </script>
 
   
 

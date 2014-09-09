@@ -3,13 +3,11 @@ package com.entities.servicesImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.joda.time.DateTime;
-
 import com.entities.Device;
 import com.entities.Order_Sale;
 import com.entities.User;
@@ -44,7 +42,7 @@ public class Orders_SalesServiceImpl implements Orders_SalesService{
 	
 	@Override
 	public Order_SaleDto create(Order_SaleDto item)
-			throws DataIntegrityViolationException {
+			 {
 		
 		return new Order_SaleDto(order_salesDao.create(item.getEntity()));
 	}
@@ -61,17 +59,20 @@ public class Orders_SalesServiceImpl implements Orders_SalesService{
 	@Override
 	public Order_SaleDto initOrder_Sale(Integer deviceId,String login,Integer amount){
 		
-		Order_Sale o_s = new Order_Sale();
-		o_s.setDevice(devicesDao.find(deviceId));
-		o_s.setUser(usersDao.findByLogin(login));
-		o_s.setAmount(amount);
-		o_s.setTimeOrdered((new DateTime().toDate()));
-		return new Order_SaleDto(o_s);
+		if (amount > 0 && amount <= 999999) {
+			Order_Sale o_s = new Order_Sale();
+			o_s.setDevice(devicesDao.find(deviceId));
+			o_s.setUser(usersDao.findByLogin(login));
+			o_s.setAmount(amount);
+			o_s.setTimeOrdered((new DateTime().toDate()));
+			return new Order_SaleDto(o_s);
+		} else
+			return null;
 	}
 
 	
 	@Override
-	public void delete(int id) throws DataIntegrityViolationException {
+	public void delete(int id) {
 		Order_Sale o_s = order_salesDao.find(id);
 		if(!o_s.getIsSold()){
 			order_salesDao.delete(id);
@@ -120,6 +121,24 @@ public class Orders_SalesServiceImpl implements Orders_SalesService{
 	public List<Order_SaleDto> getAll() {
 		return convertToDto(order_salesDao.getAll());
 	}
+	
+	@Override
+	public List<Order_SaleDto> getAll(String show) {
+
+		List<Order_SaleDto> o_s = null;
+		if (show != null && !show.isEmpty()) {
+			if (show.equals("orders")) {
+				o_s = getOrders();
+			} else if (show.equals("sales")) {
+				o_s = getSales();
+			} 
+		}
+		else {
+			o_s = getAll();
+		}
+		return o_s;
+	}
+	
 	
 	@Override
 	public List<Order_SaleDto> getOrders(String login){

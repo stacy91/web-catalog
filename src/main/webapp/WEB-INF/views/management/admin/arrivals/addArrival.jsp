@@ -6,7 +6,7 @@
 <div class="managementContentWrapperWH">
 	<form:form modelAttribute="arrival" action="addArrival" method="POST">
 
-
+		<form:errors path="*" cssClass="bg-danger errorblock" element="div"></form:errors>
 		<div class="form-group">
 		<label for="userTXT"><spring:message code="Tables.user/role" /></label>
 		<input	class="form-control" disabled value="${arrival.user.login} / ${arrival.user.role.name}"/>

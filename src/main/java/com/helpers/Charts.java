@@ -27,12 +27,14 @@ public class Charts {
 		
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		List<Order_SaleDto> o_s = o_sService.getAll();
+		o_s = o_s.subList(0, Math.min(o_s.size(), 10));
+		Collections.reverse(o_s);
 		String time = null;
 		AreaChartPoint point = null;
 
 		
 		for (Order_SaleDto item : o_s) {
-			if (hmOs.size() < 10) {
+
 				if (item.getIsSold() && item.getTimeSold() != null) {
 					time = df.format(item.getTimeSold());
 					if (hmOs.containsKey(time)) {
@@ -53,9 +55,9 @@ public class Charts {
 						hmOs.put(time, new AreaChartPoint(item.getAmount(), 0));
 				}
 			}
-		}
 		
 		
+
 		return hmOs;
 	}
 	
@@ -87,7 +89,10 @@ public class Charts {
 		HashMap<String, Integer> hm = new LinkedHashMap<String, Integer>();
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		String time;
-		for(ArrivalDto item : arrivalsService.getAll()){
+		List<ArrivalDto> arrivals = arrivalsService.getAll();
+		arrivals = arrivals.subList(0, Math.min(30, arrivals.size()));
+		Collections.reverse(arrivals);
+		for(ArrivalDto item : arrivals){
 			
 			time = df.format(item.getTime());
 			if(hm.size() < 30){
@@ -96,8 +101,7 @@ public class Charts {
 				}
 				else{
 					hm.put(time,item.getAmount());
-				}
-					
+				}				
 			}
 		}
 		

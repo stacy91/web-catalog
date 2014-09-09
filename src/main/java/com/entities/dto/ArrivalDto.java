@@ -1,6 +1,11 @@
 package com.entities.dto;
 
 import java.util.Date;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import com.entities.Arrival;
 
 
@@ -9,7 +14,13 @@ public class ArrivalDto {
 	private int id;
 	private DeviceDto device;
 	private UserDto user;
+	@NotNull
+	@Min(1)
+	@Max(999999)
 	private int amount;
+	@NotNull
+	@Min(0)
+	@Max(999999)
 	private float price;
 	private Date time;
 	

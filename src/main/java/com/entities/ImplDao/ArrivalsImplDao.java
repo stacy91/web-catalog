@@ -18,7 +18,7 @@ public class ArrivalsImplDao 	extends RootDaoImpl<Arrival>
 	@Override
 	public List<Arrival> getAll() {
 		List<Arrival> arrivals = currentSession().
-				createCriteria(Arrival.class).addOrder(Order.asc("time")).
+				createCriteria(Arrival.class).addOrder(Order.desc("time")).
 				list();
 
 		return arrivals;

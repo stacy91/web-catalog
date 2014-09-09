@@ -28,8 +28,7 @@ public class UsersServiceImpl implements UsersService{
 	private UserRolesDao rolesDao;
 	
 	@Override
-	public UserDto create(UserDto user)
-			throws DataIntegrityViolationException{
+	public UserDto create(UserDto user){
 
 		String encodedPas = user.getPassword();
 		encodedPas = new BCryptPasswordEncoder().encode(encodedPas);
@@ -59,7 +58,11 @@ public class UsersServiceImpl implements UsersService{
 	@Override
 	public UserDto find(String login){
 		
-		return new UserDto(usersDao.findByLogin(login));
+		User user = usersDao.findByLogin(login);
+		if(user != null)
+		return new UserDto(user);
+		else 
+			return null;
 	}
 	
 	@Override

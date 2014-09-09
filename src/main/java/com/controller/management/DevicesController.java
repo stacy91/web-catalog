@@ -84,7 +84,7 @@ public class DevicesController extends RootController {
 		if (!action.equals("cancel")) {
 			if (result.hasErrors()){
 				model.addAttribute("brands", brandsService.getAll());
-				return "adminBrands/add";
+				return "adminDevices/update";
 			}
 			devicesService.update(device, image);
 		}

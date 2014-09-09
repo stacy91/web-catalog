@@ -17,20 +17,8 @@ public class Orders_SalesController extends RootController {
 
 	@RequestMapping(value = "/allOS")
 	public String showOS(ModelMap model, Integer page, String show) {
-		List<Order_SaleDto> o_s = null;
-		if (show != null && !show.isEmpty()) {
-			switch (show) {
-			case "orders":
-				o_s = o_sService.getOrders();
-				break;
-			case "sales":
-				o_s = o_sService.getSales();
-				break;
-
-			}
-		} else {
-			o_s = o_sService.getAll();
-		}
+		
+		List<Order_SaleDto> o_s = o_sService.getAll(show);
 		FilteredCollection<Order_SaleDto> fO_S = o_sService.getFiltered(o_s,
 				page);
 		model.addAttribute("o_s", fO_S.getItems());
