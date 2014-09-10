@@ -44,7 +44,7 @@
                             <img src="<c:url value="/getImage?id="/>${itemDevice.id}" />
                             <div class="caption">
                                 <h4 class="pull-right">$${itemDevice.price }</h4>
-                                <h4><a href="#" > <spring:message code="Brand"/>:&nbsp;&nbsp;<b>${itemDevice.brand.brandName }</b></a>
+                                <h4><a href="?brandId=${itemDevice.brand.id }" > <spring:message code="Brand"/>:&nbsp;&nbsp;<b>${itemDevice.brand.brandName }</b></a>
                                 </h4>
                                 <p> <spring:message code="Model"/>:&nbsp;&nbsp;&nbsp;&nbsp;<b>${itemDevice.model }</b></p>
                             </div>

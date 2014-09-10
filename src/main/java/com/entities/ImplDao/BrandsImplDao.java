@@ -18,7 +18,6 @@ public class BrandsImplDao 	extends RootDaoImpl<Brand>
 	@Override
 	public Brand initDevices(int id) {
 		Brand br = find(id);
-		Hibernate.initialize(br);
 		br.getDevices().size();
 		return br;
 	}

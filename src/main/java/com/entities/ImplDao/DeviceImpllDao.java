@@ -33,15 +33,13 @@ public class DeviceImpllDao 	extends RootDaoImpl<Device>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Device> getAll(int brandId, String search) {
+	public List<Device> getAll(String search) {
 		
 		Criteria criteria = currentSession().createCriteria(Device.class);
 
 		criteria.createAlias("brand", "brand");
-		if(brandId != 0){
-			criteria.add(Restrictions.eq("brand.id", brandId));
-		}
-		else if(search != null && !search.isEmpty()){
+
+		if(search != null && !search.isEmpty()){
 			criteria.add(Restrictions.disjunction().add(Restrictions.eq("brand.brandName",search)).
 					add(Restrictions.eq("model",search)));
 			}

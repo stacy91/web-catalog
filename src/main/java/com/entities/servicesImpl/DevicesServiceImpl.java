@@ -85,8 +85,14 @@ public class DevicesServiceImpl implements DevicesService{
 	
 	public List<DeviceDto> getAll(Integer brandId, String search){
 		
-		int brandIdInt = brandId != null ? brandId : 0;
-		return convertToDto(devicesDao.getAll(brandIdInt,search));
+		List<Device> devices = null;
+		
+		if(brandId == null){
+			devices = devicesDao.getAll(search);
+		}
+		else
+			devices = brandsDao.initDevices(brandId).getDevices();	
+		return convertToDto(devices);
 		
 	}
 	

@@ -9,6 +9,6 @@ public interface DevicesDao extends RootDao<Device> {
 	public Device initArrivals(int id);
 	public Device initOrders_Sales(int id);
 	
-	public List<Device> getAll(int brandId, String search);
+	public List<Device> getAll(String search);
 
 }
