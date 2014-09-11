@@ -1,32 +1,39 @@
 package dao;
 
-
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.mock;
+
 import com.entities.Brand;
 import com.entities.Device;
 import com.entities.Dao.BrandsDao;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:app-context.xml" })
+@ContextConfiguration({ "classpath:app-context.xml","classpath:test-context.xml" })
+
 public class BrandsDaoTest {
 	
-	@Mock
+	@Autowired
 	private BrandsDao brandsDao;
 	private Brand brand;
 	
@@ -37,26 +44,18 @@ public class BrandsDaoTest {
 	@Before
 	public void init() {
 	
-		MockitoAnnotations.initMocks(this);
-		brand = new Brand(ID,BRANDNAME);
-		Brand brand2 = mock(Brand.class);
-		List<Brand> brands = new ArrayList<Brand>();
-		List<Device> devices = new ArrayList<Device>();
-		devices.add(mock(Device.class));
-		devices.add(mock(Device.class));		
-		brands.add(brand);
-		brands.add(brand2);
-		when(brandsDao.create(brand)).thenReturn(brand);
-		when(brandsDao.update(brand)).thenReturn(brand);
-		when(brandsDao.find(ID)).thenReturn(brand);
-		brand.setDevices(devices);
-		when(brandsDao.initDevices(ID)).thenReturn(brand);
-		when(brandsDao.getAll()).thenReturn(brands);
+		brandsDao.create(new Brand(1,"appleaaaaa"));
 	}
 	
-	
-	
 	@Test
+	public void find(){
+		
+		Brand brand = brandsDao.find(1);
+		assertNotNull(brand);
+		assertEquals("appleaaaaa", brand.getBrandName());
+	}
+	
+	/*@Test
 	public void testCreateBrand() {
 		brand = brandsDao.create(brand);
 		verify(brandsDao).create(brand);
@@ -110,5 +109,5 @@ public class BrandsDaoTest {
 		assertTrue(brand.getId() > 0);
 		assertEquals(ID, brand.getId());
 		assertEquals(BRANDNAME,brand.getBrandName());
-	}
+	}*/
 }

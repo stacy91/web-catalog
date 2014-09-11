@@ -17,15 +17,20 @@
    		http://www.springframework.org/schema/security/spring-security-3.1.xsd" >
 
 	
+	
+	<context:property-placeholder location="classpath:app.properties,classpath:path.properties" order="1"/>
+	
 	<context:component-scan base-package="com.entities,com.helpers" />
-
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-    <property name="url" value="jdbc:mysql://localhost:3306/myonlineshopdb?useUnicode=true&amp;characterEncoding=UTF-8" />
-    <property name="username" value="stacy"/>
-    <property name="password" value="stacy"/>
+	
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	<property name="driverClassName" value="${db.driver}"/>
+    <property name="url" value="${db.url}" />
+    <property name="username" value="${db.username}"/>
+    <property name="password" value="${db.password}"/>
 
 	</bean>	
+	
+	
     
     <bean id="sessionFactory"
      	class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -35,9 +40,10 @@
 		
 		<property name="hibernateProperties">
 			<props>
-				<prop key="dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="dialect">${hibernate.dialect}</prop>
 				<prop key="connection.useUnicode">true</prop>
 				<prop key="connection.characterEncoding">UTF-8</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
 			</props>
 		</property>
 	</bean>

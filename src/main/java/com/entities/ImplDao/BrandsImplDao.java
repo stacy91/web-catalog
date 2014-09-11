@@ -1,11 +1,8 @@
 package com.entities.ImplDao;
 
 import java.util.List;
-
-import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Component;
-
 import com.entities.Brand;
 import com.entities.Dao.BrandsDao;
 
