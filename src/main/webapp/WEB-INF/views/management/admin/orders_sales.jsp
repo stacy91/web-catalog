@@ -5,7 +5,8 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 <c:set var="queryStr" value="?show=${show }&"/>
-
+<spring:message code="Tables.Order"  var="order"/>
+<spring:message code="Tables.Sale"  var="sale"/>
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
@@ -21,6 +22,8 @@
 				</select>			
     		</label>
 		</form>
+		
+		
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
@@ -39,7 +42,8 @@
 						<tbody>
 							<c:forEach items="${o_s}" var="item">
 								<tr>
-									<td>${item.isSold == false ? 'Order' : 'Sale' }</td>
+									<%-- <spring:message c="<c:out value="${com.helpers.Roles.getType(item.id)}" />" var="role"></spring:message> --%>
+									<td>${item.isSold == false ? order : sale }</td>
 									<td>${item.isSold == false ? item.timeOrdered : item.timeSold}</td>
 									<td>${item.user.login} / ${item.user.role.name}</td>	
 									<td>${item.device.brand.brandName} / ${item.device.model}</td>						

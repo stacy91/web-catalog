@@ -2,13 +2,16 @@ package com.controller.management;
 
 import java.security.Principal;
 import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.entities.dto.Order_SaleDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
+import com.helpers.Roles;
 
 @Controller
 public class Orders_SalesController extends RootController {
@@ -23,7 +26,7 @@ public class Orders_SalesController extends RootController {
 				page);
 		model.addAttribute("o_s", fO_S.getItems());
 		model.addAttribute("show", show);
-
+		model.addAttribute("roles", Roles.values());
 		FilteredCollectionGenerator.fillPagination(model, fO_S);
 
 		return "admin/AllOS";

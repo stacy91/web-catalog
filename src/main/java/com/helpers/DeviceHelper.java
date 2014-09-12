@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 @PropertySource("classpath:path.properties")
@@ -21,8 +22,8 @@ public class DeviceHelper {
 
     @Value("${imgsPath}")
     private String imgsPath;
-    @Value("${defImgPath}")
-    private String defImgPath;
+   
+    private final String defImgPath = "/resources/img/default.jpg";
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -54,14 +55,15 @@ public class DeviceHelper {
         return !file.exists() || file.delete();
     }
     
-    public byte[] getImgBytes(String id) throws IOException{
+    public byte[] getImgBytes(String id, HttpServletRequest request) throws IOException{
     	BufferedImage bImage = null;
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
     	try{
     		bImage = ImageIO.read(new File(imgsPath + id + ".jpg"));
     	}
     	catch (IOException ex){
-    		bImage = ImageIO.read(new File(defImgPath));
+    		String path = request.getSession().getServletContext().getRealPath(defImgPath);
+    		bImage = ImageIO.read(new File(path));
     	}
     	finally{
     		ImageIO.write(bImage, "jpg", baos);

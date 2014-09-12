@@ -23,6 +23,18 @@
   				<option value="ru" ${ langStr == 'ru' ? 'selected' : ''}><spring:message code="Lang.ru"/></option>
 			</select>
 			</form>
+			
+			<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown"><i class="fa fa-user"></i>
+					<spring:message code="Welcome"/>,
+					  <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="?lang=en&${requestScope['javax.servlet.forward.query_string']}">"><i class="fa fa-fw fa-user"></i> English</a>
+						</li>
+						<li class="divider"></li>
+						<li><a href="?lang=en&${requestScope['javax.servlet.forward.query_string']}">"><i class="fa fa-fw fa-power-off"></i> Russian</a></li>
+					</ul></li>
+			
 			</div>
 			
 			<ul class="nav navbar-right top-nav">

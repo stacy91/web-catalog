@@ -42,7 +42,7 @@ public class Home {
 	BrandsService brandsService;
 	@Autowired
 	DevicesService devicesService;
-	@Autowired 
+	@Autowired
 	private Orders_SalesService o_sService;
 	@Autowired
     protected AuthenticationManager authenticationManager;
@@ -100,9 +100,9 @@ public class Home {
 	
 	@RequestMapping("/getImage")
 	@ResponseBody
-	public byte[] getImage(String id) throws IOException{
+	public byte[] getImage(String id, HttpServletRequest request) throws IOException{
 		
-		return deviceHelper.getImgBytes(id);
+		return deviceHelper.getImgBytes(id,request);
 	}
 	
 	@RequestMapping(value="/order", method=RequestMethod.POST)
