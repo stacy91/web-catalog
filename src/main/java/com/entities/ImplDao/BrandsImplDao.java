@@ -1,7 +1,9 @@
 package com.entities.ImplDao;
 
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import com.entities.Brand;
 import com.entities.Dao.BrandsDao;
@@ -17,6 +19,17 @@ public class BrandsImplDao 	extends RootDaoImpl<Brand>
 		Brand br = find(id);
 		br.getDevices().size();
 		return br;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Brand find(String brandName) {
+		Criteria criteria = currentSession().createCriteria(Brand.class);
+		List<Brand> brands = criteria.add(Restrictions.eq("brandName", brandName)).list();
+		if(brands.size() > 0){
+			return brands.get(0);
+		}
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")

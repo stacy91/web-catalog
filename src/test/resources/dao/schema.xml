@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<dataset> 
+
+    <brands id="1" brandName="Apple" /> 
+	<brands id="2" brandName="Samsung" /> 
+	<brands id="3" brandName="Huawei" /> 
+	
+	<userroles id="1" role="admin"/>
+	<userroles id="2" role="user"/>
+	<users id="1" roleId="1" login="stas" password="stas"/>
+	<users id="2" roleId="1" login="stas2" password="stas"/>
+	
+    <goods id="1" brandId="1" model="iPhone 5s" amountInStock="6" price="100"/> 
+    <goods id="2" brandId="1" model="iPhone 5" amountInStock="5" price="100"/> 
+    <goods id="3" brandId="2" model="Galaxy S5" amountInStock="6" price="100"/> 
+    
+	<arrival id="1" goodsId="1" userId="1" amount="6" price="90" time="2014-08-25 18:19:01"/>
+	<arrival id="2" goodsId="1" userId="1" amount="6" price="90" time="2014-08-25 18:19:01"/>
+	<arrival id="3" goodsId="2" userId="1" amount="6" price="90" time="2014-08-25 18:19:01"/>
+	
+	<orders_sales id="1" goodsId="1" userId="1" isSold="false" amount="1" timeOrdered="2014-08-25 18:19:01" timeSold="2014-08-25 18:19:01"/>
+	<orders_sales id="2" goodsId="1" userId="1" isSold="false" amount="1" timeOrdered="2014-08-25 18:19:01" timeSold="2014-08-25 18:19:01"/>
+	<orders_sales id="3" goodsId="2" userId="1" isSold="true" amount="1" timeOrdered="2014-08-25 18:19:01" timeSold="2014-08-25 18:19:01"/>
+	
+	
+	
+</dataset>

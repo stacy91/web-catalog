@@ -1,8 +1,10 @@
 package com.controller;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +16,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.helpers.FilteredCollection;
 import com.entities.dto.DeviceDto;
 import com.entities.dto.Order_SaleDto;
@@ -26,6 +30,7 @@ import com.entities.services.UsersService;
 import com.helpers.DeviceHelper;
 import com.helpers.FilteredCollectionGenerator;
 import com.helpers.MyUserDetails;
+
 import java.security.Principal;
 
 
@@ -106,13 +111,14 @@ public class Home {
 	}
 	
 	@RequestMapping(value="/order", method=RequestMethod.POST)
-	public String Order(Integer deviceId,Integer brandId,String search,Principal principal,
-			Integer amount,Integer page)
+	public String Order(@RequestParam("deviceId") Integer deviceId,Integer brandId,String search,@RequestParam("login") String login,
+			@RequestParam("amount") Integer amount,Integer page)
 					{
 		
-		Order_SaleDto o_s = o_sService.initOrder_Sale(deviceId, principal.getName(), amount);
+		Order_SaleDto o_s = o_sService.initOrder_Sale(deviceId, login, amount);
 		if(o_s != null)
 			o_sService.create(o_s);
+		
 		String redirect = "redirect:?";
 		
 		
@@ -123,6 +129,6 @@ public class Home {
 		if(page != null)
 			redirect += "page=" + page;
 		
-		return redirect;
+		return "notificateOrdered";
 	}
 }

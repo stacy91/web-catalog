@@ -2,15 +2,12 @@ package com.entities.ImplDao;
 
 
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-
 import com.entities.Dao.RootDao;
 
 
@@ -49,7 +46,7 @@ public abstract class RootDaoImpl<T> implements RootDao<T>{
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id){
 		currentSession().delete(find(id));
 	}
 

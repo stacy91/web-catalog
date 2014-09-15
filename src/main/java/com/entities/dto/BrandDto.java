@@ -32,10 +32,7 @@ public class BrandDto {
 		this.brandName = name;
 	}
 	
-	public Brand getEntity(){
-		
-		return new Brand(this.id,this.brandName);
-	}
+	
 	
 	public int getId() {
 		return id;

@@ -24,7 +24,7 @@ public class GlobalControllerExceptionHandler {
 		return model;
 	}
 	
-	@ExceptionHandler(DataIntegrityViolationException.class)
+	/*@ExceptionHandler(DataIntegrityViolationException.class)
 	public ModelAndView handleDuplicateNameViolation(DataIntegrityViolationException ex){
 			
 		log.error("Data Integrity violation exception", ex);
@@ -38,6 +38,6 @@ public class GlobalControllerExceptionHandler {
 		log.error("Constraint violation exception", ex);
 		return setModel(
 		"Error.constraintViolation");
-	}
+	}*/
 
 }

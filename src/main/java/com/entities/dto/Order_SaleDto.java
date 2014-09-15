@@ -1,6 +1,7 @@
 package com.entities.dto;
 
 import java.util.Date;
+
 import com.entities.Order_Sale;
 
 
@@ -28,14 +29,6 @@ public class Order_SaleDto {
 			this.timeOrdered = o_s.getTimeOrdered();
 			this.timeSold = o_s.getTimeSold();
 		}
-	}
-	
-	public Order_Sale getEntity(){
-		
-		return new Order_Sale(this.id,
-				this.device == null ? null : this.device.getEntity(),
-				this.user == null ? null : this.user.getEntity(),
-				this.isSold,this.amount,this.timeOrdered,this.timeSold);
 	}
 	
 	public int getId() {

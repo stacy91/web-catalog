@@ -1,9 +1,7 @@
 package com.controller.management;
 
 import java.security.Principal;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,15 +28,20 @@ public class UsersController extends RootController {
 
 	@RequestMapping(value = "deleteUser", method = RequestMethod.POST)
 	public String deleteUser(ModelMap model, Integer page, int id,
-			Principal principal) 
-					{
+			Principal principal) {
 
 		String redirect = "redirect:/management/users";
-		UserDto authUser = usersService.find(principal.getName());
-		if (authUser.getId() != id)
-			usersService.delete(id);
-		if (page != null)
-			redirect += "?page=" + page;
+		try {
+			if (page != null)
+				redirect += "?page=" + page;
+			UserDto authUser = usersService.find(principal.getName());
+			if (authUser != null && authUser.getId() != id)
+				usersService.delete(id);
+
+		} catch (DataIntegrityViolationException ex) {
+
+		}
+
 		return redirect;
 	}
 
@@ -61,21 +64,5 @@ public class UsersController extends RootController {
 		return "user";
 	}
 
-	@RequestMapping(value = "user", method = RequestMethod.POST)
-	public String updateUser(ModelMap model, UserDto user, String oldPassword,
-			String newPassword, String repeatPassword, String action) 
-					{
-
-		UserDto updatedUser = usersService.validate(user, oldPassword,
-				newPassword, repeatPassword);
-		if (updatedUser != null)
-			usersService.update(updatedUser);
-
-		Authentication authentication = new UsernamePasswordAuthenticationToken(
-				updatedUser.getLogin(), updatedUser.getPassword());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		return "redirect:/management";
-	}
 	// end Users
 }

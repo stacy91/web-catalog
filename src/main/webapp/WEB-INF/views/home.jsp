@@ -6,6 +6,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
+<script type="text/javascript">
+    
+    
+    
+    </script>
+
 <c:set var="queryStr" value="?brandId=${brandId }&search=${search }&"/>
 
 
@@ -51,13 +57,16 @@
                             
                             <security:authorize access="isAuthenticated()">
                             <div class="order">
-                                <form class="form-inline" action="order" method="post">
+                                <form class="form-inline orderForm"  >
                                 <input class="form-control numbersOnly" type="text" name="amount" value="1" />
-                                <input class="btn btn-danger" type="submit" value="<spring:message code="Order"/>"/>
+                                <button class="btn btn-danger" type="submit"  id="OrderBtn">
+                                	<spring:message code="Order"/>
+                                </button>
                                 <input type="hidden" value="${itemDevice.id}" name="deviceId"/>
-                                <input type="hidden" value="${brandId }" name="brandId"/>
+                                <input type="hidden" value="<security:authentication property="principal.username"/>" name="login" />
+                                <%-- <input type="hidden" value="${brandId }" name="brandId"/>
                                 <input type="hidden" value="${search }" name="search"/>
-                                <input type="hidden" value="${currentIndex }" name="page"/>
+                                <input type="hidden" value="${currentIndex }" name="page"/> --%>
                                 </form>
                             </div>
                             </security:authorize>
@@ -84,7 +93,32 @@
     		
         </div>
     </div>
-    <script>
+    
+    
+	<button class="btn btn-primary" id="OrderBtn1">Small modal</button>
+	
+		
+  		
+	<div id="result"></div>
+    
+    <script type="text/javascript">
+    
+$('.orderForm').submit(function(e){
+    	
+    	e.preventDefault();
+    	var postData = $(this).serializeArray();
+    	 $.ajax({
+             url : 'order',
+             type: 'POST',
+             data: postData,
+             success : function(data) {            	 
+                 $('#result').html(data);
+                 $('#NotificationWindow').modal('show');
+             }           
+         });   	
+    });
+    
+    //validation
     $('.numbersOnly').keyup(function () {
         if (this.value != this.value.replace(/[^0-9]/g, '')) {
            this.value = 1;

@@ -50,15 +50,15 @@ public class UsersServiceImpl implements UsersService{
 	}
 	
 	@Override
-	public void delete(int id)
-			throws DataIntegrityViolationException{
+	public void delete(int id){
+		
 		usersDao.delete(id);
 	}
 	
 	@Override
 	public UserDto find(String login){
 		
-		User user = usersDao.findByLogin(login);
+		User user = usersDao.find(login);
 		if(user != null)
 		return new UserDto(user);
 		else 
@@ -67,13 +67,17 @@ public class UsersServiceImpl implements UsersService{
 	
 	@Override
 	public UserDto find(int id) {
-		return new UserDto(usersDao.find(id));
+		User user = usersDao.initUser(id);
+		if(user != null)
+			return new UserDto(user);
+		else
+			return null;
 	}
 	
 	@Override
 	public void changeRole(int id, String login){
 		
-		User user = usersDao.find(id);
+		User user = usersDao.initUser(id);
 		if(!user.getLogin().equals(login)){
 			if(user.getRole().getId() == 3)
 				user.setRole(rolesDao.find(4));
@@ -108,17 +112,5 @@ public class UsersServiceImpl implements UsersService{
 		return (users);
 	}
 
-	@Override
-	public UserDto validate(UserDto user, String oldPassword, String newPassword,
-			String repeatPassword) {
-		BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-		String encodedOldPas = bc.encode(oldPassword);
-		if(oldPassword != null && newPassword != null & repeatPassword != null){
-			if(encodedOldPas.equals(oldPassword) && newPassword.equals(repeatPassword)){
-				user.setPassword(bc.encode(newPassword));
-				return user;
-			}
-		}
-		return null;
-	}
+	
 }

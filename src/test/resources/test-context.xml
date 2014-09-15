@@ -14,5 +14,18 @@
 	
 	
 	<context:property-placeholder location="classpath:test.properties,classpath:path.properties" order="0"/>
+	
+	<bean id="dbUnitDatabaseConfig" class="com.github.springtestdbunit.bean.DatabaseConfigBean">
+        <property name="datatypeFactory">
+            <bean class="org.dbunit.ext.mysql.MySqlDataTypeFactory" />
+        </property>
+        <property name="caseSensitiveTableNames" value="true" />
+    </bean>
+
+    <bean id="dbUnitDatabaseConnection" class="com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="databaseConfig" ref="dbUnitDatabaseConfig"/>
+        
+    </bean>
 
 	</beans>

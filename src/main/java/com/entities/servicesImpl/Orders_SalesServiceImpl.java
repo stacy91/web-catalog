@@ -3,17 +3,20 @@ package com.entities.servicesImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.joda.time.DateTime;
+
 import com.entities.Device;
 import com.entities.Order_Sale;
 import com.entities.User;
 import com.entities.Dao.DevicesDao;
 import com.entities.Dao.Orders_SalesDao;
 import com.entities.Dao.UsersDao;
+import com.entities.dto.DtoToEntity;
 import com.entities.dto.Order_SaleDto;
 import com.entities.services.Orders_SalesService;
 import com.helpers.FilteredCollection;
@@ -30,6 +33,8 @@ public class Orders_SalesServiceImpl implements Orders_SalesService{
 	private UsersDao usersDao;
 	@Autowired
 	private DevicesDao devicesDao;
+	@Autowired
+	private DtoToEntity toEntity;
 	
 	private List<Order_SaleDto> convertToDto(List<Order_Sale> o_s) {
 
@@ -44,7 +49,7 @@ public class Orders_SalesServiceImpl implements Orders_SalesService{
 	public Order_SaleDto create(Order_SaleDto item)
 			 {
 		
-		return new Order_SaleDto(order_salesDao.create(item.getEntity()));
+		return new Order_SaleDto(order_salesDao.create(toEntity.convert(item)));
 	}
 
 	@Override
@@ -53,7 +58,7 @@ public class Orders_SalesServiceImpl implements Orders_SalesService{
 		if(item.getIsSold())
 			item.setTimeSold(new DateTime().toDate());
 		
-		return new Order_SaleDto(order_salesDao.update(item.getEntity()));
+		return new Order_SaleDto(order_salesDao.update(toEntity.convert(item)));
 	}
 	
 	@Override
@@ -61,8 +66,8 @@ public class Orders_SalesServiceImpl implements Orders_SalesService{
 		
 		if (amount > 0 && amount <= 999999) {
 			Order_Sale o_s = new Order_Sale();
-			o_s.setDevice(devicesDao.find(deviceId));
-			o_s.setUser(usersDao.findByLogin(login));
+			o_s.setDevice(devicesDao.initDevice(deviceId));
+			o_s.setUser(usersDao.initUser(login));
 			o_s.setAmount(amount);
 			o_s.setTimeOrdered((new DateTime().toDate()));
 			return new Order_SaleDto(o_s);
@@ -77,12 +82,13 @@ public class Orders_SalesServiceImpl implements Orders_SalesService{
 		if(!o_s.getIsSold()){
 			order_salesDao.delete(id);
 		}	
+		
 	}
 	
 	@Override
 	public void deleteOS(int id){
 		
-		Order_Sale o_s = order_salesDao.find(id);
+		Order_Sale o_s = order_salesDao.initOrder_Sale(id);
 		if(o_s.getIsSold()){
 			Device device = o_s.getDevice();
 			device.setAmountInStock(device.getAmountInStock() + o_s.getAmount());
@@ -95,14 +101,18 @@ public class Orders_SalesServiceImpl implements Orders_SalesService{
 	
 	@Override
 	public Order_SaleDto find(int id) {
-		return new Order_SaleDto(order_salesDao.find(id));
+		Order_Sale o_s = order_salesDao.initOrder_Sale(id);
+		if(o_s != null)
+			return new Order_SaleDto(o_s);
+		else 
+			return null;
 	}
 	
 	@Override
 	public boolean buy(int id){
 		
 		boolean result = false;
-		Order_Sale o_s = order_salesDao.find(id);
+		Order_Sale o_s = order_salesDao.initOrder_Sale(id);
 		Device device = o_s.getDevice();
 		int totalAmount = device.getAmountInStock() - o_s.getAmount();
 		if(totalAmount >= 0){
@@ -143,14 +153,14 @@ public class Orders_SalesServiceImpl implements Orders_SalesService{
 	@Override
 	public List<Order_SaleDto> getOrders(String login){
 		
-		User user = usersDao.initOS(usersDao.findByLogin(login).getId());
+		User user = usersDao.initOS(usersDao.find(login).getId());
 		return convertToDto(Order_SalesHelper.getOrders(user.getOrders_Sales()));
 	}
 	
 	@Override
 	public List<Order_SaleDto> getSales(String login){
 		
-		User user = usersDao.initOS(usersDao.findByLogin(login).getId());
+		User user = usersDao.initOS(usersDao.find(login).getId());
 		return convertToDto(Order_SalesHelper.getSales(user.getOrders_Sales()));
 	}
 	

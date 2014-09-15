@@ -10,7 +10,11 @@
                                 <i class="fa fa-dashboard"></i> <spring:message code="Dashboard" />
                             </li>
                         </ol>
-
+	
+	
+	
+	
+	
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="alert alert-info alert-dismissable">
@@ -22,49 +26,10 @@
 		</div>
 	</div>
 	<!-- /.row -->
-
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						<i class="fa fa-shopping-cart fa-fw"></i> <spring:message code="LatestOrders" />
-				</div>
-				<div class="panel-body">
-				<div class="table-responsive">
-					<table class="table table-bordered table-hover table-striped">
-						<thead>
-							<tr>
-
-								<th><spring:message code="Tables.Date" /></th>
-								<th><spring:message code="Tables.brand/model" /></th>
-								<th><spring:message code="Tables.amount" /></th>
-								<th><spring:message code="Tables.price" /></th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${orders}" var="order">
-								<tr>
-									<td>${order.timeOrdered}</td>
-									<td>${order.device.brand.brandName} / ${order.device.model}</td>						
-									<td>${order.amount}</td>
-									<td>${order.device.price}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-				<div class="text-right">
-					<a href="management/orders"><spring:message code="ViewOrders" /> <i class="fa fa-arrow-circle-right"></i></a>
-				</div>
-			</div>
-			</div>
-		</div>
-	</div>
-	<!--  row -->
-
+	
+	
 	<div class="row"
-		style="margin: 40px auto auto auto; padding: 25px 25px 0 25px">
+		style="margin: auto auto 30px auto; padding: 25px 25px 0 25px">
 
 		<div class="col-lg-3 col-md-6" style="margin-left: 13%">
 			<div class="panel panel-red width200">
@@ -135,3 +100,45 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<i class="fa fa-shopping-cart fa-fw"></i> <spring:message code="LatestOrders" />
+				</div>
+				<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-bordered table-hover table-striped">
+						<thead>
+							<tr>
+
+								<th><spring:message code="Tables.Date" /></th>
+								<th><spring:message code="Tables.brand/model" /></th>
+								<th><spring:message code="Tables.amount" /></th>
+								<th><spring:message code="Tables.price" /></th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${orders}" var="order">
+								<tr>
+									<td>${order.timeOrdered}</td>
+									<td>${order.device.brand.brandName} / ${order.device.model}</td>						
+									<td>${order.amount}</td>
+									<td>${order.device.price}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+				<div class="text-right">
+					<a href="management/orders"><spring:message code="ViewOrders" /> <i class="fa fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	<!--  row -->
+
+	

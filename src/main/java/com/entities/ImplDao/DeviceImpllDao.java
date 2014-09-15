@@ -1,11 +1,14 @@
 package com.entities.ImplDao;
 
 import java.util.List;
+
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
+
 import com.entities.Device;
 import com.entities.Dao.DevicesDao;
 
@@ -30,7 +33,18 @@ public class DeviceImpllDao 	extends RootDaoImpl<Device>
 		attchDevice.getOrders_Sales().size();
 		return attchDevice;
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Device find(String model) {
+		Criteria criteria = currentSession().createCriteria(Device.class);
+		List<Device> devices = criteria.add(Restrictions.eq("model", model)).list();
+		if(devices.size() > 0){
+			return devices.get(0);
+		}
+		return null;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Device> getAll(String search) {
@@ -44,6 +58,7 @@ public class DeviceImpllDao 	extends RootDaoImpl<Device>
 					add(Restrictions.eq("model",search)));
 			}
 		criteria.addOrder(Order.asc("brand.brandName"));
+		criteria.setFetchMode("brand", FetchMode.JOIN);
 		List<Device> devices = criteria.list();
 
 	    return devices;
@@ -56,9 +71,18 @@ public class DeviceImpllDao 	extends RootDaoImpl<Device>
 		Criteria criteria = currentSession().createCriteria(Device.class);
 		criteria.createAlias("brand", "brand");
 		criteria.addOrder(Order.asc("brand.brandName"));
+		criteria.setFetchMode("brand", FetchMode.JOIN);
 		List<Device> devices = criteria.list();
 
 	    return devices;
+	}
+
+
+	@Override
+	public Device initDevice(int id) {
+		Device device = find(id);
+		device.getBrand().getBrandName();
+		return device;
 	}
 
 }

@@ -44,6 +44,9 @@
 				<prop key="connection.useUnicode">true</prop>
 				<prop key="connection.characterEncoding">UTF-8</prop>
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show.sql}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">${hibernate.enable.cache}</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
 			</props>
 		</property>
 	</bean>

@@ -5,7 +5,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import com.entities.Device;
 
 
@@ -41,12 +40,6 @@ public class DeviceDto {
 			this.price = device.getPrice();
 			this.amountInStock = device.getAmountInStock();
 		}
-	}
-	
-	public Device getEntity(){
-		
-		return new Device(this.id,this.brand == null ? null : this.brand.getEntity(),
-				this.model,this.price,this.amountInStock);
 	}
 	
 	public int getId(){
@@ -87,7 +80,7 @@ public class DeviceDto {
 	
 	public boolean equals(Object obj) {
 		 boolean result = false;
-	       if (!(obj instanceof BrandDto))
+	       if (!(obj instanceof DeviceDto))
 	            return result;
 	       DeviceDto device = (DeviceDto)obj;
 	       if(this.getId() == device.getId())

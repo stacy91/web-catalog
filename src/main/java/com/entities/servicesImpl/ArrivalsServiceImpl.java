@@ -54,7 +54,7 @@ public class ArrivalsServiceImpl implements ArrivalsService{
 	public ArrivalDto update(ArrivalDto arrival) 
 			throws DataIntegrityViolationException{
 
-		Arrival oldArrival = arrivalsDao.find(arrival.getId());
+		Arrival oldArrival = arrivalsDao.initArrival(arrival.getId());
 		Device device = oldArrival.getDevice();
 		int updatedAmount = device.getAmountInStock() - oldArrival.getAmount()
 				+ arrival.getAmount();
@@ -74,7 +74,7 @@ public class ArrivalsServiceImpl implements ArrivalsService{
 	
 	@Override
 	public void delete(int id){
-		Arrival arrival = arrivalsDao.find(id);
+		Arrival arrival = arrivalsDao.initArrival(id);
 		Device device = arrival.getDevice();
 		int updatedAmount = device.getAmountInStock() - arrival.getAmount();
 		if (updatedAmount >= 0) {
@@ -89,8 +89,8 @@ public class ArrivalsServiceImpl implements ArrivalsService{
 	public ArrivalDto initArrival(int deviceId, String login) {
 		Arrival arrival = new Arrival();
 
-		arrival.setDevice(devicesDao.find(deviceId));
-		arrival.setUser(usersDao.findByLogin(login));
+		arrival.setDevice(devicesDao.initDevice(deviceId));
+		arrival.setUser(usersDao.initUser(login));
 		
 		return new ArrivalDto(arrival);
 	}
@@ -99,7 +99,7 @@ public class ArrivalsServiceImpl implements ArrivalsService{
 	@Override
 	public ArrivalDto find(int id) {
 		
-		return new ArrivalDto(arrivalsDao.find(id));
+		return new ArrivalDto(arrivalsDao.initArrival(id));
 	}
 
 	@Override

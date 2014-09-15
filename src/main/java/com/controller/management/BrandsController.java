@@ -1,15 +1,13 @@
 package com.controller.management;
 
 import javax.validation.Valid;
-
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.entities.dto.BrandDto;
 import com.helpers.FilteredCollection;
 import com.helpers.FilteredCollectionGenerator;
@@ -41,17 +39,19 @@ public class BrandsController extends RootController {
 	}
 
 	@RequestMapping(value = "/addBrand", method = RequestMethod.POST)
-	public String addBrand(@RequestParam String action, @ModelAttribute("brand") @Valid BrandDto brand,
-			BindingResult result, Integer page) 
-					{
-		
+	public String addBrand(String action,
+			@ModelAttribute("brand") @Valid BrandDto brand,
+			BindingResult result, Integer page) {
+
 		String redirect = "redirect:/management/brands";
 		if (!action.equals("cancel")) {
-			if (result.hasErrors()){
+			if (result.hasErrors()) {
+				return "adminBrands/add";
+			} else if (brandsService.create(brand) == null) {
 
+				result.reject("Management.brands.error.duplicateName");
 				return "adminBrands/add";
 			}
-			brandsService.create(brand);
 		}
 
 		if (page != null) {
@@ -71,15 +71,19 @@ public class BrandsController extends RootController {
 	}
 
 	@RequestMapping(value = "/updateBrand", method = RequestMethod.POST)
-	public String updateBrand(@RequestParam String action,
-			@ModelAttribute("brand") @Valid BrandDto brand, BindingResult result, Integer page) 
-					{
+	public String updateBrand(String action,
+			@ModelAttribute("brand") @Valid BrandDto brand,
+			BindingResult result, Integer page) {
 
 		String redirect = "redirect:/management/brands";
 		if (!action.equals("cancel")) {
 			if (result.hasErrors())
 				return "adminBrands/add";
-			brandsService.update(brand);
+			else if (brandsService.update(brand) == null) {
+				result.reject("Management.brands.error.duplicateName");
+				return "adminBrands/update";
+			}
+
 		}
 
 		if (page != null) {
@@ -90,15 +94,17 @@ public class BrandsController extends RootController {
 	}
 
 	@RequestMapping(value = "/deleteBrand", method = RequestMethod.POST)
-	public String deleteBrand(int id, Integer page) 
-			{
+	public String deleteBrand(int id, Integer page) {
 		String redirect = "redirect:/management/brands";
-		brandsService.delete(id);
+		try {
+			if (page != null) {
+				redirect += "?page=" + page;
+			}
+			brandsService.delete(id);
 
-		if (page != null) {
-			redirect += "?page=" + page;
+		} catch (DataIntegrityViolationException ex) {
+
 		}
-
 		return redirect;
 	}
 

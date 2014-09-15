@@ -32,6 +32,16 @@
 		<put-attribute name="left" value="/WEB-INF/views/shared/leftManagement.jsp"/>
 		<put-attribute name="body" value="/WEB-INF/views/management/index.jsp"/>
 	</definition>
+
+	<definition name="notification" template="/WEB-INF/views/shared/notificationWindow.jsp" >
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="content" value=""></put-attribute>
+	</definition>
+	
+	<definition name="notificateOrdered" extends="notification" >
+		<put-attribute name="title" value="Success"></put-attribute>
+		<put-attribute name="content" value="Your order have been successfuly submited!"></put-attribute>
+	</definition>
 	
 	<!--  Errors -->
 	

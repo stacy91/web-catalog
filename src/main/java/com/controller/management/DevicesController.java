@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -46,17 +47,22 @@ public class DevicesController extends RootController {
 	}
 
 	@RequestMapping(value = "/addDevice", method = RequestMethod.POST)
-	public String addDevice(@ModelAttribute("device") @Valid DeviceDto device,BindingResult result, MultipartFile image,
-			String action, Integer page,ModelMap model) {
+	public String addDevice(@ModelAttribute("device") @Valid DeviceDto device,
+			BindingResult result, MultipartFile image, String action,
+			Integer page, ModelMap model) {
 
 		String redirect = "redirect:/management/devices";
 
 		if (!action.equals("cancel")) {
-			if (result.hasErrors()){
+			if (result.hasErrors()) {
 				model.addAttribute("brands", brandsService.getAll());
 				return "adminDevices/add";
+			} else if (devicesService.create(device, image) == null) {
+				model.addAttribute("brands", brandsService.getAll());
+				result.reject("Management.devices.error.duplicateName");
+				return "adminDevices/add";
 			}
-			devicesService.create(device, image);
+
 		}
 
 		if (page != null)
@@ -69,6 +75,9 @@ public class DevicesController extends RootController {
 	public String updateDevice(int id, ModelMap model, Integer page) {
 
 		DeviceDto device = devicesService.find(id);
+		if (device == null) {
+			return "redirect:/management/devices";
+		}
 		model.addAttribute("device", device);
 		model.addAttribute("brands", brandsService.getAll());
 		model.addAttribute("page", page);
@@ -77,16 +86,22 @@ public class DevicesController extends RootController {
 	}
 
 	@RequestMapping(value = "/updateDevice", method = RequestMethod.POST)
-	public String updateDevice(@ModelAttribute("device") @Valid DeviceDto device, BindingResult result, MultipartFile image,
-			String action,  Integer page, ModelMap model) {
+	public String updateDevice(
+			@ModelAttribute("device") @Valid DeviceDto device,
+			BindingResult result, MultipartFile image, String action,
+			Integer page, ModelMap model) {
 
 		String redirect = "redirect:/management/devices";
 		if (!action.equals("cancel")) {
-			if (result.hasErrors()){
+			if (result.hasErrors()) {
 				model.addAttribute("brands", brandsService.getAll());
 				return "adminDevices/update";
+			} else if (devicesService.update(device, image) == null) {
+				model.addAttribute("brands", brandsService.getAll());
+				result.reject("Management.devices.error.duplicateName");
+				return "adminDevices/update";
 			}
-			devicesService.update(device, image);
+
 		}
 
 		if (page != null) {
@@ -97,15 +112,21 @@ public class DevicesController extends RootController {
 	}
 
 	@RequestMapping(value = "/deleteDevice", method = RequestMethod.POST)
-	public String deleteDevice(int id, Integer page) 
-			{
+	public String deleteDevice(int id, Integer page) {
 
 		String redirect = "redirect:/management/devices";
-		devicesService.delete(id);
 
-		if (page != null) {
-			redirect += "?page=" + page;
+		try {
+
+			if (page != null) {
+				redirect += "?page=" + page;
+			}
+			devicesService.delete(id);
+
+		} catch (DataIntegrityViolationException ex) {
+
 		}
+
 		return redirect;
 	}
 	// end devices

@@ -1,7 +1,9 @@
 package com.entities.services;
 
 import java.util.List;
+
 import com.helpers.FilteredCollection;
+
 
 public interface RootService<T> {
 	

@@ -1,6 +1,7 @@
 package com.entities;
 
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +22,7 @@ public class Device {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="BrandId")
 	private Brand brand;
 	@Column(name="Model",nullable=false,unique=true)
@@ -103,12 +104,13 @@ public class Device {
 	
 	public boolean equals(Object obj) {
 		 boolean result = false;
-	       if (!(obj instanceof Brand))
+	       if (!(obj instanceof Device))
 	            return result;
 	       Device device = (Device)obj;
 	       if(this.getId() == device.getId())
 	    	   result = true;
 	       return result;
 	 }
+
 
 }

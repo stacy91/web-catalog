@@ -42,7 +42,8 @@ public class ArrivalDto {
 	
 	public Arrival getEntity(){
 		
-		return new Arrival(this.id, this.device == null ? null : this.device.getEntity(),
+		DtoToEntity toEntity = new DtoToEntity();
+		return new Arrival(this.id, this.device == null ? null : toEntity.convert(this.device),
 				this.user == null ? null : this.user.getEntity(),
 						this.amount, this.price, this.time);
 	}
