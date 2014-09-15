@@ -21,10 +21,10 @@
 
 					<td class="row" style="width:240px">
 					
-					<form action="${pageContext.request.contextPath}/management/deleteBrand" method="POST">
+					<form  method="POST" class="deleteForm">
 					<input type="submit" value="<spring:message code="Delete"/>" class="btn btn-default myButtons col-lg-5"/>
 					<input type="hidden" value="${brand.id}" name="id"  /> 
-					<input type="hidden" name="page" value="${currentIndex }"/>
+					<%-- <input type="hidden" name="page" value="${currentIndex }"/> --%>
 					</form>
 					
 					<form action="${pageContext.request.contextPath}/management/updateBrand" method="GET">
@@ -61,6 +61,34 @@
 	<input type="hidden" name="page" value="${currentIndex }"/>
 	</form>
 </div>
+
+
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+$('.deleteForm').submit(function(e){
+    	
+    	e.preventDefault();
+    	var postData = $(this).serializeArray();
+    	 $.ajax({
+             url : 'deleteBrand',
+             type: 'POST',
+             data: postData,
+             success : function(data) {  
+            	 
+            	 if(data != null){
+              		$('#result').html(data);
+                    $('#NotificationWindow').modal('show');
+              	 }
+            	 else{
+            		 location.href = '${pageContext.request.contextPath}';
+            	 }
+             }
+         });   	
+    });
+    
+    </script>
 
 
 

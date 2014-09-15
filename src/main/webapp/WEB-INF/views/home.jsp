@@ -94,8 +94,6 @@
         </div>
     </div>
     
-    
-	<button class="btn btn-primary" id="OrderBtn1">Small modal</button>
 	
 		
   		

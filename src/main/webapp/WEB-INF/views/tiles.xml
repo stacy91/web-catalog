@@ -43,6 +43,23 @@
 		<put-attribute name="content" value="Your order have been successfuly submited!"></put-attribute>
 	</definition>
 	
+	<definition name="notificateOrderOk" extends="notification" >
+		<put-attribute name="title" value="Success"></put-attribute>
+		<put-attribute name="content" value="Your order have been successfuly submited!"></put-attribute>
+	</definition>
+	
+	<definition name="notificateOrderError" extends="notification" >
+		<put-attribute name="title" value="Failed"></put-attribute>
+		<put-attribute name="content" value="Currently there is not enough items in stock"></put-attribute>
+	</definition>
+	
+	<definition name="notificateBrandDeleteError" extends="notification" >
+		<put-attribute name="title" value="Failed"></put-attribute>
+		<put-attribute name="content" value="You have attached devices to this brand"></put-attribute>
+	</definition>
+	
+	
+	
 	<!--  Errors -->
 	
 	<definition name="error" extends="base" >

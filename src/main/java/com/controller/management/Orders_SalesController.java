@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.entities.dto.Order_SaleDto;
 import com.helpers.FilteredCollection;
@@ -20,7 +21,7 @@ public class Orders_SalesController extends RootController {
 
 	@RequestMapping(value = "/allOS")
 	public String showOS(ModelMap model, Integer page, String show) {
-		
+
 		List<Order_SaleDto> o_s = o_sService.getAll(show);
 		FilteredCollection<Order_SaleDto> fO_S = o_sService.getFiltered(o_s,
 				page);
@@ -65,8 +66,7 @@ public class Orders_SalesController extends RootController {
 	}
 
 	@RequestMapping(value = "/deleteOrder", method = RequestMethod.POST)
-	public String deleteOrder(int id, Integer page, String show) 
-			{
+	public String deleteOrder(int id, Integer page, String show) {
 
 		String redirect = "redirect:/management/orders?";
 		o_sService.delete(id);
@@ -79,7 +79,7 @@ public class Orders_SalesController extends RootController {
 		return redirect;
 	}
 
-	@RequestMapping(value = "/order")
+	/*@RequestMapping(value = "/order")
 	public String order(ModelMap model, int id, String error, String show,
 			Integer page) {
 
@@ -94,32 +94,25 @@ public class Orders_SalesController extends RootController {
 		}
 
 		return "order";
-	}
+	}*/
 
-	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	public String order(ModelMap model, Order_SaleDto o_s, String action,
-			String show, Integer page) {
+	@RequestMapping(value = "/buy")
+	public String buy(ModelMap model, @RequestParam("id") int id, String show,
+			 Integer page) {
 
-		String redirect = "redirect:/management/orders?";
+		if (!o_sService.buy(id)) {
+			return "notificateOrderError";
+		}
+		
+		String link = "orders?";
 		if (show != null) {
-			redirect += "show=" + show + "&page=";
+			link += "show=" + show + "&";
 		}
-		if (!action.equals("cancel")) {
-			if (!o_sService.buy(o_s.getId())) {
-				redirect = "redirect:/management/order?";
-
-				redirect += "id=" + o_s.getId() + "&error=true&";
-				if (page != null)
-					redirect += "page=" + page;
-
-				return redirect;
-			}
-		}
-
 		if (page != null)
-			redirect += page;
-
-		return redirect;
+			link += "page=" + page;
+			
+		model.addAttribute("link", link);
+		return "notificateOrderOk";
 	}
 
 	@RequestMapping(value = "/sales")

@@ -46,21 +46,26 @@
 											method="POST">
 											<input type="hidden" name="show" value="${show }"/>
 											<button value="${order.id}" name="id"
-												class="btn btn-default myButtons col-lg-5"><spring:message code="Cancel"/></button>
-												
-												
+												class="btn btn-default myButtons col-lg-5"><spring:message code="Cancel"/></button>	
 												<input type="hidden" name="page" value="${page }" />
-										</form:form> <form:form
-											action="${pageContext.request.contextPath}/management/order"
-											method="GET">
-											<input type="hidden" name="show" value="${show }"/>
-											
-											<button value="${order.id}" name="id"
+										</form:form>
+										
+										 <form class="orderForm">
+												<button 
 												class="btn btn-default myButtons col-lg-5"
-												style="margin-left: 20px"><spring:message code="Buy"/></button>
-												<input type="hidden" name="page" value="${page }" />
-												
-										</form:form></td>
+												style="margin-left: 20px" type="submit" id="OrderBtn">
+													<spring:message code="Buy"/>
+												</button>
+												<input type="hidden" value="${order.id}" name="id" />	
+												<input type="hidden" value="${show}" name="show" />	
+												<input type="hidden" value="${currentIndex }" name="page" />
+										</form>
+										
+										
+										
+										</td>
+										
+										
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -80,3 +85,23 @@
 		</div>
 	</div>
 </div>
+
+<div id="result"></div>
+    
+    <script type="text/javascript">
+    
+	$('.orderForm').submit(function(e){
+    	e.preventDefault();
+    	var postData = $(this).serializeArray();
+    	 $.ajax({
+             url : 'buy',
+             type: 'GET',
+             data: postData,
+             success : function(data) {    
+                 $('#result').html(data);
+                 $('#NotificationWindow').modal('show');
+             }           
+         });   	
+    });
+    
+    </script>

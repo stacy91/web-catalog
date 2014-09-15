@@ -95,17 +95,16 @@ public class BrandsController extends RootController {
 
 	@RequestMapping(value = "/deleteBrand", method = RequestMethod.POST)
 	public String deleteBrand(int id, Integer page) {
-		String redirect = "redirect:/management/brands";
+		
+		String redirect = null;
+		
 		try {
-			if (page != null) {
-				redirect += "?page=" + page;
-			}
 			brandsService.delete(id);
-
+			
 		} catch (DataIntegrityViolationException ex) {
-
+			redirect = "notificateBrandDeleteError";
 		}
-		return redirect;
+		return "redirect:/management/brands";
 	}
 
 	// end Brands
